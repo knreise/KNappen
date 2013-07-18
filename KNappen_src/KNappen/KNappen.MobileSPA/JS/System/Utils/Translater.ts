@@ -4,11 +4,9 @@
     System utilities
     @namespace System.Utils
 */
-module System.Utils
-{
+module System.Utils {
     declare var config: any;
-    export class Translater
-    {
+    export class Translater {
         //public strings: { [index: string]: string; } = {};
         public strings: { [key: string]: string; } = {};
         private regexMatchConf = new RegExp("^CONFIG:(.*)", "i");
@@ -20,8 +18,7 @@ module System.Utils
           */
         constructor() { }
 
-        public PreInit()
-        {
+        public PreInit() {
             log.debug("Translator", "PreInit()");
             translater.translateAllClasses();
         }
@@ -31,24 +28,26 @@ module System.Utils
           * @method System.Startup#translate
           * @param {string} str String to translate.
           */
-        public translate(str: string, params: any[] = null): string
-        {
+        public translate(str: string, params: any[]= null): string {
             var ucStr: string = str.toUpperCase();
             var translated: string = this.strings[ucStr];
+            var strParametered: string = translated;
+            if (!strParametered)
+                strParametered = str;
 
-            if (params) {
+            if (params && strParametered) {
                 // Replace {0} {1} etc
-                translated = translated.replace(/{([^{}]*)}/g,
+                strParametered = strParametered.replace(/{([^{}]*)}/g,
                     function (a, b) {
                         var r = params[b];
                         return typeof r === 'string' ? r : a;
                     }
-                );
+                    );
             }
 
             if (translated) {
-                log.verboseDebug("Translater", "Returning translation for key " + ucStr + ": " + translated + "");
-                return translated;
+                log.verboseDebug("Translater", "Returning translation for key " + ucStr + ": " + strParametered + "");
+                return strParametered;
             }
 
             var configVar = this.regexMatchConf.exec(str);
@@ -60,7 +59,7 @@ module System.Utils
             }
 
             log.error("Translater", "Unable to find translation for: '" + str + "'");
-            return str;
+            return strParametered;
         }
 
         /**
@@ -110,8 +109,7 @@ module System.Utils
           * @param {string} str String to translate.
           * @param {string} translation Translation of string.
           */
-        public addTranslation(str: string, translation: string)
-        {
+        public addTranslation(str: string, translation: string) {
             this.strings[str.toUpperCase()] = translation;
         }
     }
