@@ -1,0 +1,966 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FFD3DD54-3874-442F-B25C-DA755FF9B20C}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>KNappen.MobileSPA</RootNamespace>
+    <AssemblyName>KNappen.MobileSPA</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="config.xml" />
+    <Content Include="Content\font\vjs.svg" />
+    <Content Include="Content\images\AppIcons\defaultPoiIcon.png" />
+    <Content Include="Content\images\Categories\defaultCategory.png" />
+    <Content Include="Content\images\Categories\wikipedia.png" />
+    <Content Include="Content\images\MenuImages\feedback.png" />
+    <Content Include="Content\swf\soundmanager2.swf" />
+    <Content Include="Content\swf\soundmanager2_debug.swf" />
+    <Content Include="Content\swf\soundmanager2_flash9.swf" />
+    <Content Include="Content\swf\soundmanager2_flash9_debug.swf" />
+    <Content Include="Content\TypIcons\typicons.css" />
+    <Content Include="Content\TypIcons\typicons.min.css" />
+    <Content Include="Content\TypIcons\typicons.svg" />
+    <Content Include="Content\images\AppIcons\close.png" />
+    <Content Include="Content\images\AppIcons\closeDetail.png" />
+    <Content Include="Content\images\AppIcons\lessInfo.png" />
+    <Content Include="Content\images\AppIcons\moreInfo.png" />
+    <Content Include="Content\images\AppIcons\search_Active.png" />
+    <Content Include="Content\images\AppIcons\search_Inactive.png" />
+    <Content Include="Content\images\AppIcons\showDetail.png" />
+    <Content Include="Content\images\Categories\arkeologi.png" />
+    <Content Include="Content\images\Categories\arkitektur.png" />
+    <Content Include="Content\images\Categories\dyr.png" />
+    <Content Include="Content\images\Categories\fugler.png" />
+    <Content Include="Content\images\Categories\historieogsamfunn.png" />
+    <Content Include="Content\images\Categories\kulturminne.png" />
+    <Content Include="Content\images\Categories\kunst.png" />
+    <Content Include="Content\images\Categories\planter.png" />
+    <Content Include="Content\images\Categories\stedsnavn.png" />
+    <Content Include="Content\images\Categories\verneomrader.png" />
+    <Content Include="Content\images\Genres\fagdata.png" />
+    <Content Include="Content\images\Genres\fortelling.png" />
+    <Content Include="Content\images\Genres\leksikon.png" />
+    <Content Include="Content\images\MediaTypes\aboutMedia.png" />
+    <Content Include="Content\images\MediaTypes\image.png" />
+    <Content Include="Content\images\MediaTypes\more.png" />
+    <Content Include="Content\images\MediaTypes\sound.png" />
+    <Content Include="Content\images\MediaTypes\text.png" />
+    <Content Include="Content\images\MediaTypes\video.png" />
+    <Content Include="Content\images\MediaTypes\video_Play.png" />
+    <Content Include="Content\images\MenuImages\about.png" />
+    <Content Include="Content\images\MenuImages\ar.png" />
+    <Content Include="Content\images\MenuImages\list.png" />
+    <Content Include="Content\images\MenuImages\mapIcon.png" />
+    <Content Include="Content\images\MenuImages\menu_Active.png" />
+    <Content Include="Content\images\MenuImages\menu_Inactive.png" />
+    <Content Include="Content\images\MenuImages\routes.png" />
+    <Content Include="Content\images\MenuImages\search.png" />
+    <Content Include="Content\images\MenuImages\settings.png" />
+    <Content Include="Content\images\MenuImages\slider_menu.png" />
+    <Content Include="Content\images\topLogo.png" />
+    <Content Include="Content\style.css" />
+    <Content Include="Content\themes\base\images\ajax-loader.gif" />
+    <Content Include="Content\themes\base\images\animated-overlay.gif" />
+    <Content Include="Content\themes\base\images\topLogo.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery.ui.accordion.css" />
+    <Content Include="Content\themes\base\jquery.ui.all.css" />
+    <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
+    <Content Include="Content\themes\base\jquery.ui.base.css" />
+    <Content Include="Content\themes\base\jquery.ui.button.css" />
+    <Content Include="Content\themes\base\jquery.ui.core.css" />
+    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
+    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
+    <Content Include="Content\themes\base\jquery.ui.menu.css" />
+    <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
+    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
+    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
+    <Content Include="Content\themes\base\jquery.ui.slider.css" />
+    <Content Include="Content\themes\base\jquery.ui.spinner.css" />
+    <Content Include="Content\themes\base\jquery.ui.tabs.css" />
+    <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Content\themes\base\jquery.ui.tooltip.css" />
+    <Content Include="Content\themes\base\minified\images\animated-overlay.gif" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\minified\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.accordion.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.autocomplete.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.button.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.core.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.datepicker.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.dialog.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.menu.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.progressbar.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.resizable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.selectable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.spinner.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
+    <Content Include="Content\toastr.css" />
+    <Content Include="Content\toastr.min.css" />
+    <Content Include="Content\video-js.css" />
+    <Content Include="Content\video-js.min.css" />
+    <Content Include="Content\video-js.png" />
+    <Content Include="Content\video-js.swf" />
+    <Content Include="img\blank.gif" />
+    <Content Include="img\cloud-popup-relative.png" />
+    <Content Include="img\drag-rectangle-off.png" />
+    <Content Include="img\drag-rectangle-on.png" />
+    <Content Include="img\east-mini.png" />
+    <Content Include="img\layer-switcher-maximize.png" />
+    <Content Include="img\layer-switcher-minimize.png" />
+    <Content Include="img\marker-blue.png" />
+    <Content Include="img\marker-gold.png" />
+    <Content Include="img\marker-green.png" />
+    <Content Include="img\marker.png" />
+    <Content Include="img\measuring-stick-off.png" />
+    <Content Include="img\measuring-stick-on.png" />
+    <Content Include="img\north-mini.png" />
+    <Content Include="img\panning-hand-off.png" />
+    <Content Include="img\panning-hand-on.png" />
+    <Content Include="img\poiv1.png" />
+    <Content Include="img\slider.png" />
+    <Content Include="img\south-mini.png" />
+    <Content Include="img\west-mini.png" />
+    <Content Include="img\zoom-minus-mini.png" />
+    <Content Include="img\zoom-plus-mini.png" />
+    <Content Include="img\zoom-world-mini.png" />
+    <Content Include="img\zoombar.png" />
+    <TypeScriptCompile Include="PhoneGap\PhoneGapInterop.ts" />
+    <TypeScriptCompile Include="JS\System\Providers\MapStorageProvider.ts" />
+    <TypeScriptCompile Include="JS\System\Providers\MapPreCacheProvider.ts" />
+    <TypeScriptCompile Include="JS\System\Providers\MapCacheProvider.ts" />
+    <Content Include="JS\System\Providers\MapCacheProvider.js">
+      <DependentUpon>MapCacheProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\MapCacheProvider.min.js">
+      <DependentUpon>MapCacheProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\MapPreCacheProvider.js">
+      <DependentUpon>MapPreCacheProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\MapPreCacheProvider.min.js">
+      <DependentUpon>MapPreCacheProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\MapStorageProvider.js">
+      <DependentUpon>MapStorageProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\MapStorageProvider.min.js">
+      <DependentUpon>MapStorageProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="PhoneGap\PhoneGapInterop.js">
+      <DependentUpon>PhoneGapInterop.ts</DependentUpon>
+    </Content>
+    <Content Include="PhoneGap\PhoneGapInterop.min.js">
+      <DependentUpon>PhoneGapInterop.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\typings\videojs\videojs.d.ts" />
+    <Content Include="Scripts\video.js" />
+    <Content Include="UnitTests\IUnitTest.js.map">
+      <DependentUpon>IUnitTest.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="JS\App\Providers\PointOfInterestTypeProvider.ts" />
+    <TypeScriptCompile Include="JS\App\Controllers\FeedbackController.ts" />
+    <TypeScriptCompile Include="JS\App\Controllers\AudioController.ts" />
+    <Content Include="JS\App\Controllers\AudioController.js">
+      <DependentUpon>AudioController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\AudioController.min.js">
+      <DependentUpon>AudioController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\FeedbackController.js">
+      <DependentUpon>FeedbackController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\FeedbackController.min.js">
+      <DependentUpon>FeedbackController.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="JS\App\Controllers\GoogleAnalyticsController.ts" />
+    <Content Include="JS\App\Controllers\GoogleAnalyticsController.js">
+      <DependentUpon>GoogleAnalyticsController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\GoogleAnalyticsController.min.js">
+      <DependentUpon>GoogleAnalyticsController.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="JS\App\Controllers\SearchViewController.ts" />
+    <Content Include="JS\App\Controllers\SearchViewController.js">
+      <DependentUpon>SearchViewController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\SearchViewController.min.js">
+      <DependentUpon>SearchViewController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Providers\PointOfInterestTypeProvider.js">
+      <DependentUpon>PointOfInterestTypeProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Providers\PointOfInterestTypeProvider.min.js">
+      <DependentUpon>PointOfInterestTypeProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Providers\RouteProvider.js">
+      <DependentUpon>RouteProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Providers\RouteProvider.min.js">
+      <DependentUpon>RouteProvider.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="JS\App\SearchProviders\DataSourceWikiLocation.ts" />
+    <Content Include="JS\App\SearchProviders\DataSourceWikiLocation.js">
+      <DependentUpon>DataSourceWikiLocation.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\SearchProviders\DataSourceWikiLocation.min.js">
+      <DependentUpon>DataSourceWikiLocation.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\SearchProviders\SSRSearch.js">
+      <DependentUpon>SSRSearch.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\SearchProviders\SSRSearch.min.js">
+      <DependentUpon>SSRSearch.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\SearchProviders\SSRSearch.ts" />
+    <TypeScriptCompile Include="JS\System\Providers\PhoneGapProvider.ts" />
+    <TypeScriptCompile Include="JS\System\Providers\AudioProvider.ts" />
+    <Content Include="JS\System\Providers\AudioProvider.js">
+      <DependentUpon>AudioProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\AudioProvider.min.js">
+      <DependentUpon>AudioProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\PhoneGapProvider.js">
+      <DependentUpon>PhoneGapProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\PhoneGapProvider.min.js">
+      <DependentUpon>PhoneGapProvider.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="JS\System\Providers\StorageProvider.ts" />
+    <Content Include="JS\System\Providers\StorageProvider.js">
+      <DependentUpon>StorageProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\StorageProvider.min.js">
+      <DependentUpon>StorageProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\cache.js" />
+    <Content Include="Scripts\jquery.ui.touch-punch.min.js" />
+    <TypeScriptCompile Include="JS\App\Controllers\RouteController.ts" />
+    <Content Include="JS\App\Controllers\RouteController.js">
+      <DependentUpon>RouteController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\RouteController.min.js">
+      <DependentUpon>RouteController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Providers\RouteProvider.ts" />
+    <Content Include="Scripts\knockout.mapping-latest.debug.js" />
+    <Content Include="Scripts\knockout.mapping-latest.js" />
+    <Content Include="Scripts\LatLon.js" />
+    <Content Include="Scripts\OpenLayers.Control.ClickHold.js" />
+    <Content Include="Scripts\proj4.js" />
+    <Content Include="Scripts\proj4js.min.js" />
+    <Content Include="Scripts\soundmanager2-jsmin.js" />
+    <Content Include="Scripts\soundmanager2-nodebug-jsmin.js" />
+    <Content Include="Scripts\soundmanager2-nodebug.js" />
+    <Content Include="Scripts\soundmanager2.js" />
+    <Content Include="Scripts\stores.js" />
+    <Content Include="Scripts\typings\knockout.mapping\knockout.mapping.d.ts" />
+    <Content Include="Scripts\typings\knockout\knockout.amd.d.ts" />
+    <Content Include="Scripts\typings\knockout\knockout.d.ts" />
+    <Content Include="Scripts\typings\LatLon.d.ts" />
+    <Content Include="UnitTests\HttpDownloadProviderTest.js.map">
+      <DependentUpon>HttpDownloadProviderTest.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="JS\System\Providers\MapProvider.ts" />
+    <TypeScriptCompile Include="JS\System\Models\PointOfInterestBase.ts" />
+    <Content Include="JS\App\Config.js">
+      <DependentUpon>Config.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Config.min.js">
+      <DependentUpon>Config.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="JS\App\Settings.ts" />
+    <TypeScriptCompile Include="JS\App\Controllers\MapController.ts" />
+    <TypeScriptCompile Include="JS\App\Controllers\ARController.ts" />
+    <Content Include="JS\App\Controllers\ARController.js">
+      <DependentUpon>ARController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\ARController.min.js">
+      <DependentUpon>ARController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\MapController.js">
+      <DependentUpon>MapController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\MapController.min.js">
+      <DependentUpon>MapController.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="JS\App\Controllers\SearchController.ts" />
+    <TypeScriptCompile Include="JS\App\Controllers\ResultListController.ts" />
+    <TypeScriptCompile Include="JS\App\Controllers\PoiController.ts" />
+    <Content Include="JS\App\Controllers\PoiController.js">
+      <DependentUpon>PoiController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\PoiController.min.js">
+      <DependentUpon>PoiController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\ResultListController.js">
+      <DependentUpon>ResultListController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\ResultListController.min.js">
+      <DependentUpon>ResultListController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\SearchController.js">
+      <DependentUpon>SearchController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\SearchController.min.js">
+      <DependentUpon>SearchController.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="JS\App\Controllers\UserPopupController.ts" />
+    <TypeScriptCompile Include="JS\App\Controllers\SettingsController.ts" />
+    <Content Include="JS\App\Controllers\SettingsController.js">
+      <DependentUpon>SettingsController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\SettingsController.min.js">
+      <DependentUpon>SettingsController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\UserPopupController.js">
+      <DependentUpon>UserPopupController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\UserPopupController.min.js">
+      <DependentUpon>UserPopupController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\GUI\PoiDialog.js">
+      <DependentUpon>PoiDialog.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\GUI\PoiDialog.min.js">
+      <DependentUpon>PoiDialog.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\GUI\PoiDialog.ts" />
+    <TypeScriptCompile Include="JS\App\Models\SettingsEnums.ts" />
+    <TypeScriptCompile Include="JS\App\Models\SearchCriteriaEnums.ts" />
+    <Content Include="JS\App\Models\SearchCriteriaEnums.js">
+      <DependentUpon>SearchCriteriaEnums.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Models\SearchCriteriaEnums.min.js">
+      <DependentUpon>SearchCriteriaEnums.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Models\SettingsEnums.js">
+      <DependentUpon>SettingsEnums.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Models\SettingsEnums.min.js">
+      <DependentUpon>SettingsEnums.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="JS\App\Providers\TranslationProviderNB.ts" />
+    <TypeScriptCompile Include="JS\App\Providers\MultiViewBindingProvider.ts" />
+    <Content Include="JS\App\Providers\MultiViewBindingProvider.js">
+      <DependentUpon>MultiViewBindingProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Providers\MultiViewBindingProvider.min.js">
+      <DependentUpon>MultiViewBindingProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Providers\TranslationProviderNB.js">
+      <DependentUpon>TranslationProviderNB.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Providers\TranslationProviderNB.min.js">
+      <DependentUpon>TranslationProviderNB.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="JS\App\SearchProviders\DataSourceDigitalarkivetProperty.ts" />
+    <Content Include="JS\App\SearchProviders\DataSourceDigitalarkivetProperty.js">
+      <DependentUpon>DataSourceDigitalarkivetProperty.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\SearchProviders\DataSourceDigitalarkivetProperty.min.js">
+      <DependentUpon>DataSourceDigitalarkivetProperty.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Settings.js">
+      <DependentUpon>Settings.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Settings.min.js">
+      <DependentUpon>Settings.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\ConfigBase.js">
+      <DependentUpon>ConfigBase.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\ConfigBase.min.js">
+      <DependentUpon>ConfigBase.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="JS\System\Providers\ARProvider.ts" />
+    <Content Include="JS\System\Providers\ARProvider.js">
+      <DependentUpon>ARProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\ARProvider.min.js">
+      <DependentUpon>ARProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\GoogleAnalyticsProvider.js">
+      <DependentUpon>GoogleAnalyticsProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\GoogleAnalyticsProvider.min.js">
+      <DependentUpon>GoogleAnalyticsProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\GpsProvider.js">
+      <DependentUpon>GpsProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\GpsProvider.min.js">
+      <DependentUpon>GpsProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Models\PointOfInterestBase.js">
+      <DependentUpon>PointOfInterestBase.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Models\PointOfInterestBase.min.js">
+      <DependentUpon>PointOfInterestBase.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\HttpDownloadProvider.js">
+      <DependentUpon>HttpDownloadProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\HttpDownloadProvider.min.js">
+      <DependentUpon>HttpDownloadProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\MapProvider.js">
+      <DependentUpon>MapProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\MapProvider.min.js">
+      <DependentUpon>MapProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Models\PointOfInterest.min.js">
+      <DependentUpon>PointOfInterest.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="JS\System\Providers\GoogleAnalyticsProvider.ts" />
+    <Content Include="JS\System\Models\Position.js.map">
+      <DependentUpon>Position.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Providers\ISearchProvider.js.map">
+      <DependentUpon>ISearchProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Models\SearchResult.js.map">
+      <DependentUpon>SearchResult.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Providers\SearchProvider.js.map">
+      <DependentUpon>SearchProvider.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="JS\System\_References.ts" />
+    <TypeScriptCompile Include="JS\System\Utils\Serializer.ts" />
+    <Content Include="JS\System\Utils\Serializer.js">
+      <DependentUpon>Serializer.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Utils\Serializer.min.js">
+      <DependentUpon>Serializer.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="JS\System\Providers\WikitudeProvider.ts" />
+    <Content Include="JS\System\Providers\WikitudeProvider.js">
+      <DependentUpon>WikitudeProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\WikitudeProvider.min.js">
+      <DependentUpon>WikitudeProvider.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="JS\System\Utils\ErrorTool.ts" />
+    <Content Include="JS\System\Utils\ErrorTool.js">
+      <DependentUpon>ErrorTool.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Utils\ErrorTool.min.js">
+      <DependentUpon>ErrorTool.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="JS\System\Utils\Translater.ts" />
+    <TypeScriptCompile Include="JS\System\Utils\StringUtils.ts" />
+    <Content Include="JS\System\Utils\StringUtils.js">
+      <DependentUpon>StringUtils.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Utils\StringUtils.min.js">
+      <DependentUpon>StringUtils.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Utils\Translater.js">
+      <DependentUpon>Translater.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Utils\Translater.min.js">
+      <DependentUpon>Translater.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\_References.js">
+      <DependentUpon>_References.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\_References.min.js">
+      <DependentUpon>_References.ts</DependentUpon>
+    </Content>
+    <Content Include="Main.html" />
+    <Content Include="Scripts\ade.js" />
+    <Content Include="Scripts\json2.js" />
+    <Content Include="Scripts\json2.min.js" />
+    <Content Include="Scripts\OpenLayers.debug.js" />
+    <None Include="Scripts\OpenLayers.js_DoNotUse_NotModified" />
+    <None Include="Scripts\OpenLayers.light.debug.js_DoNotUse_NotModified" />
+    <None Include="Scripts\OpenLayers.light.js_DoNotUse_NotModified" />
+    <None Include="Scripts\OpenLayers.mobile.debug.js_DoNotUse_NotModified" />
+    <None Include="Scripts\OpenLayers.mobile.js_DoNotUse_NotModified" />
+    <Content Include="Scripts\typings\google.analytics\ga.d.ts" />
+    <Content Include="Scripts\toastr.js" />
+    <Content Include="Scripts\toastr.min.js" />
+    <Content Include="Scripts\typings\toastr\toastr.d.ts" />
+    <Content Include="Scripts\WikitudePlugin.js" />
+    <Content Include="Test.html" />
+    <Content Include="theme\default\google.css" />
+    <Content Include="theme\default\google.tidy.css" />
+    <Content Include="theme\default\ie6-style.css" />
+    <Content Include="theme\default\ie6-style.tidy.css" />
+    <Content Include="theme\default\img\add_point_off.png" />
+    <Content Include="theme\default\img\add_point_on.png" />
+    <Content Include="theme\default\img\blank.gif" />
+    <Content Include="theme\default\img\close.gif" />
+    <Content Include="theme\default\img\drag-rectangle-off.png" />
+    <Content Include="theme\default\img\drag-rectangle-on.png" />
+    <Content Include="theme\default\img\draw_line_off.png" />
+    <Content Include="theme\default\img\draw_line_on.png" />
+    <Content Include="theme\default\img\draw_point_off.png" />
+    <Content Include="theme\default\img\draw_point_on.png" />
+    <Content Include="theme\default\img\draw_polygon_off.png" />
+    <Content Include="theme\default\img\draw_polygon_on.png" />
+    <Content Include="theme\default\img\editing_tool_bar.png" />
+    <Content Include="theme\default\img\move_feature_off.png" />
+    <Content Include="theme\default\img\move_feature_on.png" />
+    <Content Include="theme\default\img\navigation_history.png" />
+    <Content Include="theme\default\img\overview_replacement.gif" />
+    <Content Include="theme\default\img\pan-panel-NOALPHA.png" />
+    <Content Include="theme\default\img\pan-panel.png" />
+    <Content Include="theme\default\img\panning-hand-off.png" />
+    <Content Include="theme\default\img\panning-hand-on.png" />
+    <Content Include="theme\default\img\pan_off.png" />
+    <Content Include="theme\default\img\pan_on.png" />
+    <Content Include="theme\default\img\remove_point_off.png" />
+    <Content Include="theme\default\img\remove_point_on.png" />
+    <Content Include="theme\default\img\ruler.png" />
+    <Content Include="theme\default\img\save_features_off.png" />
+    <Content Include="theme\default\img\save_features_on.png" />
+    <Content Include="theme\default\img\view_next_off.png" />
+    <Content Include="theme\default\img\view_next_on.png" />
+    <Content Include="theme\default\img\view_previous_off.png" />
+    <Content Include="theme\default\img\view_previous_on.png" />
+    <Content Include="theme\default\img\zoom-panel-NOALPHA.png" />
+    <Content Include="theme\default\img\zoom-panel.png" />
+    <Content Include="theme\default\style.css" />
+    <Content Include="theme\default\style.mobile.css" />
+    <Content Include="theme\default\style.mobile.tidy.css" />
+    <Content Include="theme\default\style.tidy.css" />
+    <Content Include="JS\System\Providers\MapProvider.js.map">
+      <DependentUpon>MapProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="Content\toastr.less" />
+    <Content Include="JS\System\GUI\ViewController.min.js.map">
+      <DependentUpon>ViewController.js</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Models\PointOfInterestBase.js.map">
+      <DependentUpon>PointOfInterestBase.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Models\PointOfInterestBase.min.js.map">
+      <DependentUpon>PointOfInterestBase.js</DependentUpon>
+    </Content>
+    <Content Include="JS\System\ConfigBase.js.map">
+      <DependentUpon>ConfigBase.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Config.js.map">
+      <DependentUpon>Config.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Settings.js.map">
+      <DependentUpon>Settings.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\MapController.js.map">
+      <DependentUpon>MapController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\_References.js.map">
+      <DependentUpon>_References.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\SearchController.js.map">
+      <DependentUpon>SearchController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\GpsProvider.js.map">
+      <DependentUpon>GpsProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\GoogleAnalyticsProvider.js.map">
+      <DependentUpon>GoogleAnalyticsProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\ResultListController.js.map">
+      <DependentUpon>ResultListController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\PoiController.js.map">
+      <DependentUpon>PoiController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Utils\Serializer.js.map">
+      <DependentUpon>Serializer.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Models\SettingsEnums.js.map">
+      <DependentUpon>SettingsEnums.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\WikitudeProvider.js.map">
+      <DependentUpon>WikitudeProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Models\SearchCriteriaEnums.js.map">
+      <DependentUpon>SearchCriteriaEnums.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\GUI\PoiDialog.js.map">
+      <DependentUpon>PoiDialog.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\ARController.js.map">
+      <DependentUpon>ARController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\ARProvider.js.map">
+      <DependentUpon>ARProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\ARProvider.min.js.map">
+      <DependentUpon>ARProvider.js</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Utils\ErrorTool.js.map">
+      <DependentUpon>ErrorTool.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\UserPopupController.js.map">
+      <DependentUpon>UserPopupController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Providers\TranslationProviderNB.js.map">
+      <DependentUpon>TranslationProviderNB.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Utils\Translater.js.map">
+      <DependentUpon>Translater.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Utils\StringUtils.js.map">
+      <DependentUpon>StringUtils.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\SettingsController.js.map">
+      <DependentUpon>SettingsController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Providers\MultiViewBindingProvider.js.map">
+      <DependentUpon>MultiViewBindingProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\SearchProviders\DataSourceDigitalarkivetProperty.js.map">
+      <DependentUpon>DataSourceDigitalarkivetProperty.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\HttpDownloadProvider.js.map">
+      <DependentUpon>HttpDownloadProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\RouteController.js.map">
+      <DependentUpon>RouteController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Providers\RouteProvider.js.map">
+      <DependentUpon>RouteProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Providers\PointOfInterestTypeProvider.js.map">
+      <DependentUpon>PointOfInterestTypeProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\FeedbackController.js.map">
+      <DependentUpon>FeedbackController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\GoogleAnalyticsController.js.map">
+      <DependentUpon>GoogleAnalyticsController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\SearchProviders\DataSourceWikiLocation.js.map">
+      <DependentUpon>DataSourceWikiLocation.ts</DependentUpon>
+    </Content>
+    <Content Include="Content\TypIcons\.DS_Store" />
+    <Content Include="Content\TypIcons\typicons.eot" />
+    <Content Include="Content\TypIcons\typicons.ttf" />
+    <Content Include="Content\TypIcons\typicons.woff" />
+    <Content Include="JS\App\SearchProviders\SSRSearch.js.map">
+      <DependentUpon>SSRSearch.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\ResultListController.min.js.map">
+      <DependentUpon>ResultListController.js</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\PhoneGapProvider.js.map">
+      <DependentUpon>PhoneGapProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\StorageProvider.js.map">
+      <DependentUpon>StorageProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\SearchViewController.js.map">
+      <DependentUpon>SearchViewController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\AudioController.js.map">
+      <DependentUpon>AudioController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\AudioProvider.js.map">
+      <DependentUpon>AudioProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Models\SettingsEnums.min.js.map">
+      <DependentUpon>SettingsEnums.js</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\PoiController.min.js.map">
+      <DependentUpon>PoiController.js</DependentUpon>
+    </Content>
+    <Content Include="Content\font\vjs.eot" />
+    <Content Include="Content\font\vjs.ttf" />
+    <Content Include="Content\font\vjs.woff" />
+    <Content Include="PhoneGap\PhoneGapInterop.js.map">
+      <DependentUpon>PhoneGapInterop.ts</DependentUpon>
+    </Content>
+    <Content Include="PhoneGap\PhoneGapInterop.min.js.map">
+      <DependentUpon>PhoneGapInterop.js</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\MapStorageProvider.js.map">
+      <DependentUpon>MapStorageProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\MapPreCacheProvider.js.map">
+      <DependentUpon>MapPreCacheProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\MapPreCacheProvider.min.js.map">
+      <DependentUpon>MapPreCacheProvider.js</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\MapCacheProvider.js.map">
+      <DependentUpon>MapCacheProvider.ts</DependentUpon>
+    </Content>
+    <None Include="Scripts\jquery-1.9.1.intellisense.js" />
+    <Content Include="Scripts\jquery-1.9.1.js" />
+    <Content Include="Scripts\jquery-1.9.1.min.js" />
+    <Content Include="Scripts\jquery-ui-1.10.2.js" />
+    <Content Include="Scripts\jquery-ui-1.10.2.min.js" />
+    <TypeScriptCompile Include="JS\System\Providers\HttpDownloadProvider.ts" />
+    <TypeScriptCompile Include="JS\System\GUI\ViewController.ts" />
+    <Content Include="JS\System\GUI\ViewController.js">
+      <DependentUpon>ViewController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\GUI\ViewController.min.js">
+      <DependentUpon>ViewController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Startup.js.map">
+      <DependentUpon>Startup.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\SearchProviders\DataSourceNorvegiana.js.map">
+      <DependentUpon>DataSourceNorvegiana.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Models\SearchCriteria.js.map">
+      <DependentUpon>SearchCriteria.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Diagnostics\Log.js.map">
+      <DependentUpon>Log.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\_References.js.map">
+      <DependentUpon>_References.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Models\PointOfInterest.js.map">
+      <DependentUpon>PointOfInterest.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\GUI\ViewController.js.map">
+      <DependentUpon>ViewController.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\jquery-1.9.1.min.map" />
+    <None Include="Scripts\jquery-2.0.0.intellisense.js" />
+    <Content Include="Scripts\jquery.mobile-1.3.0.min.js" />
+    <Content Include="Scripts\typings\phonegap\phonegap.d.ts" />
+    <Content Include="Scripts\typings\requirejs\require.d.ts" />
+    <TypeScriptCompile Include="UnitTests\HttpDownloadProviderTest.ts" />
+    <Content Include="UnitTests\HttpDownloadProviderTest.js">
+      <DependentUpon>HttpDownloadProviderTest.ts</DependentUpon>
+    </Content>
+    <Content Include="UnitTests\HttpDownloadProviderTest.min.js">
+      <DependentUpon>HttpDownloadProviderTest.ts</DependentUpon>
+    </Content>
+    <Content Include="UnitTests\IUnitTest.min.js.map">
+      <DependentUpon>IUnitTest.js</DependentUpon>
+    </Content>
+    <Content Include="UnitTests\DataSourceNorvegianaTest.min.js.map">
+      <DependentUpon>DataSourceNorvegianaTest.js</DependentUpon>
+    </Content>
+    <Content Include="UnitTests\DataSourceNorvegianaTest.js.map">
+      <DependentUpon>DataSourceNorvegianaTest.ts</DependentUpon>
+    </Content>
+    <Content Include="UnitTests\UnitTester.js.map">
+      <DependentUpon>UnitTester.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="JS\System\Startup.ts" />
+    <TypeScriptCompile Include="JS\System\ConfigBase.ts" />
+    <TypeScriptCompile Include="JS\App\Providers\SearchProvider.ts" />
+    <TypeScriptCompile Include="JS\App\Models\SearchCriteria.ts" />
+    <TypeScriptCompile Include="JS\App\Config.ts" />
+    <TypeScriptCompile Include="JS\App\Models\PointOfInterest.ts" />
+    <Content Include="JS\App\Models\PointOfInterest.js">
+      <DependentUpon>PointOfInterest.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Models\SearchCriteria.js">
+      <DependentUpon>SearchCriteria.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Models\SearchCriteria.min.js">
+      <DependentUpon>SearchCriteria.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="JS\App\Models\SearchResult.ts" />
+    <Content Include="JS\App\Models\SearchResult.js">
+      <DependentUpon>SearchResult.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Models\SearchResult.min.js">
+      <DependentUpon>SearchResult.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="JS\App\Providers\ISearchProvider.ts" />
+    <Content Include="JS\App\Providers\ISearchProvider.js">
+      <DependentUpon>ISearchProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Providers\ISearchProvider.min.js">
+      <DependentUpon>ISearchProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Providers\SearchProvider.js">
+      <DependentUpon>SearchProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Providers\SearchProvider.min.js">
+      <DependentUpon>SearchProvider.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="JS\App\SearchProviders\DataSourceNorvegiana.ts" />
+    <Content Include="JS\App\SearchProviders\DataSourceNorvegiana.js">
+      <DependentUpon>DataSourceNorvegiana.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\SearchProviders\DataSourceNorvegiana.min.js">
+      <DependentUpon>DataSourceNorvegiana.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="JS\App\_References.ts" />
+    <Content Include="JS\App\_References.js">
+      <DependentUpon>_References.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\_References.min.js">
+      <DependentUpon>_References.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="JS\System\Providers\GpsProvider.ts" />
+    <TypeScriptCompile Include="JS\System\Diagnostics\Log.ts" />
+    <Content Include="JS\System\Diagnostics\Log.js">
+      <DependentUpon>Log.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Diagnostics\Log.min.js">
+      <DependentUpon>Log.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="JS\System\Models\Position.ts" />
+    <Content Include="JS\System\Models\Position.js">
+      <DependentUpon>Position.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Models\Position.min.js">
+      <DependentUpon>Position.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Startup.js">
+      <DependentUpon>Startup.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Startup.min.js">
+      <DependentUpon>Startup.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\jquery-2.0.0.js" />
+    <Content Include="Scripts\jquery-2.0.0.min.js" />
+    <Content Include="Scripts\knockout-2.2.1.debug.js" />
+    <Content Include="Scripts\knockout-2.2.1.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\typings\durandal\durandal.d.ts" />
+    <Content Include="Scripts\typings\jquery\jquery.d.ts" />
+    <Content Include="Scripts\typings\moment\moment.d.ts" />
+    <TypeScriptCompile Include="UnitTests\DataSourceNorvegianaTest.ts" />
+    <Content Include="UnitTests\DataSourceNorvegianaTest.js">
+      <DependentUpon>DataSourceNorvegianaTest.ts</DependentUpon>
+    </Content>
+    <Content Include="UnitTests\DataSourceNorvegianaTest.min.js">
+      <DependentUpon>DataSourceNorvegianaTest.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="UnitTests\IUnitTest.ts" />
+    <Content Include="UnitTests\IUnitTest.js">
+      <DependentUpon>IUnitTest.ts</DependentUpon>
+    </Content>
+    <Content Include="UnitTests\IUnitTest.min.js">
+      <DependentUpon>IUnitTest.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="UnitTests\UnitTester.ts" />
+    <Content Include="UnitTests\UnitTester.js">
+      <DependentUpon>UnitTester.ts</DependentUpon>
+    </Content>
+    <Content Include="UnitTests\UnitTester.min.js">
+      <DependentUpon>UnitTester.ts</DependentUpon>
+    </Content>
+    <Content Include="UnitTests\UnitTests.html" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Scripts\jquery-2.0.0.min.map" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:39903/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.                                                                                      
+       Other similar extension points exist, see Microsoft.Common.targets.                                                                                                                
+  <Target Name="BeforeBuild">                                                                                                                                                             
+  </Target>                                                                                                                                                                               
+  <Target Name="AfterBuild">                                                                                                                                                              
+  </Target> -->
+</Project>

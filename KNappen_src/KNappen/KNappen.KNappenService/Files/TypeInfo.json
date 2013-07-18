@@ -1,0 +1,28 @@
+﻿{ 
+    "categories": [ 
+		{ "text": "Wikipedia",				"category": "Wikipedia",				"icon": "Content/images/Categories/wikipedia.png"},
+        { "text": "Arkeologi",              "category": "Arkeologi",				"icon": "Content/images/Categories/arkeologi.png" },
+        { "text": "Kulturminner",           "category": "Kulturminner",				"icon": "Content/images/Categories/kulturminne.png" },
+        { "text": "Historie og samfunn",    "category": "Historie og samfunn",		"icon": "Content/images/Categories/historieogsamfunn.png" },
+        { "text": "Arkitektur",             "category": "Arkitektur",				"icon": "Content/images/Categories/arkitektur.png" },
+        { "text": "Dyr",                    "category": "Dyr",						"icon": "Content/images/Categories/dyr.png" },
+        { "text": "Planter",                "category": "Planter",					"icon": "Content/images/Categories/planter.png" },
+        { "text": "Verneområder",           "category": "Verneområder",				"icon": "Content/images/Categories/verneomrader.png" },
+        { "text": "Kunst",                  "category": "Kunst",					"icon": "Content/images/Categories/kunst.png" },
+        { "text": "Stedsnavn",              "category": "Stedsnavn",				"icon": "Content/images/Categories/stedsnavn.png" },
+        { "text": "Fugler",                 "category": "Fugler",					"icon": "Content/images/Categories/fugler.png" },
+        { "text": "Kombinasjon",            "category": "*",						"icon": "Content/images/Categories/defaultCategory.png" }
+    ],
+    "genres": [
+        { "text": "Fagdata",            "type": "fagdata",							"icon": "Content/images/Genres/fagdata.png" },
+        { "text": "Leksikonartikler",   "type": "wikipedia",						"icon": "Content/images/Genres/leksikon.png" },
+        { "text": "Fortellinger",       "type": "digitaltfortalt",					"icon": "Content/images/Genres/fortelling.png" }
+    ],
+    "medias": [
+		{ "text": "Video",              "type": "VIDEO",                            "icon": "Content/images/MediaTypes/video.png" },
+        { "text": "Lyd",                "type": "SOUND",                            "icon": "Content/images/MediaTypes/sound.png" }, 
+        { "text": "Bilde",              "type": "IMAGE",                            "icon": "Content/images/MediaTypes/image.png" },
+        { "text": "Tekst",              "type": "TEXT",                             "icon": "Content/images/MediaTypes/text.png" },
+		{ "text": "Kombinasjon",        "type": "*",                                "icon": "Content/images/MediaTypes/text.png" }
+    ]
+}

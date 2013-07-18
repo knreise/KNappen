@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="viewport"
+	content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+<link rel="stylesheet" type="text/css" href="css/index.css" />
+<title>KNappen</title>
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="WikitudePlugin.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="../world/KNappen/PhoneGap/PhoneGapInterop.js"></script>
+<script>
+var db;
+
+setTimeout(function() {
+  		console.log('Startup event for ' + window.location);
+  		app.initialize();
+	
+	            		
+  	}, 1);
+</script><script>	           	 	
+ 	document.addEventListener("deviceready", onDeviceReady, false);
+ 	function onDeviceReady() {
+ 		startup();
+ 	}
+</script><script>	            
+	function startup()
+	{            		
+		// when user presses back-button -> execute default function -> close AR-view
+    	document.removeEventListener("backbutton", WikitudePlugin.onBackButton, false);
+    	document.addEventListener("backbutton", WikitudePlugin.onBackButton, false);
+    	
+    	//db.transaction(populateDB, errorCB, successCB);
+    	
+        WikitudePlugin.loadARchitectWorld("assets/world/KNappen/Main.html");
+		
+		phoneGapInterop.Init();
+		
+        // To be able to respond on events inside the ARchitect World, we set a onURLInvoke callback
+        WikitudePlugin.setOnUrlInvokeCallback(phoneGapInterop.onClickInARchitectWorld);
+   }
+</script>
+</head>
+<body>
+	<!-- style="background-color: white; height: 100%;"  -->
+
+	<div style="height: 100%; width: 100%; margin: auto;">
+		<img src="img/KNappen.png" style="width: 100%;"
+			onclick="startup(); return false;" />
+	</div>
+
+<div id="deviceready" class="blink">
+			<p class="event listening">Connecting to Device</p>
+			<p class="event received">Device is Ready</p>
+		</div>
+	<!-- <button value="Load AR" type="button" onclick="loadAR()" style="height:200px; width:100%;">LAUNCH GEOKULTUR</button>
+        <br />
+        
+        <div class="app">
+            <a href="#" onclick="loadAR(); return false;"><h1>LAUNCH GEOKULTUR</h1></a>
+            <script type="text/javascript">           	
+                app.initialize();
+                
+                function loadAR(){
+                	// when user presses back-button -> execute default function -> close AR-view
+                	document.removeEventListener("backbutton", WikitudePlugin.onBackButton, false);
+                	document.addEventListener("backbutton", WikitudePlugin.onBackButton, false);
+                	
+                    //WikitudePlugin.loadARchitectWorld("assets/www/SPA.html");
+                    WikitudePlugin.loadARchitectWorld("http://dev.tedd.no/wikitude/SPA-embed.html");
+                }
+                function showAR(){
+                    WikitudePlugin.show();
+                }
+                loadAR();
+                </script>
+            <div id="deviceready" class="blink">
+                <p class="event listening">Connecting to Device</p>
+                <p class="event received"">Device is ready</p>
+            </div>
+            
+        </div>
+        -->
+	<!-- NOT RECOMMENDED!
+        <button value="Show AR" type="button" onclick="showAR()">(show again)</button>
+         -->
+</body>
+</html>

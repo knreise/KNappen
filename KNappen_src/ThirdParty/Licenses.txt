@@ -1,0 +1,12 @@
+Typicons 		free-to-use		http://typicons.com/ 
+jquery			MIT License		http://jquery.org/
+jqueryui		MIT License		http://jqueryui.com/
+Knockout		MIT License		http://knockoutjs.com/
+JSON2			MIT License		https://github.com/douglascrockford/JSON-js/blob/master/json2.js
+Moment			MIT License		http://momentjs.com/
+OpenLayers		BSD License		http://openlayers.org/
+Sammy			MIT License		http://sammyjs.org/
+toastr			MIT License		https://github.com/CodeSeven/toastr
+LatLon			Attribution 3.0		http://www.movable-type.co.uk/scripts/latlong.html
+Proj4JS			MIT License		http://trac.osgeo.org/proj4js/
+SoundManager2		BSD License		http://www.schillmania.com/projects/soundmanager2/

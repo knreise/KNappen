@@ -1,0 +1,526 @@
+﻿/* http://www.mikedellanoce.com/2012/09/10-tips-for-getting-that-native-ios.html
+    http://davidwalsh.name/webkit-css
+     */
+html
+{
+    font-family: 'Segoe UI';
+    letter-spacing: -0.09em;
+    font-size: 100%;
+    -webkit-touch-callout: none;
+    /* -webkit-user-select: none; */
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    /*-webkit-overflow-scrolling: touch;
+    -webkit-transform: translate3d(0px,0px,0px);
+    -webkit-transition-delay: 0;
+    -webkit-transition-duration: 0;
+        */
+}
+
+html h3{
+    font-weight: normal;
+}
+
+select{
+    font-size: 120%;
+    width: 50%;
+}
+
+input[type=button]{
+    border: 1px solid rgb(231, 245, 247);
+    background-color: rgb(231, 245, 247);
+    font-size: 120%;
+    margin: 3px;
+}
+
+input[type=text]{
+    font-size: 120%;
+    width: 50%;
+}
+
+.padding{
+    padding:5px;
+}
+
+/*Menu*/
+#menu
+{
+    background-color: #b1e5ec;
+    position: fixed !important;
+}
+
+#toolbarHeader
+{
+    position: fixed !important;
+    background-color: white;
+}
+/*end Menu*/
+
+#logoFrame{
+    margin:auto;
+    margin-top: 10px;
+    max-width:70%;
+    position: absolute;
+    left: 13%;
+    right: 13%;
+}
+
+#logoFrame h2{
+    color: #3eaebe;
+    font-weight: normal;
+    text-align: center;
+}
+
+/*Listview*/
+.listItemPreview
+{
+    height: auto!important;
+}
+
+.listItemCat{
+    width: 30px;
+    margin-right: 3px;
+}
+
+.listItemHeader{
+    vertical-align: middle;
+}
+/*end ListView*/
+
+#searchPanel
+{
+    border: 1px solid black;
+}
+
+    #searchPanel #searchToolbar
+    {
+        display: none;
+    }
+
+    #searchPanel #currentSearchText
+    {
+        text-align: center;
+    }
+
+
+/* JQUERY UI - CSS */
+
+.ui-content
+{
+    width: 100%;
+    height: 100%;
+}
+
+/* END JQUERY UI - CSS */
+
+
+*
+{
+    margin: 0;
+}
+
+.wrapper
+{
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -142px; /* the bottom margin is the negative value of the footer's height */
+}
+
+.footer, .push
+{
+    height: 42px; /* .push must be the same height as .footer */
+}
+
+
+[data-role=footer]
+{
+    bottom: 0;
+    position: fixed !important;
+    top: auto !important;
+    width: 100%;
+}
+
+/*@media only screen and (max-width: 600px)
+{
+    html, body
+    {
+        height: 117%;
+    }
+}*/
+
+.poi{
+    border: 2px solid #3eaebe;
+}
+
+.map
+{
+    width: 100%;
+    position: relative;
+    height: 10px;
+}
+
+.olControlAttribution
+{
+    position: absolute;
+    font-size: 10px;
+    bottom: 0 !important;
+    right: 0 !important;
+    background: rgba(0, 0, 0, 0.1);
+    font-family: Arial;
+    padding: 2px 4px;
+    border-radius: 5px 0 0 0;
+}
+
+/*POI Preview*/
+#poiPreview
+{
+    display: none;
+    background-color: white !important;
+    z-index: 999999;
+    width: 100%;
+    border-bottom: 1px solid #3eaebe;
+    position: absolute;
+    bottom: 0;
+    max-height: 95px;
+}
+
+#poiPreview h2{
+    font-weight: normal;
+}
+
+.poiPreviewActiveDetail{
+    top: 76px!important;
+    bottom: auto!important;
+    border: 1px thin rgb(231, 245, 247)!important;
+    border-bottom: none;
+}
+
+/*.poiPreviewActiveDetail{
+    background-color: white !important;
+    z-index: 999999;
+    width: 100%;
+    border: 1px solid #3eaebe;
+}*/
+/*end POI Preview*/
+
+/*POI Detail*/
+#lnkDetail
+{
+    display: none;
+}
+
+.ui-dialog{
+    z-index: 999999;
+    background-color: white !important;
+}
+
+#poiDetailContent
+{
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#poiDetail
+{
+    background-color: white;
+    overflow-y: scroll;
+    top: 170px;
+    bottom: 2px;
+    position: fixed;
+    font-size: 1.2em;
+    padding: 5px;
+    letter-spacing: -0.03em;
+    width: 100%;
+}
+
+#poiImage{
+    width: 95%;
+}
+
+#poiImage img{
+    width:100%;
+}
+
+.poiDetailHeader
+{
+    height: 40px !important;
+}
+
+.poiDetailLicense
+{
+    font-size: smaller;
+    font-style: italic;
+}
+
+.poiDetailTags
+{
+    font-size: small;
+    background-color: lightgray;
+}
+
+#detailAccordion div
+{
+    height: auto !important;
+    border: 1px solid rgb(231, 245, 247)!important;
+}
+
+.showMoreAccordion{
+    background-image: url(/content/images/AppIcons/moreInfo.png)!important;
+    width: 25px;
+}
+
+.showLessAccordion{
+    background-image: url(/content/images/AppIcons/lessInfo.png)!important;
+    width: 25px;
+}
+/*end POI Detail*/
+
+.popupMenu
+{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 99999999 !important;
+    background-color: #3d4249 !important;
+    -webkit-transform: translate3d(0, 0, 0);
+}
+
+.popupMenuOpenButton
+{
+    background-color: white;
+    outline: 2px;
+    outline-color: black;
+    font-size: x-large;
+    float: left;
+    max-width: 20%;
+    padding: 7px;
+}
+
+.popupMenuButton
+{
+    font-size: x-large;
+    color: white;
+    padding: 4px;
+    vertical-align: middle;
+}
+
+.popupMenuButton img
+{
+    width: 30px;
+    vertical-align: bottom;
+    margin: 2px;
+}
+
+.contentPage
+{
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    float: right;
+    padding: 0;
+    display: none;
+}
+
+
+.headerSection
+{
+    width: 100%;
+    height: 65px;
+    background-color: white !important;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 99999 !important;
+}
+
+.mainSection
+{
+    width: 100%;
+    background-color: white !important;
+    overflow-y: auto;
+}
+
+.footerSection
+{
+    width: 100%;
+    height: 40px;
+    background-color: white !important;
+}
+
+html, body
+{
+    height: 100%;
+}
+body {
+    background-color: white;
+    overflow: hidden;
+    -webkit-tap-highlight-color: none;
+}
+
+
+#routeView .ui-widget-header{
+    background: none;
+    border: none;
+    border-bottom: 1px solid #AAAAAA;
+}
+
+#routeView .ui-widget-content{
+    border: none;
+}
+
+#editorialRoutes{
+    width: 90%;
+    padding: 5px;
+}
+
+#userRoutes{
+    width: 90%;
+    padding: 5px;
+}
+
+.routeListItem{
+    padding: 10px;
+    border: solid 1px rgb(231, 245, 247);
+}
+
+#routeName{
+    display: none;
+}
+
+.routeName{
+    list-style: none;
+    border: 1px solid lightgray;
+    width:40%;
+    margin:2px;
+}
+
+.hidden{
+    display: none;
+}
+
+.left{
+    float: left;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+.leftPreview{
+    width: 15%;
+    max-width: 80px;
+    min-width: 30px;
+}
+
+.middle{
+    margin:auto;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+.right{
+    float: right;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+.categoryImage{
+    width: 100%;
+}
+
+.mediaImage{
+    width:30px;
+    bottom: 2px;
+    position:absolute;
+    float:left;
+}
+
+.previewBtn{
+    width: 100%;
+    max-width: 80px;
+    min-width: 60px;
+}
+
+.appImage{
+    margin-top: 5px;
+    float: right;
+}
+
+.previewName{
+    height: 95px;
+}
+
+.middle .previewName h2{
+    margin: auto;
+    margin-top: 1px;
+}
+
+.bigDialog {
+    max-height: 80%;
+    overflow: scroll;
+}
+
+.resultListCentered
+{
+    text-align: center;
+    width: 100%;
+    font-size: larger;
+}
+
+.audioBar {
+    text-align: center;
+    width: 100%;
+    font-size: large;
+    padding-bottom: 5px;
+}
+.typiconButton {
+    font-size: xx-large;
+}
+/*.mapTypIconButton{
+    font-size: x-large;
+}*/
+/*.olButton
+{
+    height: 4em;
+}*/
+
+/* Accordion */
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active
+{
+    background: url("images/ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 50% rgb(239, 246, 247);
+    color: black;
+    border: solid 1px rgb(231, 245, 247);
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default
+{
+    background: url("images/ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 50% rgb(239, 246, 247);
+    color: black;
+    border: solid 1px rgb(231, 245, 247);
+}
+
+/* End Accordion*/
+
+
+/* Video */
+.video-js .vjs-default-skin{
+    width: 100%;
+}
+
+/* End Video */
+
+/* Enable 3d acceleration when operating on tiles, this is
+   known to yield better performance on IOS Safari.
+   http://osgeo-org.1803224.n2.nabble.com/Harware-accelerated-CSS3-animations-for-iOS-td6255560.html
+
+   It also prevents tile blinking effects in iOS 5.
+   See https://github.com/openlayers/openlayers/issues/511
+*/
+@media (-webkit-transform-3d) {
+    img.olTileImage .mapTypIconButton {
+        -webkit-transform: translate3d(0, 0, 0);
+    }
+}

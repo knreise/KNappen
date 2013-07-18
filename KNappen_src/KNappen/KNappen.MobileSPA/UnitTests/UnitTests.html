@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>KNappen UnitTests</title>
+    <!-- Runtime (PhoneGap and Wikitude) -->
+    <script src="../phonegap.js"></script>
+    <script src="architect://architect.js"></script>
+
+    <!-- Third-party -->
+    <!--<script src="../Scripts/jquery-2.0.0.min.js"></script>-->
+    <script src="../Scripts/jquery-1.9.1.js"></script>
+    <script src="../Scripts/jquery-ui-1.10.2.js"></script>
+    <script src="../Scripts/knockout-2.2.1.js"></script>
+    <script src="../Scripts/moment.js"></script>
+    <script src="../Scripts/OpenLayers.debug.js"></script>
+    <script src="../Scripts/toastr.js"></script>
+    <script src="../Scripts/json2.js"></script>
+    
+    <!-- Base -->
+    <script src="../JS/System/Diagnostics/Log.js"></script>
+    <script src="../JS/System/Startup.js"></script>
+
+    <!-- Models -->
+    <script src="../JS/App/Models/SearchCriteriaEnums.js"></script>
+    <script src="../JS/System/Models/Position.js"></script>
+    <script src="../JS/App/Models/SearchCriteria.js"></script>
+    <script src="../JS/App/Models/SearchResult.js"></script>
+    <script src="../JS/System/Models/PointOfInterestBase.js"></script>
+    <script src="../JS/App/Models/PointOfInterest.js"></script>
+
+    <!-- Config -->
+    <script src="../JS/System/ConfigBase.js"></script>
+    <script src="../JS/App/Config.js"></script>
+    <script src="../JS/App/Settings.js"></script>
+
+    <!-- Base -->
+    <script src="../JS/System/Utils/StringUtils.js"></script>
+    <script src="../JS/System/Utils/Translater.js"></script>
+    <script src="../JS/App/Providers/TranslationProviderNB.js"></script>
+    <script src="../JS/System/Utils/ErrorTool.js"></script>
+
+    <!-- Providers -->
+    <script src="../JS/System/Providers/Serializer.js"></script>
+    <script src="../JS/System/Providers/GoogleAnalyticsProvider.js"></script>
+    <script src="../JS/System/Providers/GpsProvider.js"></script>
+    <script src="../JS/System/Providers/MapProvider.js"></script>
+    <script src="../JS/System/Providers/WikitudeProvider.js"></script>
+    <script src="../JS/System/Providers/ARProvider.js"></script>
+    <script src="../JS/App/Providers/SearchProvider.js"></script>
+    <script src="../JS/App/Providers/MultiViewBindingProvider.js"></script>
+    <script src="../JS/System/Providers/HttpDownloadProvider.js"></script>
+
+    <!-- Modules -->
+    <script src="../JS/App/SearchProviders/DataSourceNorvegiana.js"></script>
+    <script src="../JS/App/SearchProviders/DataSourceDigitalarkivetProperty.js"></script>
+    <script src="../JS/System/GUI/ViewController.js"></script>
+
+    <!-- Controllers -->
+    <script src="../JS/App/Controllers/PoiController.js"></script>
+    <script src="../JS/App/Controllers/SearchController.js"></script>
+    <script src="../JS/App/Controllers/MapController.js"></script>
+    <script src="../JS/App/Controllers/ResultListController.js"></script>
+    <script src="../JS/App/Controllers/UserPopupController.js"></script>
+    <script src="../JS/App/Controllers/ARController.js"></script>
+
+    <!-- GUI -->
+    <script src="../JS/App/GUI/PoiDialog.js"></script>
+
+    <script src="IUnitTest.js"></script>
+    <script src="UnitTester.js"></script>
+
+
+    <script src="DataSourceNorvegianaTest.js"></script>
+    <script src="HttpDownloadProviderTest.js"></script>
+    
+    <script>
+        $(function () {
+            var unitTester = new UnitTests.UnitTest();
+            unitTester.run();
+        });
+    </script>
+
+</head>
+    <body>
+    <pre>
+        <div id="result"></div>
+    </pre>
+</body>
+</html>

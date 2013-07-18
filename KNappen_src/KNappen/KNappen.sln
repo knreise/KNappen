@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KNappen.MobileSPA", "KNappen.MobileSPA\KNappen.MobileSPA.csproj", "{FFD3DD54-3874-442F-B25C-DA755FF9B20C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{56387EBA-53F2-47C2-AC6E-4581E46C3234}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KNappen.KNappenService", "KNappen.KNappenService\KNappen.KNappenService.csproj", "{14BA0DAF-7A50-4D27-8C30-3CF45330BEC6}"
+EndProject
+Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FFD3DD54-3874-442F-B25C-DA755FF9B20C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFD3DD54-3874-442F-B25C-DA755FF9B20C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFD3DD54-3874-442F-B25C-DA755FF9B20C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFD3DD54-3874-442F-B25C-DA755FF9B20C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14BA0DAF-7A50-4D27-8C30-3CF45330BEC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14BA0DAF-7A50-4D27-8C30-3CF45330BEC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14BA0DAF-7A50-4D27-8C30-3CF45330BEC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14BA0DAF-7A50-4D27-8C30-3CF45330BEC6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

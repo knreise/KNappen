@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+        <script src="Scripts/OpenLayers.js?mobile"></script>
+
+</head>
+<body>
+         <div id="mapView" data-role="content" style="height:100%; width: 100%">
+
+        <style>
+            
+            html, body {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+                width: 100%;
+            }
+
+            @media only screen and (max-width: 600px) {
+                html, body {
+                    height: 117%;
+                }
+            }
+
+            #map {
+                width: 100%;
+                position: relative;
+                height: 100%;
+            }
+
+            .olControlAttribution {
+                position: absolute;
+                font-size: 10px;
+                bottom: 0 !important;
+                right: 0 !important;
+                background: rgba(0, 0, 0, 0.1);
+                font-family: Arial;
+                padding: 2px 4px;
+                border-radius: 5px 0 0 0;
+            }
+        </style>
+    Du ER i kart!
+    <div id="mapCacheWriteStatus"></div>
+    <div id="mapCacheReadStatus"></div>
+    <div id="map"></div>
+    
+        <script>
+            // initialize map when page ready
+            var map, cacheWrite, cacheRead;
+
+            // Get rid of address bar on iphone/ipod
+            var fixSize = function () {
+                window.scrollTo(0, 0);
+                document.body.style.height = '100%';
+                if (!(/(iphone|ipod)/.test(navigator.userAgent.toLowerCase()))) {
+                    if (document.body.parentNode) {
+                        document.body.parentNode.style.height = '100%';
+                    }
+                }
+            };
+            setTimeout(fixSize, 700);
+            setTimeout(fixSize, 1500);
+
+            // allow testing of specific renderers via "?renderer=Canvas", etc
+            var renderer = OpenLayers.Util.getParameters(window.location.href).renderer;
+            renderer = (renderer) ? [renderer] : OpenLayers.Layer.Vector.prototype.renderers;
+
+            //OpenLayers.ProxyHost = "proxy.cgi?url=";
+
+            function mapInit() {
+
+                map = new OpenLayers.Map({
+                    div: "map",
+                    theme: null,
+                    controls: [
+                        new OpenLayers.Control.Attribution(),
+                        new OpenLayers.Control.TouchNavigation({
+                            dragPanOptions: {
+                                enableKinetic: true
+                            }
+                        }),
+                        new OpenLayers.Control.Zoom()
+                    ]
+                });
+
+                var wms = new OpenLayers.Layer.WMS("OpenLayers WMS",
+                    "http://opencache.statkart.no/gatekeeper/gk/gk.open?SERVICE=WMS&",
+                    { layers: 'matrikkel_bakgrunn' },
+                    { isBaseLayer: true, transitionEffect: 'resize', eventListeners: { tileloaded: updateHits } } 
+                );
+                // Error: http://opencache.statkart.no/gatekeeper/gk/gk.open?SERVICE=WMS&LAYER=matrikkel_bakgrunn&VERSION=1.1.1&REQUEST=GetMap&STYLES=&FORMAT=image%2Fjpeg&SRS=EPSG%3A4326&BBOX=135,45,180,90&WIDTH=256&HEIGHT=256
+                // Correct: 
+
+                //var kml = new OpenLayers.Layer.Vector("KML", {
+                //    projection: map.displayProjection,
+                //    strategies: [new OpenLayers.Strategy.Fixed()],
+                //    protocol: new OpenLayers.Protocol.HTTP({
+                //        url: "kml/sundials.kml",
+                //        format: new OpenLayers.Format.KML({
+                //            extractStyles: true,
+                //            extractAttributes: true
+                //        })
+                //    }),
+                //    renderers: renderer
+                //});
+
+                //var wfs = new OpenLayers.Layer.Vector("States", {
+                //    strategies: [new OpenLayers.Strategy.Fixed()],
+                //    protocol: new OpenLayers.Protocol.WFS({
+                //        url: "http://demo.opengeo.org/geoserver/wfs",
+                //        featureType: "states",
+                //        featureNS: "http://www.openplans.org/topp"
+                //    }),
+                //    renderers: renderer
+                //});
+
+                //map.addLayers([wms, wfs, kml]);
+                map.addLayers([wms]);
+
+                map.setCenter(new OpenLayers.LonLat(10.8773, 59.9636), 15);
+
+                var statusWrite = document.getElementById("mapCacheWriteStatus");
+                var statusRead = document.getElementById("mapCacheReadStatus");
+                
+                cacheWrite = new OpenLayers.Control.CacheWrite({
+                    autoActivate: true,
+                    imageFormat: "image/jpeg",
+                    eventListeners: {
+                        cachefull: function() { statusWrite.innerHTML = "Cache full."; }
+                    }
+                });
+                map.addControl(cacheWrite);
+                cacheRead = new OpenLayers.Control.CacheRead();
+                map.addControl(cacheRead);
+
+                // update the number of cached tiles and detect local storage support
+                map.layers[0].events.on({ 'tileloaded': updateStatus });
+
+                function updateStatus(event) {
+                    if (window.localStorage) {
+                        statusWrite.innerHTML = localStorage.length + " entries written to cache.";
+                    } else {
+                        statusWrite.innerHTML = "Local storage not supported. Try a different browser.";
+                    }
+                }
+
+                hits = 0;
+
+                // update the number of cached tiles and detect local storage support
+
+                function updateHits(evt) {
+                    hits += evt.tile.url.substr(0, 5) === "data:";
+                    if (window.localStorage) {
+                        statusRead.innerHTML = hits + " cache read hits.";
+                    } else {
+                        statusRead.innerHTML = "Local storage not supported. Try a different browser.";
+                    }
+                };
+            }
+
+            startup.addPostInit(
+                function () {
+                    mapInit();
+                });
+
+        </script>
+    
+</div>
+</body>
+</html>
