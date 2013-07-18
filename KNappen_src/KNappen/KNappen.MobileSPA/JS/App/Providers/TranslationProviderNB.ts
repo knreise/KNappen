@@ -21,8 +21,8 @@ module App.Providers {
             @method App.Providers.TranslationProviderNB#PreInit
             @public
         */
-        public PreInit() {
-            log.debug("TranslationProviderNB", "PreInit()");
+        public Load() {
+            log.debug("TranslationProviderNB", "Load()");
 
             // Add translation for Norsk Bokmål
             translater.addTranslation("TIMEOUT", "Tidsavbrudd");
@@ -45,4 +45,4 @@ module App.Providers {
 }
 
 var translationProviderNB = new App.Providers.TranslationProviderNB();
-startup.addPreInit(function () { translationProviderNB.PreInit(); }, "TranslationProviderNB");
+startup.addLoad(function () { translationProviderNB.Load(); }, "TranslationProviderNB");

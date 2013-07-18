@@ -23,6 +23,7 @@ module System.Utils
         public PreInit()
         {
             log.debug("Translator", "PreInit()");
+            translater.translateAllClasses();
         }
 
         /**
@@ -71,14 +72,24 @@ module System.Utils
         }
 
         public translateSubStringHtmlElement(element: JQuery) {
-            element.html(this.translateSubString(element.html()));
+            var original = element.html();
+            var translated = this.translateSubString(original);
+            // Only update DOM if string was modified
+            if (original === translated) {
+            } else {
+                element.html(translated);
+            }
         }
 
         public translateAllClasses() {
+            log.debug("Translator", "translateAllClasses(): Iterating DOM");
             var _this = this;
+            var count = 0;
             $("body .translate").each(function () {
                 _this.translateSubStringHtmlElement($(this));
+                count++;
             });
+            log.debug("Translator", "translateAllClasses(): Done iterating DOM: " + count + " elements processed");
         }
 
 
@@ -97,4 +108,4 @@ module System.Utils
 
 var translater = new System.Utils.Translater();
 var tr = translater;
-startup.addPostInit(function () { translater.translateAllClasses(); });
+startup.addPreInit(function () { translater.PreInit(); });
