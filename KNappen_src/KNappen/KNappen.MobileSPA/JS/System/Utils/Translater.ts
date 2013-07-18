@@ -1,3 +1,4 @@
+/// <reference path="../Startup.ts" />
 /// <reference path="../Diagnostics/Log.ts" />
 /**
     System utilities
@@ -51,6 +52,37 @@ module System.Utils
         }
 
         /**
+          * Translate substrings
+          * @method System.Startup#translateSubString
+          * @param {string} str String to translate.
+          */
+        public translateSubString(str: string): string {
+            var _this = this;
+            var ret = "";
+            ret = str.replace(/\$T\[([^\]]+)\]/, function (fullMatch, match, offset) {
+                return _this.translate(match);
+            });
+            return ret;
+        }
+
+        public translateSubStringHtmlElementByName(element: string) {
+            var e = $("#" + element);
+            this.translateSubStringHtmlElement(e);
+        }
+
+        public translateSubStringHtmlElement(element: JQuery) {
+            element.html(this.translateSubString(element.html()));
+        }
+
+        public translateAllClasses() {
+            var _this = this;
+            $("body .translate").each(function () {
+                _this.translateSubStringHtmlElement($(this));
+            });
+        }
+
+
+        /**
           * Add string translation
           * @method System.Startup#addTranslation
           * @param {string} str String to translate.
@@ -65,3 +97,4 @@ module System.Utils
 
 var translater = new System.Utils.Translater();
 var tr = translater;
+startup.addPostInit(function () { translater.translateAllClasses(); });

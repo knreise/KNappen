@@ -33,6 +33,13 @@ module App.Providers {
             translater.addTranslation("UNDEFINED", "Ingen");
             translater.addTranslation("PreCache", "Forhåndslagre");
             translater.addTranslation("Done precaching", "Ferdig med forhåndslagring.");
+            translater.addTranslation("DISTANCE", "Avstand");
+            translater.addTranslation("GENRE", "Sjanger");
+            translater.addTranslation("SUBJECTS", "Emner");
+            translater.addTranslation("MEDIATYPES", "Mediatyper");
+            translater.addTranslation("SEARCH", "S&oslash;k");
+            translater.addTranslation("Number of hits from each datasource", "Antall treff fra hver datakilde");
+            translater.addTranslation("Text", "Fritekst");
         }
     }
 }

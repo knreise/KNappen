@@ -43,7 +43,7 @@
 
 
     <!-- Stylesheets -->
-   <!-- <link href="theme/default/style.css" rel="stylesheet" />
+    <!-- <link href="theme/default/style.css" rel="stylesheet" />
     <link href="theme/default/style.mobile.css" rel="stylesheet" />-->
     <link href="Content/themes/base/jquery-ui.css" rel="stylesheet" />
     <link href="Content/toastr.css" rel="stylesheet" />
@@ -145,7 +145,7 @@
             IsMobileBrowser = true;
         }
 
-    //// If it is not mobile, load ade.js for Wikitude simulation
+        //// If it is not mobile, load ade.js for Wikitude simulation
         //if (!IsMobileBrowser) {
         //    var js = document.createElement("script");
 
@@ -161,7 +161,7 @@
         // If mobile we turn off all jQuery animation effects
         //if (IsMobileBrowser) {
         $.fx.off = true;
-    //$.mobile.defaultDialogTransition = 'none';
+        //$.mobile.defaultDialogTransition = 'none';
         //$.mobile.defaultPageTransition = 'none';
         //}
         //$.mobile.page.prototype.options.addBackBtn = true;
@@ -223,6 +223,7 @@
             if (!viewController.processUrl())
                 viewController.selectView(settings.startView());
         }, "Main:SelectView");
+
 
 
         startup.addPostInit(function () {
@@ -427,7 +428,7 @@
         </script>
 
         <div id="settingsView" class="contentPage">
-            
+
             <h2>Oppstartsinnstillinger</h2>
             <div>
                 <h3>Oppstartsvisning</h3>
@@ -476,31 +477,36 @@
             <div id="adminPasswordDiv" class="hidden">
                 <h3>Adminpassord</h3>
                 <input type="text" id="inputSettingsAdminPassword" data-bind="value: settings().adminPassword, valueUpdate: 'afterkeydown'" />
-                <br /><br />
+                <br />
+                <br />
             </div>
             <input type="button" value="Lagre" onmousedown="settings.save(); log.userPopup(tr.translate('SETTINGS'), tr.translate('SETTINGS_SAVED')); return false;" />
         </div>
 
         <div id="searchView" class="contentPage">
             <div class="padding">
-                <input type="text" value="Fritekst" data-bind="value: searchCriteria().query" />
+                <div class="translate">
+                    <input type="text" value="$T[Text]" data-bind="value: searchCriteria().query" />
+                </div>
                 <br />
-                <h3>Antall treff fra hver datakilde</h3>
+                <h3 class="translate">$T[Number of hits from each datasource]</h3>
                 <select id="ddlSearchAmount" class="refreshSelectAfterDataBind" data-bind="value: searchCriteria().rows, jqmOptions: settings().resultAmounts, optionsText: 'name', optionsValue: 'id'"></select>
                 <br />
-                <h3>Avstand</h3>
+                <h3 class="translate">$T[Distance]</h3>
                 <select id="ddlSearchDist" class="refreshSelectAfterDataBind" data-bind="value: searchCriteria().radius, jqmOptions: settings().searchDistances, optionsText: 'name', optionsValue: 'id'"></select>
                 <br />
-                <h3>Sjanger</h3>
+                <h3 class="translate">$T[Genre]</h3>
                 <select id="ddlSearchGenre" class="refreshSelectAfterDataBind" data-bind="value: searchCriteria().genre"></select>
                 <br />
-                <h3>Emner</h3>
+                <h3 class="translate">$T[Subjects]</h3>
                 <select id="ddlSearchCategory" class="refreshSelectAfterDataBind" data-bind="value: searchCriteria().category"></select>
                 <br />
-                <h3>Mediatyper</h3>
+                <h3 class="translate">$T[MediaTypes]</h3>
                 <select id="ddlSearchMediaType" class="refreshSelectAfterDataBind" data-bind="value: searchCriteria().mediaType"></select>
                 <br />
-                <input type="button" value="Søk" onmousedown="searchController.doSearch(); viewController.selectView(settings.startView()); return false;" />
+                <div class="translate">
+                    <input type="button" value="$T[SEARCH]" onmousedown="searchController.doSearch(); viewController.selectView(settings.startView()); return false;" />
+                </div>
             </div>
         </div>
 
@@ -508,8 +514,9 @@
             <select id="feedbackCategory" name="Kategori">
                 <option value="forslag" selected="selected">Funksjonelle feil</option>
                 <option value="ris">Kommentar til innhold</option>
-            </select><br/>
-            Din e-post (valgfritt): <input type="text" id="feedbackFromAddress" size="30" />
+            </select><br />
+            Din e-post (valgfritt):
+            <input type="text" id="feedbackFromAddress" size="30" />
             <br />
             <textarea id="feedbackText" rows="5" cols="40"></textarea>
             <br />
@@ -520,21 +527,29 @@
             <h2>Velkommen som betatester av Kultur- og naturreise appen!</h2>
             <p>-	Synliggjør det usynlige</p>
             <p>
-            KNappen skal være en mobil formidlingsapenn som tar utgangspunkt i sted. 
+                KNappen skal være en mobil formidlingsapenn som tar utgangspunkt i sted. 
                 Den formidler store offentlige databaser sammen med Wikipedia.
-            </p><br/><p>
-            Poenget med en beta-versjon av KNappen er at vi skal få tilbakemeldinger fra deg på funksjoner som ikke virker og ting som du synes virker klønete. 
+            </p>
+            <br />
+            <p>
+                Poenget med en beta-versjon av KNappen er at vi skal få tilbakemeldinger fra deg på funksjoner som ikke virker og ting som du synes virker klønete. 
                 Appen er ikke ferdig og du kommer til å komme bort i ting som er feil. 
                 Når du opplever dette håper vi at du tar deg bryet om å sende oss en tilbakemelding slik at vi kan bli bedre.
-            </p><br/><p> 
-            Det er altså stedet der du er, eller det stedet du er interessert i som er utgangspunkt for hvilken informasjon du får opp. 
+            </p>
+            <br />
+            <p>
+                Det er altså stedet der du er, eller det stedet du er interessert i som er utgangspunkt for hvilken informasjon du får opp. 
                 Hovedinngangen til KNappen er kart, men du kan søke etter informasjon og dra deg rundt på kartet for å finne annet. 
                 Kanskje du foretrekker listevisning? Du kan personalisere KNappen under innstillinger. Hva med å lage en egen rute?
-            </p><br/><p>
-            Det kommer til å komme flere funksjoner, for eksempel kameravisning eller AR i tillegg til flere bakgrunnskart. 
+            </p>
+            <br />
+            <p>
+                Det kommer til å komme flere funksjoner, for eksempel kameravisning eller AR i tillegg til flere bakgrunnskart. 
                 Hvis du har noen lure tanker så ikke nøl med å dele de med oss.
-            </p><br/><p>
-            Vi vil takke deg for at du vil være med å teste beta-versjon av KNappen. 
+            </p>
+            <br />
+            <p>
+                Vi vil takke deg for at du vil være med å teste beta-versjon av KNappen. 
                 Håper at du kan finne ut noe nytt om stedet der du er.
             </p>
         </div>
@@ -579,7 +594,7 @@
                     <h3 class="ui-accordion-header">Beskrivelse</h3>
                     <div id="poiDescription" class="ui-accordion-content"></div>
                     <h3 class="ui-accordion-header">Mer informasjon</h3>
-                    <div id="poiAboutData" class="ui-accordion-content"></div> 
+                    <div id="poiAboutData" class="ui-accordion-content"></div>
                 </div>
                 </>
             </div>
