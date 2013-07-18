@@ -31,10 +31,21 @@ module System.Utils
           * @method System.Startup#translate
           * @param {string} str String to translate.
           */
-        public translate(str: string): string
+        public translate(str: string, params: any[] = null): string
         {
             var ucStr: string = str.toUpperCase();
             var translated: string = this.strings[ucStr];
+
+            if (params) {
+                // Replace {0} {1} etc
+                translated = translated.replace(/{([^{}]*)}/g,
+                    function (a, b) {
+                        var r = params[b];
+                        return typeof r === 'string' ? r : a;
+                    }
+                );
+            }
+
             if (translated) {
                 log.verboseDebug("Translater", "Returning translation for key " + ucStr + ": " + translated + "");
                 return translated;

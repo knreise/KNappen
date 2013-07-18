@@ -65,7 +65,7 @@ module App.Controllers {
                 var uniqueIdDelete = "deleteItem" + uniqueCounter.toString();
                 var deleteBtn = "";
                 if (routeEditing) {
-                    deleteBtn = '<input type="button" id="' + uniqueIdDelete + '" value="slett"/>';
+                    deleteBtn = '<input type="button" id="' + uniqueIdDelete + '" value="' + tr.translate("Delete") + '"/>';
                 }
 
                 var name = stringUtils.highlightWord(v.name(), searchController.searchCriteria.query(), "yellow");
@@ -119,7 +119,7 @@ module App.Controllers {
 
             if (numFound > 0) {
                 var listCount = $("#listCount");
-                listCount.html(numFound + " treff funnet");
+                listCount.html(tr.translate("{0} hits found", [numFound]));
                 var pageCount = parseInt(<any>(Math.ceil((numFound / (searchController.searchCriteria.rows() * config.numSearchProviders)) * 100) / 100));
 
 

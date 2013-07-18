@@ -83,7 +83,7 @@ module App.Providers {
 
             if (this.numSearchProviders == 0) {
                 log.error("SearchProvider", "The given combination of search criterias results in 0 datasources to search.");
-                userPopupController.sendError("Ingen datakilder", "Søkekriteriene angitt gir 0 datakilder. Prøv å endre søkekriterier.");
+                userPopupController.sendError(tr.translate("No datasources"), tr.translate("Search criteria results in 0 datasources. Try modifying your search."));
                 return;
             }
 
@@ -188,7 +188,7 @@ module App.Providers {
             if (this.searchHalted)
                 return;
             if (errorMessage != "Not Found")
-                log.userPopup("Feil ved søk", "Feil ved søk i " + source + ": " + errorMessage);
+                log.userPopup(tr.translate("Error searching"), tr.translate("Error searching") + " (" + source + "): " + errorMessage);
 
             if (this.numSearchSuccess + this.numSearchError >= this.numSearchProviders) {
                 this.returnSuccess();
@@ -203,7 +203,7 @@ module App.Providers {
                 //if (this.numSearchSuccess + this.numSearchError < this.numSearchProviders) {
                 var totalnum = 0 + this.numSearchError + this.numSearchSuccess;
                 log.error("Timeout", "Timeout while searching all datasources: " + totalnum + " of " + this.numSearchProviders + " sources responded so far. Halting search.");
-                log.userPopup("Tidsavbrudd", "Tidsavbrudd ved søk: " + totalnum + " av " + this.numSearchProviders + " kilder har returnert svar");
+                log.userPopup(tr.translate("TIMEOUT"), tr.translate("TIMEOUT_SEARCH_TOTAL", [totalnum, this.numSearchProviders]));
                 //}
 
                 this.returnSuccess();

@@ -67,7 +67,7 @@ module App.Controllers {
             var rv = this.renderView;
             var _this = this;
 
-            $("body").append('<div id="mapSearchDialog" title="Søk i stedsnavn" class="bigDialog"></div>');
+            $("body").append('<div id="mapSearchDialog" title="' + tr.translate("Search for place") + '" class="bigDialog"></div>');
 
             searchController.addSearchResultCallback(
                 function (event: JQueryEventObject, searchResult: App.Models.SearchResult) {
@@ -82,7 +82,7 @@ module App.Controllers {
             //});
 
             var zb = new OpenLayers.Control.Button({
-                title: "Min posisjon",
+                title: tr.translate("My position"),
                 text: "<span class='typcn typcn-radar mapTypIconButton'></span>",
                 trigger: function () {
                     var pos = gpsProvider.lastPos;
@@ -109,15 +109,15 @@ module App.Controllers {
             this.panel.addControls([
                 zb,
                 new OpenLayers.Control.ZoomIn({
-                    title: "Zoom inn",
+                    title: tr.translate("Zoom in"),
                     text: "<span class='typcn typcn-plus mapTypIconButton'></span>",
                 }),
                 new OpenLayers.Control.ZoomOut({
-                    title: "Zoom ut",
+                    title: tr.translate("Zoom out"),
                     text: "<span class='typcn typcn-minus mapTypIconButton'></span>",
                 }),
                 new OpenLayers.Control.Button({
-                    title: "Søk",
+                    title: tr.translate("Search"),
                     text: "<span class='typcn typcn-sort-alphabetically mapTypIconButton'></span>",
                     trigger: function () {
                         var pos = gpsProvider.lastPos;
@@ -127,7 +127,7 @@ module App.Controllers {
                     }
                 }),
                     new OpenLayers.Control.Button({
-                        title: "Bytt kartlag",
+                        title: tr.translate("Change map layer"),
                         text: "<span class='typcn typcn-image mapTypIconButton'></span>",
                         trigger: function () {
                             _this.nextMapLayer();
@@ -188,41 +188,20 @@ module App.Controllers {
            @public
        */
         public openPlaceSearch() {
+            var _this = this;
             var mapSearchDialogD: any = $("#mapSearchDialog");
             var mapSearchDialog = $("#mapSearchDialog");
 
-            var html: string = "<input id='mapSearchInputBox' type='text' /><input id='mapSearchCommit' type='button' value='Søk' /><br/><div id='mapSearchResult'></div>";
+            var html: string = "<input id='mapSearchInputBox' type='text' /><input id='mapSearchCommit' type='button' value='" + tr.translate("Search") + "' /><br/><div id='mapSearchResult'></div>";
             mapSearchDialog.html(html);
             var mapSearchCommit = $("#mapSearchCommit");
+            var mapSearchInputBox = $("#mapSearchInputBox");
 
-            mapSearchCommit.mousedown(function (eventObject: JQueryMouseEventObject) {
-                var mapSearchInputBox = $("#mapSearchInputBox");
-                var mapSearchResult = $("#mapSearchResult");
-                mapSearchResult.html('');
-                var searchStr: string = mapSearchInputBox.val();
-
-                var ssrSearch = new App.SearchProviders.SSRSearch();
-                mapSearchResult.html('');
-                ssrSearch.search(searchStr,
-                    function (searchResult: App.SearchProviders.SSRSearchResult) {
-                        $.each(searchResult.items, function (k, v: App.SearchProviders.SSRSearchItem) {
-                            var newDiv = $("<div>").append("<h2>" + v.stedsnavn() + "</h2>[" + v.navnetype() + "] " + v.fylkesnavn() + " / " + v.kommunenavn())
-                                .mousedown(function () {
-                                    mapController.mapProvider.setCenter(v.pos, settings.startMapZoomLevel());
-
-                                    searchController.searchCriteria.pos(v.pos);
-                                    searchController.doSearch();
-
-                                    mapSearchDialogD.dialog("close");
-                                });
-                            mapSearchResult.append(newDiv);
-                        });
-                    },
-                    function (errorMessage: string) {
-                        log.error("MapController", "Error searching SSR: " + errorMessage);
-                        log.userPopup("SSR feil", "Feil ved søk i stedsnavnregisteret.");
-                    });
-
+            mapSearchCommit.mousedown(this.searchClick);
+            mapSearchInputBox.keypress(function (e) {
+                if (e.which == 13) {
+                    _this.searchClick(null)
+                }
             });
 
             mapSearchDialogD.dialog({
@@ -233,6 +212,37 @@ module App.Controllers {
                 height: $(window).height() - 50,
                 modal: true
             });
+        }
+
+        private searchClick (eventObject: JQueryMouseEventObject) {
+            var mapSearchDialogD: any = $("#mapSearchDialog");
+            var mapSearchResult = $("#mapSearchResult");
+            var mapSearchInputBox = $("#mapSearchInputBox");
+            mapSearchResult.html('');
+            var searchStr: string = mapSearchInputBox.val();
+
+            var ssrSearch = new App.SearchProviders.SSRSearch();
+            mapSearchResult.html('');
+            ssrSearch.search(searchStr,
+                function (searchResult: App.SearchProviders.SSRSearchResult) {
+                    $.each(searchResult.items, function (k, v: App.SearchProviders.SSRSearchItem) {
+                        var newDiv = $("<div>").append("<h2>" + v.stedsnavn() + "</h2>[" + v.navnetype() + "] " + v.fylkesnavn() + " / " + v.kommunenavn())
+                            .mousedown(function () {
+                                mapController.mapProvider.setCenter(v.pos, settings.startMapZoomLevel());
+
+                                searchController.searchCriteria.pos(v.pos);
+                                searchController.doSearch();
+
+                                mapSearchDialogD.dialog("close");
+                            });
+                        mapSearchResult.append(newDiv);
+                    });
+                },
+                function (errorMessage: string) {
+                    log.error("MapController", "Error searching SSR: " + errorMessage);
+                    log.userPopup("SSR feil", "Feil ved søk i stedsnavnregisteret.");
+                });
+
         }
 
         /**

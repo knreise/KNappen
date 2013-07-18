@@ -46,7 +46,7 @@ module App.SearchProviders {
                     poi.pos(new System.Models.Position(o.lat, o.lng));
                     poi.link(o.mobileurl || "");
                     poi.tags(o.type || "");
-                    poi.ingress("<a href='" + o.mobileurl + "'>Artikkel på Wikipedia</a>");
+                    poi.ingress("<a href='" + o.mobileurl + "'>" + tr.translate("Wikipedia article") + "</a>");
                     poi.body("");
                     poi.license("");
                     poi.institution("");

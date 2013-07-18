@@ -102,25 +102,25 @@ module App.Controllers {
 
             var tags = "";
             if (poi.tags())
-                tags = "<b>Emneord:</b> " + poi.tags().toString() + "</br>";
+                tags = "<b>$T[Subjects]:</b> " + poi.tags().toString() + "</br>";
             var date = "";
             if (poi.year())
-                date = "<b>Datering:</b> " + poi.year() + " </br>";
+                date = "<b>$T[Dating]:</b> " + poi.year() + " </br>";
             var eierinstitusjon = "";
             if (poi.owner())
-                eierinstitusjon = "<b>Kilde:</b> " + poi.owner() + " <br / > "
+                eierinstitusjon = "<b>$T[Source]:</b> " + poi.owner() + " <br / > "
             var institusjon = "";
             if (poi.institution())
                 institusjon = "<b>Institusjon:</b> " + poi.institution() + "</br>";
             var originalVersjon = "";
             if (poi.originalVersion())
-                originalVersjon = "<b>Original versjon:</b> " + poi.originalVersion() + "</br>";
+                originalVersjon = "<b>$T[Original version]:</b> " + poi.originalVersion() + "</br>";
             var opphavsPerson = "";
             if (poi.creator())
-                opphavsPerson = "<b>Opphavsperson:</b> " + poi.creator() + " </br > ";
+                opphavsPerson = "<b>$T[Creator]:</b> " + poi.creator() + " </br > ";
             var lisens = "";
             if (poi.license() && poi.license().toString() != "")
-                lisens = "<b>Lisens:</b> " + poi.license().toString() + "</br>";
+                lisens = "<b>$T[License]:</b> " + poi.license().toString() + "</br>";
             var eksterneLenker = "";
             if (poi.linkMoreInfo())
                 eksterneLenker += "<a href='" + poi.linkMoreInfo() + "'> " + poi.linkMoreInfo() + " </a><br />";
@@ -129,9 +129,9 @@ module App.Controllers {
             if (poi.link())
                 eksterneLenker += "<a href='" + poi.link() + "'>" + poi.link() + "</a>";
             if (eksterneLenker)
-                eksterneLenker = "<b>Eksterne lenker:</b> " + eksterneLenker;
+                eksterneLenker = "<b>$T[External links]:</b> " + eksterneLenker;
 
-            poiDetail.find("#poiAboutData").html(
+            poiDetail.find("#poiAboutData").html(tr.translateSubString(
                     tags
                     + date
                     + eierinstitusjon
@@ -140,6 +140,7 @@ module App.Controllers {
                     + opphavsPerson
                     + lisens
                     + eksterneLenker
+            )
                 );
 
             //_this.showImage(poi.thumbnail());

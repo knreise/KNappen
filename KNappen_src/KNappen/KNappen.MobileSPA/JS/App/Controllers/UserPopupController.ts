@@ -64,6 +64,8 @@ module App.Controllers
             @public
         */
         public send(messageType: App.Controllers.UserPopupMessageType, header: string, msg: string) {
+            header = tr.translateSubString(header);
+            msg = tr.translateSubString(msg);
             log.debug("UserPopupController", "Send message: [" + this.toastrLookUpName[messageType.toString()] + "] Header: '" + header + "', Message: '" + msg + "'");
 
             var f: any = this.toastrLookUp[messageType.toString()];

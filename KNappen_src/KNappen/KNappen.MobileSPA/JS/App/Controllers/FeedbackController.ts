@@ -72,11 +72,11 @@ module App.Controllers
                 dataType: "json",
                 processdata: true,
                 success: function (msg) {
-                    userPopupController.sendSuccess("Tilbakemelding", "Tilbakemelding sendt.");
+                    userPopupController.sendSuccess("$T[Feedback]", "$T[Feedback sent]");
                     fieldText.text('');
                 },
                 error: function (msg) {
-                    userPopupController.sendError("Tilbakemelding", "Feil ved sending av tilbakemelding.");
+                    userPopupController.sendError("$T[Feedback]", "$T[Error sending feedback]");
                 }
 
             });

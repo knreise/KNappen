@@ -34,7 +34,7 @@ module App.Controllers {
                 },
                 function onWhileLoading(bytesLoaded: number, bytesTotal: number) {
                     if (bytesTotal && bytesLoaded)
-                        audioStatusDiv.html("Laster: " + parseInt(<any>((bytesTotal / bytesLoaded) * 100)) + "%");
+                        audioStatusDiv.html(tr.translate("Loading") + ": " + parseInt(<any>((bytesTotal / bytesLoaded) * 100)) + "%");
                     else
                         audioStatusDiv.html('');
                 },
@@ -48,7 +48,7 @@ module App.Controllers {
                 },
                 function onBufferingChanged(isBuffering: bool) {
                     if (isBuffering) {
-                        audioStatusDiv.html('Mellomlagrer...');
+                        audioStatusDiv.html(tr.translate("Buffering..."));
                     } else {
                         audioStatusDiv.html('');
                     }

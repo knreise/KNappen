@@ -26,6 +26,7 @@ module App.Providers {
 
             // Add translation for Norsk Bokmål
             translater.addTranslation("TIMEOUT", "Tidsavbrudd");
+            translater.addTranslation("TIMEOUT_SEARCH_TOTAL", "Tidsavbrudd ved søk i: {0} av {1} kilder har returnert svar.");
             translater.addTranslation("TIMEOUT_NORVEGIANA_SEARCH", "Tidsavbrudd ved søk i Norvegiana.");
             translater.addTranslation("TIMEOUT_NORVEGIANA_RETRY", "Forsøker nytt søk...");
             translater.addTranslation("SETTINGS", "Innstillinger");
@@ -66,9 +67,37 @@ module App.Providers {
             translater.addTranslation("About", "Om appen");
             translater.addTranslation("Debug log", "Debug log");
             translater.addTranslation("Map", "Kart");
-            translater.addTranslation("Map", "Kart");
-            translater.addTranslation("Map", "Kart");
-            translater.addTranslation("Map", "Kart");
+            translater.addTranslation("Wikipedia article", "Artikkel på Wikipedia");
+            translater.addTranslation("No datasources", "Ingen datakilder");
+            translater.addTranslation("Search criteria results in 0 datasources. Try modifying your search.", "S&oslash;kekriteriene angitt gir 0 datakilder. Pr&oslash;v &aring; endre s&oslash;kekriterier.");
+            translater.addTranslation("Error searching", "Feil ved søk");
+            translater.addTranslation("Route created", "Rute opprettet");
+            translater.addTranslation("The route '{0}' was created.", "Ruten '{0}' ble opprettet.");
+            translater.addTranslation("Follow route", "F&oslash;lg rute");
+            translater.addTranslation("Edit", "Rediger");
+            translater.addTranslation("Published", "Publisert");
+            translater.addTranslation("The route has been published.", "Ruten har blitt publisert.");
+            translater.addTranslation("Not published", "Ikke publisert");
+            translater.addTranslation("The route has not been published.", "Ruten ble ikke publisert.");
+            translater.addTranslation("Delete", "Slett");
+            translater.addTranslation("{0} hits found", "{0} treff funnet");
+            translater.addTranslation("Subjects", "Emneord");
+            translater.addTranslation("Dating", "Datering");
+            translater.addTranslation("Source", "Kilde");
+            translater.addTranslation("Original version", "Original versjon");
+            translater.addTranslation("Creator", "Opphavsperson");
+            translater.addTranslation("License", "Lisens");
+            translater.addTranslation("External links", "Eksterne lenker");
+            translater.addTranslation("Search for place", "S&oslash;k i stedsnavn");
+            translater.addTranslation("My position", "Min posisjon");
+            translater.addTranslation("Zoom in", "Zoom inn");
+            translater.addTranslation("Zoom out", "Zoom ut");
+            translater.addTranslation("Change map layer", "Bytt kartlag");
+            translater.addTranslation("Feedback sent", "Tilbakemelding sendt.");
+            translater.addTranslation("Error sending feedback", "Feil ved sending av tilbakemelding.");
+            translater.addTranslation("Loading", "Laster");
+            translater.addTranslation("Buffering...", "Mellomlagrer...");
+
         }
     }
 }

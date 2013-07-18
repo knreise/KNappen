@@ -103,7 +103,7 @@ module App.Controllers {
 
             this.routeProvider.userRoutes.addRoute(routeItem);
             this.routeProvider.userRoutes.saveRoutes();
-            userPopupController.sendSuccess("Rute opprettet", "Ruten '" + name + "' ble opprettet.");
+            userPopupController.sendSuccess(tr.translate("Route created"), tr.translate("The route '{0}' was created.", [name]));
 
             if (poi) {
                 this.openRouteList(poi);
@@ -154,8 +154,8 @@ module App.Controllers {
                 var routeIdUnpublish = "routeUnpublish_" + v.id();
 
                 $editorialRoutes.append('<li class="routeListItem" id="routeListItem_' + v.id() + '"><h2>' + v.name() + '</h2>'
-                    + '<input type="button" value="F&oslash;lg rute" id="' + routeIdSelect + '"/>'
-                    + '<input type="button" value="Rediger" id="' + routeIdEdit + '"/>'
+                    + '<input type="button" value="' + tr.translate("Follow route") + '" id="' + routeIdSelect + '"/>'
+                    + '<input type="button" value="' + tr.translate("Edit") + '" id="' + routeIdEdit + '"/>'
                     //+ '<input type="button" value="Avpubliser" id="' + routeIdUnpublish + '"/>'
                     + '</li>');
 
@@ -186,8 +186,8 @@ module App.Controllers {
                     publishButton = '<input type="button" value="Publiser" id="' + routeIdPublishBtn + '"/>';
 
                 $userRoutes.append('<li class="routeListItem" id="routeListItem_' + v.id() + '">' + v.name()
-                    + '<br/><input type="button" value="F&oslash;lg rute" id="' + routeIdSelect + '"/>'
-                    + '<input type="button" value="Rediger" id="' + routeIdEdit + '"/>'
+                    + '<br/><input type="button" value="' + tr.translate("Follow route") + '" id="' + routeIdSelect + '"/>'
+                    + '<input type="button" value="' + tr.translate("Edit") + '" id="' + routeIdEdit + '"/>'
                     //+ '<input type="button" value="Publiser" id="' + routeIdPublish + '"/>'
                     //+ '<div id="' + routeIdPublishPwdBox + '" class="hidden"></br><input type="text" id="' + routeIdPwd + '"/>'
                     + publishButton
@@ -321,10 +321,10 @@ module App.Controllers {
                 dataType: "json",
                 processdata: true,
                 success: function (msg) {
-                    userPopupController.sendSuccess("Publisert", "Ruten har blitt publisert.");
+                    userPopupController.sendSuccess(tr.translate("Published"), tr.translate("The route has been published."));
                 },
                 error: function (msg) {
-                    userPopupController.sendError("Ikke publisert", "Ruten ble ikke publisert.");
+                    userPopupController.sendError(tr.translate("Not published"), tr.translate("The route has not been published."));
                 }
 
             });
