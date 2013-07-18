@@ -40,6 +40,35 @@ module App.Providers {
             translater.addTranslation("SEARCH", "S&oslash;k");
             translater.addTranslation("Number of hits from each datasource", "Antall treff fra hver datakilde");
             translater.addTranslation("Text", "Fritekst");
+            translater.addTranslation("Recommended", "Anbefalte");
+            translater.addTranslation("User defined", "Egendefinerte");
+            translater.addTranslation("Startup settings", "Oppstartsinnstillinger");
+            translater.addTranslation("Adminpassword", "Adminpassord");
+            translater.addTranslation("Start view", "Oppstartsvisning");
+            translater.addTranslation("Default number of results", "Standard antall resultater fra hver datakilde");
+            translater.addTranslation("Default search distance", "Standard avstand i s&oslash;k");
+            translater.addTranslation("Default map type", "Standard karttype");
+            translater.addTranslation("Default zoom level", "Standard zoomnivå i kart");
+            translater.addTranslation("Functional error", "Funksjonelle feil");
+            translater.addTranslation("Comment on content", "Kommentar til innhold");
+            translater.addTranslation("Your email address", "Din e-post (valgfritt)");
+            translater.addTranslation("Send feedback", "Send tilbakemelding");
+            translater.addTranslation("Create", "Opprett");
+            translater.addTranslation("Description", "Beskrivelse");
+            translater.addTranslation("More information", "Mer informasjon");
+            translater.addTranslation("Map", "Kart");
+            translater.addTranslation("Camera", "Kameravisning");
+            translater.addTranslation("List", "Liste");
+            translater.addTranslation("Routes", "Ruter");
+            translater.addTranslation("Search", "S&oslash;k");
+            translater.addTranslation("Settings", "Innstillinger");
+            translater.addTranslation("Feedback", "Tilbakemelding");
+            translater.addTranslation("About", "Om appen");
+            translater.addTranslation("Debug log", "Debug log");
+            translater.addTranslation("Map", "Kart");
+            translater.addTranslation("Map", "Kart");
+            translater.addTranslation("Map", "Kart");
+            translater.addTranslation("Map", "Kart");
         }
     }
 }

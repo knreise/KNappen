@@ -197,12 +197,8 @@
         config.appFullName = "Kultur- og Naturreise";
         config.debug = true;
 
-        //startup.addPostInit(function () { log.userPopup("CONFIG:appName", "CONFIG:appFullName"); });
-        //startup.addPreInit(function () { log.userPopup("Startup", "PreInit..."); });
-        //startup.addInit(function () { log.userPopup("Startup", "Init..."); });
-        //startup.addPostInit(function () { log.userPopup("Startup", "PostInit..."); });
 
-
+        // Add all known views to ViewController.
         startup.addPreInit(function () {
             viewController.AddView("listView");
             viewController.AddView("mapView");
@@ -365,8 +361,8 @@
 
             <div id="routeTabs">
                 <ul>
-                    <li><a href="#routeListEditorial">Anbefalte</a></li>
-                    <li><a href="#routeListUser">Egendefinerte</a></li>
+                    <li><a href="#routeListEditorial" class="translate">$T[Recommended]</a></li>
+                    <li><a href="#routeListUser" class="translate">$T[User defined]</a></li>
                 </ul>
                 <div id="routeListEditorial">
                     <ul id="editorialRoutes" class="routes">
@@ -384,7 +380,6 @@
             <div id="mapCacheReadStatus"></div>
         </div>
         <div id="arView" style="height: 0; background: transparent" class="contentPage">
-            Kameravisning
         </div>
         <script>
             // Attempt at getting jQuery mobile to show default selected at init... http://stackoverflow.com/questions/9373982/knockout-and-jquery-mobile-binding-data-to-select-lists
@@ -429,19 +424,19 @@
 
         <div id="settingsView" class="contentPage">
 
-            <h2>Oppstartsinnstillinger</h2>
+            <h2 class="translate">$T[Startup settings]</h2>
             <div>
-                <h3>Oppstartsvisning</h3>
+                <h3 class="translate">$T[Start view]</h3>
                 <select id="ddlSettingsStartView" class="refreshSelectAfterDataBind" data-bind="value: settings().startView, jqmOptions: settings().views, optionsText: 'name', optionsValue: 'id'"></select>
             </div>
             <br />
             <div>
-                <h3>Standard antall resultater fra hver datakilde</h3>
+                <h3 class="translate">$T[Default number of results]</h3>
                 <select id="ddlSettingsStartResultAmount" class="refreshSelectAfterDataBind" data-bind="value: settings().startResultAmount, jqmOptions: settings().resultAmounts, optionsText: 'name', optionsValue: 'id'"></select>
             </div>
             <br />
             <div>
-                <h3>Standard avstand i søk</h3>
+                <h3 class="translate">$T[Default search distance]</h3>
                 <select id="ddlSettingsStartSearchDistance" class="refreshSelectAfterDataBind" data-bind="value: settings().startSearchDistance, jqmOptions: settings().searchDistances, optionsText: 'name', optionsValue: 'id'"></select>
             </div>
             <br />
@@ -455,12 +450,12 @@
                 <br />
              -->
             <div>
-                <h3>Standard zoomnivå i kart</h3>
+                <h3 class="translate">$T[Default zoom level]</h3>
                 <select id="ddlSettingsStartMapZoomLevel" class="refreshSelectAfterDataBind" data-bind="value: settings().startMapZoomLevel, jqmOptions: settings().mapZoomLevels, optionsText: 'name', optionsValue: 'id'"></select>
             </div>
             <br />
             <div>
-                <h3>Standard karttype</h3>
+                <h3 class="translate">$T[Default map type]</h3>
                 <select id="ddlSettingsStartMapType" class="refreshSelectAfterDataBind" data-bind="value: settings().startMapType, jqmOptions: settings().mapTypes, optionsText: 'name', optionsValue: 'id'"></select>
             </div>
             <br />
@@ -475,7 +470,7 @@
                 });
             </script>
             <div id="adminPasswordDiv" class="hidden">
-                <h3>Adminpassord</h3>
+                <h3 class="translate">$T[Adminpassword]</h3>
                 <input type="text" id="inputSettingsAdminPassword" data-bind="value: settings().adminPassword, valueUpdate: 'afterkeydown'" />
                 <br />
                 <br />
@@ -512,15 +507,17 @@
 
         <div id="feedbackView" class="contentPage">
             <select id="feedbackCategory" name="Kategori">
-                <option value="forslag" selected="selected">Funksjonelle feil</option>
-                <option value="ris">Kommentar til innhold</option>
+                <option value="forslag" selected="selected" class="translate">$T[Functional error]</option>
+                <option value="ris" class="translate">$T[Comment on content]</option>
             </select><br />
-            Din e-post (valgfritt):
+            <span class="translate">$T[Your email address]:</span>
             <input type="text" id="feedbackFromAddress" size="30" />
             <br />
             <textarea id="feedbackText" rows="5" cols="40"></textarea>
             <br />
-            <input type="button" value="Send tilbakemelding" onmousedown="feedbackController.send(); return false;" />
+            <div class="translate">
+                <input type="button" value="$T[Send feedback]" onmousedown="feedbackController.send(); return false;" />
+            </div>
         </div>
 
         <div id="aboutView" class="contentPage">
@@ -569,9 +566,9 @@
                 <div id="poiDetailContent">
                     <div id="poiName"></div>
                     <input type="button" id="addPoiToRoute" value="Legg til i rute" />
-                    <div id="addPoiToRouteForm" class="hidden padding">
+                    <div id="addPoiToRouteForm" class="hidden padding translate">
                         <input type="text" id="newRouteName" />
-                        <input type="button" value="Opprett" id="createNewRouteBtn" />
+                        <input type="button" value="$T[Create]" id="createNewRouteBtn" />
                         <ul id="listExistingRoutes"></ul>
                     </div>
                 </div>
@@ -591,9 +588,9 @@
                 <div id="poiIngress" class="padding"></div>
 
                 <div id="detailAccordion" class="padding ui-accordion">
-                    <h3 class="ui-accordion-header">Beskrivelse</h3>
+                    <h3 class="ui-accordion-header translate">$T[Description]</h3>
                     <div id="poiDescription" class="ui-accordion-content"></div>
-                    <h3 class="ui-accordion-header">Mer informasjon</h3>
+                    <h3 class="ui-accordion-header translate">$T[More information]</h3>
                     <div id="poiAboutData" class="ui-accordion-content"></div>
                 </div>
                 </>
@@ -615,31 +612,31 @@
         <div class="popupMenuButton" onmousedown="$('#mainPopupMenu').hide(); return false;">
             <img src="Content/images/MenuImages/menu_Active.png" />
         </div>
-        <div class="popupMenuButton" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('mapView'); return false;">
-            <img src="Content/images/MenuImages/mapIcon.png" />Kart
+        <div class="popupMenuButton translate" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('mapView'); return false;">
+            <img src="Content/images/MenuImages/mapIcon.png" />$T[Map]
         </div>
-        <div class="popupMenuButton" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('arView'); return false;">
-            <img src="Content/images/MenuImages/ar.png" />Kameravisning
+        <div class="popupMenuButton translate" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('arView'); return false;">
+            <img src="Content/images/MenuImages/ar.png" />$T[Camera]
         </div>
-        <div class="popupMenuButton" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('listView'); return false;">
-            <img src="Content/images/MenuImages/list.png" />Liste
+        <div class="popupMenuButton translate" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('listView'); return false;">
+            <img src="Content/images/MenuImages/list.png" />$T[List]
         </div>
-        <div class="popupMenuButton" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('routeView'); return false;">
-            <img src="Content/images/MenuImages/routes.png" />Ruter
+        <div class="popupMenuButton translate" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('routeView'); return false;">
+            <img src="Content/images/MenuImages/routes.png" />$T[Routes]
         </div>
-        <div class="popupMenuButton" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('searchView'); return false;">
-            <img src="Content/images/MenuImages/search.png" />S&oslash;k
+        <div class="popupMenuButton translate" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('searchView'); return false;">
+            <img src="Content/images/MenuImages/search.png" />$T[Search]
         </div>
-        <div class="popupMenuButton" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('settingsView'); return false;">
-            <img src="Content/images/MenuImages/settings.png" />Innstillinger
+        <div class="popupMenuButton translate" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('settingsView'); return false;">
+            <img src="Content/images/MenuImages/settings.png" />$T[Settings]
         </div>
-        <div class="popupMenuButton" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('feedbackView'); return false;">
-            <img src="Content/images/MenuImages/feedback.png" />Tilbakemelding
+        <div class="popupMenuButton translate" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('feedbackView'); return false;">
+            <img src="Content/images/MenuImages/feedback.png" />$T[Feedback]
         </div>
-        <div class="popupMenuButton" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('aboutView'); return false;">
-            <img src="Content/images/MenuImages/about.png" />Om appen
+        <div class="popupMenuButton translate" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('aboutView'); return false;">
+            <img src="Content/images/MenuImages/about.png" />$T[About]
         </div>
-        <div class="popupMenuButton" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('debugView'); return false;">Debug log</div>
+        <div class="popupMenuButton translate" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('debugView'); return false;">$T[Debug log]</div>
         <img src="Content/images/topLogo.png" class="popupMenuButton" />
     </div>
     <script>
