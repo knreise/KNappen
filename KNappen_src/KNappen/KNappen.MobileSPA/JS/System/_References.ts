@@ -1,3 +1,4 @@
+/// <reference path="Providers/TemplateProvider.ts" />
 /// <reference path="Providers/MapCacheProvider.ts" />
 /// <reference path="Providers/MapProvider.ts" />
 /// <reference path="Providers/MapPreCacheProvider.ts" />

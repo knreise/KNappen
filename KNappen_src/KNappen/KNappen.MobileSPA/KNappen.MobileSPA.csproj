@@ -212,6 +212,13 @@
     <Content Include="JS\System\Providers\MapStorageProvider.min.js">
       <DependentUpon>MapStorageProvider.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="JS\System\Providers\TemplateProvider.ts" />
+    <Content Include="JS\System\Providers\TemplateProvider.js">
+      <DependentUpon>TemplateProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\TemplateProvider.min.js">
+      <DependentUpon>TemplateProvider.ts</DependentUpon>
+    </Content>
     <Content Include="PhoneGap\PhoneGapInterop.js">
       <DependentUpon>PhoneGapInterop.ts</DependentUpon>
     </Content>
@@ -539,6 +546,12 @@
     <Content Include="Scripts\json2.js" />
     <Content Include="Scripts\json2.min.js" />
     <Content Include="Scripts\OpenLayers.debug.js" />
+    <Content Include="JS\System\Providers\TemplateProvider.js.map">
+      <DependentUpon>TemplateProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Providers\TemplateProvider.min.js.map">
+      <DependentUpon>TemplateProvider.js</DependentUpon>
+    </Content>
     <None Include="Scripts\OpenLayers.js_DoNotUse_NotModified" />
     <None Include="Scripts\OpenLayers.light.debug.js_DoNotUse_NotModified" />
     <None Include="Scripts\OpenLayers.light.js_DoNotUse_NotModified" />
