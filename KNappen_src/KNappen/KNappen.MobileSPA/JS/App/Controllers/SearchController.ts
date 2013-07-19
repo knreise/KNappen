@@ -67,7 +67,8 @@ module App.Controllers
             this.searchCriteria.rows(settings.startResultAmount());
             this.searchCriteria.category(settings.startSearchCategory());
             //this.searchCriteria.genre(settings.startSearchGenre());
-            
+            //this.searchCriteria.pos(config.mapStartPos); // Startup pos for first search
+
             //// Databind settings object         
             //ko.applyBindings(searchCriteria);
 
