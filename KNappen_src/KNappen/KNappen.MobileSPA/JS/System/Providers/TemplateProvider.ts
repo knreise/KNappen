@@ -8,19 +8,26 @@ module System.Providers {
     export class TemplateProvider {
         private templates: { [key: string]: string; } = {};
 
-        public queueTemplateDownload(name: string) {
+        public queueTemplateDownload(name: string, doneCallback: { (data: string): void; } = null, failCallback: { (message: string): void; } = null, alwaysCallback: { (): void; } = null) {
             log.debug("TemplateProvider", "Queued template for download: " + name);
             var _this = this;
             var item = new System.Providers.HttpDownloadItem(name,
-                "Templates/" + name,
-                function doneCallback(data: string) {
+                config.TemplateProviderFolder + "/" + name,
+                function _doneCallback(data: string) {
                     log.debug("TemplateProvider", "Success downloading template " + name);
                     _this.setTemplate(name, data);
+                    if (doneCallback)
+                        doneCallback(data);
                 },
-                function failCallback(message: string) {
+                function _failCallback(message: string) {
                     log.error("TemplateProvider", "Error downloading template " + name + ": " + message);
+                    if (failCallback)
+                        failCallback(message);
                 },
-                function alwaysCallback() { },
+                function _alwaysCallback() {
+                    if (alwaysCallback)
+                        alwaysCallback();
+                },
                 "html");
             httpDownloadProvider.enqueueItem("Templates", System.Providers.HttpDownloadQueuePriority.High, item);
         }

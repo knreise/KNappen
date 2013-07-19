@@ -44,6 +44,8 @@ module System {
 
         public mapUseCache = true;
 
+        public TemplateProviderFolder: string = "Templates/";
+
 
         /**
          * BaseConfig
