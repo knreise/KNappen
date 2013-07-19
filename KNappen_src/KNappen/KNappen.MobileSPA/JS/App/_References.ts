@@ -1,3 +1,4 @@
+/// <reference path="Controllers/WindowSizeController.ts" />
 /// <reference path="Controllers/AudioController.ts" />
 /// <reference path="Controllers/SearchViewController.ts" />
 /// <reference path="Controllers/GoogleAnalyticsController.ts" />

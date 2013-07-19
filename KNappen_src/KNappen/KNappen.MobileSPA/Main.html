@@ -217,63 +217,19 @@
 
 
         startup.addInit(function () {
+            viewController.addPostSelectEvent(function (event, oldView, newView) { if (oldView && oldView.name == "poiView") poiController.closeDetail(); });
+
             // Set to default startup view only if we don't have a valid URL
             if (!viewController.processUrl())
                 viewController.selectView(settings.startView());
+            
         }, "Main:SelectView");
 
 
     </script>
 
     <script>
-        // We need to resize some elements
-        jQuery(window).resize(resizeWindow);
-        viewController.addSelectEvent(function (event, oldView, newView) { resizeWindow(); });
-        viewController.addPostSelectEvent(function (event, oldView, newView) { if (oldView && oldView.name == "poiView") poiController.closeDetail(); });
-
-        function resizeWindow() {
-            var _window = $(window);
-            var _headerSectionSize = $("#headerSectionSize");
-            var _headerSection = $("#headerSection");
-            var _mainSection = $("#mainSection");
-            var _footerSection = $("#footerSection");
-            //var _toolbarHeader = $("#toolbarHeader");
-            //var _toolbarHeaderPlaceholder = $("#toolbarHeaderPlaceholder");
-            //var _searchPanel = $("#searchPanel");
-
-            //var _views = $(".ui-content");
-            var _map = $("#map");
-
-            var windowHeight = _window.outerHeight();
-            var headerHeight = _headerSection.outerHeight();
-            var footerHeight = _footerSection.outerHeight();
-            var _mainHeight = windowHeight - headerHeight - footerHeight;
-            // Set main section of screen
-
-            if (!viewController || !viewController.getCurrentView() || viewController.getCurrentView().name != "arView") {
-                _headerSectionSize.outerHeight(headerHeight);
-                _mainSection.outerHeight(_mainHeight);
-                _map.outerHeight(_mainHeight);
-                log.debug("Main", "Resizing mainSection to " + _mainHeight + "px (windows: " + windowHeight + ", header: " + headerHeight + ", footer: " + footerHeight + ")");
-            }
-            //_mainHeight = _mainHeight - _toolbarHeader.outerHeight() - _searchPanel.outerHeight();
-
-            // Set all contents to max height
-            //_views.height(_mainHeight + "px");
-
-            // Set map to max height
-
-
-
-            //$("[data-role=content]").outerHeight(_mainHeight + "px");
-
-            // Set placeholder size
-            //_toolbarHeaderPlaceholder.outerHeight(1);
-
-        }
-
-        startup.addLoad(resizeWindow); // Trying to make it show white screen a little bit faster (hide camera)
-        startup.addPostInit(resizeWindow);
+        
     </script>
 
 </head>

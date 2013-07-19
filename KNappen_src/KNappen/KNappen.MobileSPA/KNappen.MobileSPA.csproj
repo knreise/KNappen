@@ -194,6 +194,13 @@
     <TypeScriptCompile Include="JS\System\Providers\MapStorageProvider.ts" />
     <TypeScriptCompile Include="JS\System\Providers\MapPreCacheProvider.ts" />
     <TypeScriptCompile Include="JS\System\Providers\MapCacheProvider.ts" />
+    <TypeScriptCompile Include="JS\App\Controllers\WindowSizeController.ts" />
+    <Content Include="JS\App\Controllers\WindowSizeController.js">
+      <DependentUpon>WindowSizeController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\WindowSizeController.min.js">
+      <DependentUpon>WindowSizeController.ts</DependentUpon>
+    </Content>
     <Content Include="JS\System\Providers\MapCacheProvider.js">
       <DependentUpon>MapCacheProvider.ts</DependentUpon>
     </Content>
@@ -552,6 +559,9 @@
     </Content>
     <Content Include="JS\System\Providers\TemplateProvider.min.js.map">
       <DependentUpon>TemplateProvider.js</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\WindowSizeController.js.map">
+      <DependentUpon>WindowSizeController.ts</DependentUpon>
     </Content>
     <None Include="Scripts\OpenLayers.js_DoNotUse_NotModified" />
     <None Include="Scripts\OpenLayers.light.debug.js_DoNotUse_NotModified" />
