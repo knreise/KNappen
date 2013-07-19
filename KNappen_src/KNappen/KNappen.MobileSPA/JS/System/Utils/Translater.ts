@@ -37,12 +37,10 @@ module System.Utils {
 
             if (params && strParametered) {
                 // Replace {0} {1} etc
-                strParametered = strParametered.replace(/{([^{}]*)}/g,
+                strParametered = strParametered.replace(/{([^{}]*)}/gm,
                     function (a, b) {
-                        var r = params[b];
-                        return typeof r === 'string' ? r : a;
-                    }
-                    );
+                        return params[b];
+                    });
             }
 
             if (translated) {
