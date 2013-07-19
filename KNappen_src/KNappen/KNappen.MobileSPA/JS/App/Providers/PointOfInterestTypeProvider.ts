@@ -178,7 +178,7 @@ module App.Providers {
 
             // If not, return icon
             $.each(this.poiTypeData.medias, function (k, v: App.Providers.MediaTypeItem) {
-                if (v.type == mediaType)
+                if (v.type.toUpperCase() == mediaType.toUpperCase())
                     ret = v;
             });
 
@@ -208,7 +208,7 @@ module App.Providers {
 
             // If not, return icon
             $.each(this.poiTypeData.genres, function (k, v: App.Providers.GenreItem) {
-                if (v.type == genreType)
+                if (v.type.toUpperCase() == genreType.toUpperCase())
                     ret = v;
             });
 
@@ -239,7 +239,7 @@ module App.Providers {
             $.each(poi.categories(), function (key1, v1: string) {
                 if (ret == null) {
                     $.each(_this.poiTypeData.categories, function (key2, v2: App.Providers.CategoryItem) {
-                        if (ret == null && v2.category == v1)
+                        if (ret == null && v2.category.toUpperCase() == v1.toUpperCase())
                             ret = v2;
                     });
                 }
