@@ -70,7 +70,7 @@ module System.Utils {
         public translateSubString(str: string): string {
             var _this = this;
             var ret = "";
-            ret = str.replace(/\$T\[([^\]]+)\]/, function (fullMatch, match, offset) {
+            ret = str.replace(/\$T\[([^\]]+)\]/gm, function (fullMatch, match, offset) {
                 return _this.translate(match);
             });
             return ret;

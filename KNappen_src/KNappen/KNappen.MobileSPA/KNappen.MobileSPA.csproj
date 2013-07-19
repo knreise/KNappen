@@ -227,6 +227,7 @@
     </Content>
     <Content Include="Scripts\typings\videojs\videojs.d.ts" />
     <Content Include="Scripts\video.js" />
+    <Content Include="Templates\TestTemplate.html" />
     <Content Include="UnitTests\IUnitTest.js.map">
       <DependentUpon>IUnitTest.ts</DependentUpon>
     </Content>
