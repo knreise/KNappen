@@ -47,17 +47,13 @@ setTimeout(function() {
 	function startup()
 	{            		
 		// when user presses back-button -> execute default function -> close AR-view
-    	document.removeEventListener("backbutton", WikitudePlugin.onBackButton, false);
-    	document.addEventListener("backbutton", WikitudePlugin.onBackButton, false);
-    	
-    	//db.transaction(populateDB, errorCB, successCB);
+    	//document.removeEventListener("backbutton", WikitudePlugin.onBackButton, false);
+    	//document.addEventListener("backbutton", WikitudePlugin.onBackButton, false);
     	
         WikitudePlugin.loadARchitectWorld("assets/world/KNappen/Main.html");
 		
 		phoneGapInterop.Init();
 		
-        // To be able to respond on events inside the ARchitect World, we set a onURLInvoke callback
-        WikitudePlugin.setOnUrlInvokeCallback(phoneGapInterop.onClickInARchitectWorld);
    }
 </script>
 </head>

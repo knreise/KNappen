@@ -48,6 +48,7 @@ module System {
 
         public TemplateProviderFolder: string = "Templates/";
 
+        public maxViewControllerBackHistory: number = 2;
 
         /**
          * BaseConfig

@@ -1,6 +1,7 @@
 /// <reference path="../Scripts/typings/phonegap/phonegap.d.ts" />
 module PhoneGap {
     declare var WikitudePlugin;
+    declare var App;
     // Class
     export class PhoneGapInterop {
         constructor() { }
@@ -9,6 +10,12 @@ module PhoneGap {
         public dbVersion = "1";
 
         public Init() {
+            // To be able to respond on events inside the ARchitect World, we set a onURLInvoke callback
+            WikitudePlugin.setOnUrlInvokeCallback(this.onClickInARchitectWorld);
+
+            document.addEventListener("backbutton", this.onBackButton, false);
+            document.addEventListener("menubutton", this.onMenuButton, false);
+
             console.log("SQL: Opening database KNAppenDB");
             phoneGapInterop.db = window.openDatabase("KNAppenDB", "", "KNAppenDB", 20 * 1000 * 1024);
 
@@ -80,6 +87,11 @@ module PhoneGap {
             console.log("PhoneGap received Wikitude command: action: " + action + ", table: " + table + ", key: " + key + ", value: " + value);
 
             var sql = "";
+            if (action == "set")
+            {
+                this.exitApp();
+            }
+
             if (action == "set")
             {
 
@@ -168,6 +180,21 @@ module PhoneGap {
         public callJavaScript(script: string) {
             console.log("Executing Wikitude script command: " + script);
             WikitudePlugin.callJavaScript(script);
+        }
+
+        
+        public onBackButton() {
+            console.log("Back-button pressed");
+            WikitudePlugin.callJavaScript("phoneGapProvider.backButton();");
+        }
+        public onMenuButton() {
+            console.log("Menu-button pressed");
+            WikitudePlugin.callJavaScript("phoneGapProvider.menuButton();");
+        }
+
+        public exitApp() {
+            console.log("Application exiting...");
+            App.exitApp();            
         }
 
     }

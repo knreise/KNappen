@@ -32,7 +32,8 @@ module App
         public webProxy: string = "http://knappen.konge.net/KNappenService.Prod/WebProxy.aspx?url=";
 
         public numSearchProviders: number = 3;
-        public digitakArkivetPropertyCategory:string = "Historie og samfunn";
+        public digitakArkivetPropertyCategory: string = "Historie og samfunn";
+
         
         // For local debugging
         //public routeAdminIndexUrl: string = "http://localhost:44000/api/RouteIndex";
