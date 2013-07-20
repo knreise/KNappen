@@ -180,6 +180,14 @@ module App.Controllers {
             phoneGapProvider.fixALinksIfPhoneGap(poiDetail);
 
             viewController.selectView("poiView");
+
+            var keys: { [name: string]: string; } = {};
+            keys["PoiDetailWrapper"] = "";
+            keys["PoiName"] = poi.name();
+            var str = templateProvider.getTemplate("POIDetails.html", keys);
+            $("#poiView").html(str);
+            $("#poiView").dialog();
+
         }
 
         /**
