@@ -68,6 +68,7 @@ module App.Controllers {
             var _this = this;
 
             $("body").append('<div id="mapSearchDialog" title="' + tr.translate("Search for place") + '" class="bigDialog"></div>');
+            $("body").append('<div id="mapResultToRouteDialog" title="' + tr.translate("Create route from search") + '" class="bigDialog"></div>');
 
             searchController.addSearchResultCallback(
                 function (event: JQueryEventObject, searchResult: App.Models.SearchResult) {
@@ -132,7 +133,14 @@ module App.Controllers {
                         trigger: function () {
                             _this.nextMapLayer();
                         }
-                    })
+                    }),
+                new OpenLayers.Control.Button({
+                    title: tr.translate("Cache result"),
+                    text: "<span class='typcn typcn-attachment mapTypIconButton'></span>",
+                    trigger: function () {
+                        _this.addResultToCache();
+                    }
+                })
             ]);
             this.mapProvider.map.addControl(this.panel);
 
@@ -156,6 +164,37 @@ module App.Controllers {
             this.mapProvider.map.addControl(clickholdCtrl);
 
 
+        }
+
+        private addResultToCache() {
+            var mapResultToRouteDialog = $("#mapResultToRouteDialog");
+            var mapResultToRouteDialogD = <any>mapResultToRouteDialog;
+            var content = $("<div><b>" + tr.translate("Name of new route") + ":</b><br/>"
+                + "<div class='nobr'><input type='input' id='mapResultToRouteName' /></div></div>");
+            var btn = $("<input type='button' value='" + tr.translate("Create") + "' />");
+
+            btn.mousedown(function () {
+                var routeName = $("#mapResultToRouteName").val();
+                if (routeName) {
+                    routeController.addSearchRoute(routeName, searchController.latestSearchResult.items());
+                    userPopupController.sendSuccess(tr.translate("Route created"), tr.translate("The route '{0}' was created.", [routeName]));
+                    mapResultToRouteDialogD.dialog("close");
+                }
+            });
+            
+            content.append(btn);
+            mapResultToRouteDialog.html('');
+            mapResultToRouteDialog.append(content);
+            
+            mapResultToRouteDialogD.dialog({
+                autoOpen: true,
+                maxWidth: '90%',
+                maxHeight: '90%',
+//                width: '70%',
+//                height: '50%',
+                modal: true
+            });
+            
         }
 
         private nextMapLayer() {

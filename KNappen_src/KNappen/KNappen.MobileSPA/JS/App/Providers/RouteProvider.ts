@@ -45,6 +45,7 @@ module App.Providers {
 
         public adminRoutes = new App.Providers.RouteProviderHelper("Admin");
         public userRoutes = new App.Providers.RouteProviderHelper("User");
+        public searchRoutes = new App.Providers.RouteProviderHelper("Search");
     }
 
     export class RouteProviderHelper {

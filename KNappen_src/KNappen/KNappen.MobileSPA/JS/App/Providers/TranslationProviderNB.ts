@@ -55,6 +55,8 @@ module App.Providers {
             translater.addTranslation("Your email address", "Din e-post (valgfritt)");
             translater.addTranslation("Send feedback", "Send tilbakemelding");
             translater.addTranslation("Create", "Opprett");
+            translater.addTranslation("Create route", "Opprett rute");
+            translater.addTranslation("Create route from search", "Opprett rute fra s&oslash;k");
             translater.addTranslation("Description", "Beskrivelse");
             translater.addTranslation("More information", "Mer informasjon");
             translater.addTranslation("Map", "Kart");
@@ -97,6 +99,7 @@ module App.Providers {
             translater.addTranslation("Error sending feedback", "Feil ved sending av tilbakemelding.");
             translater.addTranslation("Loading", "Laster");
             translater.addTranslation("Buffering...", "Mellomlagrer...");
+            translater.addTranslation("Name of new route", "Navn p&aring; ny rute");
 
         }
     }

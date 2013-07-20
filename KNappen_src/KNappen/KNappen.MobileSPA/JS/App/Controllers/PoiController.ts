@@ -41,7 +41,10 @@ module App.Controllers {
                 if (currentView && currentView.name != "poiView" && currentView.name != "arView")
                     poiController.hidePoiPreview();
             });
-
+            
+            viewController.addPostSelectEvent(function (event, oldView, newView) {
+                if (oldView && oldView.name == "poiView") poiController.closeDetail();
+            });
             viewController.addSelectEvent(function (event: JQueryEventObject, oldView: System.GUI.ViewControllerItem, newView: System.GUI.ViewControllerItem) {
                 if (newView.name === "poiView") {
                     windowSizeController.HideTopMenu();

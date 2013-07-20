@@ -69,25 +69,42 @@ module App.Controllers {
 
             this.routeProvider.adminRoutes.loadRoutes();
             this.routeProvider.userRoutes.loadRoutes();
+            this.routeProvider.searchRoutes.loadRoutes();
 
             this.startAdminRouteDownload();
 
             $("#btnCache").mousedown(function () {
-                _this.testDoCache(_this.routeProvider.userRoutes);
-                _this.testDoCache(_this.routeProvider.adminRoutes);
+                _this.cacheRoute(_this.routeProvider.searchRoutes);
+                _this.cacheRoute(_this.routeProvider.userRoutes);
+                _this.cacheRoute(_this.routeProvider.adminRoutes);
             });
 
             //TODO: Logic for what lists a user can add a POI to, based on adminrights/no adminrights
 
         }
 
-        public testDoCache(route: App.Providers.RouteProviderHelper) {
+        public cacheRoute(route: App.Providers.RouteProviderHelper) {
             var _this = this;
             $.each(route.getRoutes(), function (k, v: App.Providers.RouteItem) {
                 $.each(v.pois(), function (k2, poi: App.Models.PointOfInterest) {
                     mapPreCacheProvider.cachePos(poi.pos());
                 });
             });
+        }
+
+        public addSearchRoute(routeName: string, pois: App.Models.PointOfInterest[]) {
+            log.debug("RouteController", "Adding search result to new route: " + routeName);
+            
+            var routeItem: App.Providers.RouteItem = new App.Providers.RouteItem();
+            routeItem.name(routeName);
+            routeItem.version(routeItem.version() + 1);
+            $.each(pois, function (k, v: App.Models.PointOfInterest) {
+                routeItem.pois.push(v);
+            });
+
+            this.routeProvider.userRoutes.addRoute(routeItem);
+            this.routeProvider.userRoutes.saveRoutes();
+            
         }
 
         /**

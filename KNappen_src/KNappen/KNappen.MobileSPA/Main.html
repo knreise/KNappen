@@ -139,7 +139,7 @@
     <!-- GUI -->
     <script src="JS/App/GUI/PoiDialog.js"></script>
     <script>
-        //localStorage.clear();
+        localStorage.clear();
 
         // Store globally wether we think its phone or not 
         var IsMobileBrowser = false;
@@ -217,7 +217,7 @@
 
 
         startup.addInit(function () {
-            viewController.addPostSelectEvent(function (event, oldView, newView) { if (oldView && oldView.name == "poiView") poiController.closeDetail(); });
+            
 
             // Set to default startup view only if we don't have a valid URL
             if (!viewController.processUrl())

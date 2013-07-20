@@ -75,6 +75,10 @@ module System.Providers {
 
         public cachePos(pos: System.Models.Position) {
             var _this = this;
+            
+            if (typeof pos === "function") // Knockout compatibility
+                pos = (<any>pos)();
+
             var posStr = pos.lat() + ", " + pos.lon();
             log.debug("MapPreCacheProvider", "Added " + posStr + " to precache queue.");
             //for (var z: number = config.mapMinZoomLevel; z <= config.mapMaxZoomLevel; z++) {

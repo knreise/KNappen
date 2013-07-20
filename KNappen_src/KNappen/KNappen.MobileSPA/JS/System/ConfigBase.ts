@@ -60,8 +60,8 @@ module System {
             }
 
             //this.openLayersMapUrl["std0"] = "http://opencache.statkart.no/gatekeeper/gk/gk.open?SERVICE=WMS&";
-            this.openLayersMapUrl["std0"] = "http://knappen.konge.net/KNappenService.Prod/WebProxy.aspx?url=http%3A%2F%2Fopencache.statkart.no%2Fgatekeeper%2Fgk%2Fgk.open%3FSERVICE%3DWMS%26";
-            //this.openLayersMapUrl["std0"] = "http://localhost:44000/WebProxy.aspx?url=http%3A%2F%2Fopencache.statkart.no%2Fgatekeeper%2Fgk%2Fgk.open%3FSERVICE%3DWMS%26";
+            //this.openLayersMapUrl["std0"] = "http://knappen.konge.net/KNappenService.Prod/WebProxy.aspx?url=http%3A%2F%2Fopencache.statkart.no%2Fgatekeeper%2Fgk%2Fgk.open%3FSERVICE%3DWMS%26";
+            this.openLayersMapUrl["std0"] = "http://localhost:44000/WebProxy.aspx?url=http%3A%2F%2Fopencache.statkart.no%2Fgatekeeper%2Fgk%2Fgk.open%3FSERVICE%3DWMS%26";
             //this.openLayersMapUrl["nib0"] = "http://gatekeeper2.geonorge.no/BaatGatekeeper/gk/gk.nibcache?SERVICE=WMS&VERSION=1.1.1&GKT=1E9156534710F9F931B5EEC69FF377B9F6BC6A323696A5EEDFFC660CE39D323580D78D097EF1DB60446FA6981469D4101AC9B95040AF2D3AAB579AAE6F8C5E79";
             this.openLayersMapUrl["nib0"] = "http://wms.geonorge.no/skwms1/wms.kartdata_nib/TI_BK3GBKL3";
 
