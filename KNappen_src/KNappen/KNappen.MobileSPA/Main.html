@@ -226,13 +226,12 @@
         }, "Main:SelectView");
 
         startup.addPreInit(function () {
-            templateProvider.queueTemplateDownload("Views/About.html",
+            templateProvider.queueTemplateDownload(config.templateAboutView,
                 function (data) { $("#aboutView").html(data); },
                 function (message) {
-                    $("#aboutView").html("Error downloading template: " + message);
+                    $("#aboutView").html("Error downloading template " + config.templateAboutView + ": " + message);
                 });
 
-            templateProvider.queueTemplateDownload("Views/POIDetails.html");
         }, "Main:DownloadTemplates");
     </script>
 

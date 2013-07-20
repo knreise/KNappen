@@ -60,7 +60,7 @@ module System.Providers {
 }
 var templateProvider = new System.Providers.TemplateProvider();
 startup.addPostInit(function () {
-    templateProvider.queueTemplateDownload("TestTemplate.html");
+    //templateProvider.queueTemplateDownload("TestTemplate.html");
     //var keys: { [name: string]: string; } = {};
     //keys["Key1"] = "ReplacementKey1";
     //keys["Key2"] = "ReplacementKey2";

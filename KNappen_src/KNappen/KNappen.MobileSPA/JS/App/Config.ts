@@ -19,6 +19,9 @@ module App
         public norvegianaURL: string = 'http://kn-reise.delving.org/organizations/kn-reise/api/search?query=';
         public ssrURL: string = 'https://ws.geonorge.no/SKWS3Index/ssr/sok';
 
+        public templatePOIDetailsView: string = "Views/POIDetails.html";
+        public templateAboutView: string = "Views/About.html";
+
         // For "prod"
         public routeAdminIndexUrl: string = "http://knappen.konge.net/KNappenService.Prod/api/RouteIndex";
         public routeAdminDownloadUrl: string = "http://knappen.konge.net/KNappenService.Prod/api/Route";

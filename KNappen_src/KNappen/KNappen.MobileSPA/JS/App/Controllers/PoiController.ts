@@ -17,6 +17,11 @@ module App.Controllers {
 
         }
 
+        public PreInit() {
+            log.debug("PoiController", "PreInit()");
+            templateProvider.queueTemplateDownload(config.templatePOIDetailsView);
+        }
+
         /**
             Creates the html that will be used for POI Preview and Detail and appends it to 'body'
             @method App.Controllers.PoiController#Init
@@ -184,7 +189,7 @@ module App.Controllers {
             var keys: { [name: string]: string; } = {};
             keys["PoiDetailWrapper"] = "";
             keys["PoiName"] = poi.name();
-            var str = templateProvider.getTemplate("POIDetails.html", keys);
+            var str = templateProvider.getTemplate(config.templatePOIDetailsView, keys);
             $("#poiView").html(str);
             $("#poiView").dialog();
 
@@ -307,4 +312,5 @@ viewController.addPreSelectEvent(function () {
     }
 
 });
+startup.addPreInit(function () { poiController.PreInit(); }, "PoiController");
 startup.addInit(function () { poiController.Init(); }, "PoiController");
