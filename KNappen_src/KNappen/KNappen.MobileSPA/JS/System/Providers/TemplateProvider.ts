@@ -49,7 +49,11 @@ module System.Providers {
 
             if (replacement) {
                 ret = ret.replace(/\$E\[([^\]]+)\]/gm, function (fullMatch, match, offset) {
-                    return replacement[match];
+                    var r = replacement[match];
+                    // If it is a method, execute it
+                    if (typeof r === "function")
+                        r = (<any>r)();
+                    return r;
                 });
             }
             log.debug("TemplateProvider", "Returning template: " + name);
