@@ -189,7 +189,7 @@ module App.SearchProviders {
             var posStr = "";
             if (searchCriteria.radius() != null && searchCriteria.radius() != 0 && searchCriteria.pos() != null && searchCriteria.pos().lat() != null && searchCriteria.pos().lon() != null) {
                 posStr = '&pt=' + searchCriteria.pos().lat() + ',' + searchCriteria.pos().lon()
-                    + '&d=' + searchCriteria.radius();
+                + '&d=' + searchCriteria.radius();
             }
 
             // Query string

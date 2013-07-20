@@ -236,7 +236,6 @@
     <Content Include="Scripts\video.js" />
     <Content Include="Templates\Views\About.html" />
     <Content Include="Templates\Views\POIDetails.html" />
-    <Content Include="Templates\TestTemplate.html" />
     <Content Include="UnitTests\IUnitTest.js.map">
       <DependentUpon>IUnitTest.ts</DependentUpon>
     </Content>

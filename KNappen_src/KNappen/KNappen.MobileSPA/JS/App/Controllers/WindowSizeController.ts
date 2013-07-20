@@ -13,6 +13,7 @@ module App.Controllers {
         public mainSection: any;
         public footerSection: any;
         public map: any;
+        public originalHeaderSectionHeight: number;
 
         public Load() {
             this._window = $(window);
@@ -22,16 +23,18 @@ module App.Controllers {
             this.footerSection = $("#footerSection");
             this.map = $("#map");
 
+            this.originalHeaderSectionHeight = this.headerSection.css('height');
             this.resize();
+        
         }
 
         public PreInit() {
             var _this = this;
             jQuery(window).resize(function () { _this.resize(); });
-            viewController.addSelectEvent(function (event, oldView, newView) {
+            viewController.addPostSelectEvent(function (event, oldView, newView) {
                 _this.resize();
             });
-        
+
         }
 
         public PostInit() {
@@ -48,12 +51,27 @@ module App.Controllers {
                 this.headerSectionSize.outerHeight(headerHeight);
                 this.mainSection.outerHeight(mainHeight);
                 this.map.outerHeight(mainHeight);
+                
+
                 log.debug("WindowSizeController", "Resizing mainSection to " + mainHeight + "px (windows: " + windowHeight + ", header: " + headerHeight + ", footer: " + footerHeight + ")");
             }
 
 
         }
 
+        public ShowTopMenu() {
+            this.headerSection.show();
+            this.headerSection.css('height', this.originalHeaderSectionHeight);
+            this.headerSectionSize.css('height', this.originalHeaderSectionHeight);
+            this.resize();
+        }
+
+        public HideTopMenu() {
+            this.headerSection.css('height', '0px');
+            this.headerSectionSize.css('height', '0px');
+            this.headerSection.hide();
+            this.resize();
+        }
     }
 }
 var windowSizeController = new App.Controllers.WindowSizeController();

@@ -67,4 +67,4 @@ startup.addPostInit(function () {
     //setTimeout(function () {
     //    var str = templateProvider.getTemplate("TestTemplate.html", keys);
     //}, 5000);
-    });
+});

@@ -29,6 +29,8 @@ module System {
           */
         public googleAnalyticsKey: string = "UA-42135626-1";
 
+        public mapBingAPIKey: string = "XXX";
+
         public wikitudeAddPoiDelayMs: number = 500;
 
         public openLayersMapUrl: { [key: string]: string; } = {};
