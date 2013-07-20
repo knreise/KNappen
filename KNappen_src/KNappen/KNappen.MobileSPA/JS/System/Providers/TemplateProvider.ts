@@ -48,12 +48,18 @@ module System.Providers {
             ret = translater.translateSubString(ret);
 
             if (replacement) {
-                ret = ret.replace(/\$E\[([^\]]+)\]/gm, function (fullMatch, match, offset) {
+                ret = ret.replace(/\$\[([^\]]+)\]/gm, function (fullMatch, match, offset) {
                     var r = replacement[match];
                     // If it is a method, execute it
                     if (typeof r === "function")
                         r = (<any>r)();
                     return r;
+                });
+                ret = ret.replace(/\$IF([\s\S]*?)\$ENDIF/gm, function (fullMatch, match, offset) {
+                    var v = match.replace(/^\(([^\)]+)\).*/, "$1");
+                    if (replacement[v])
+                        return match.replace(/^\([^\)]+\)(.*)/, "$1");
+                    return "";
                 });
             }
             log.debug("TemplateProvider", "Returning template: " + name);

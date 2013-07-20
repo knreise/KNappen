@@ -19,6 +19,9 @@ module App.Controllers {
 
         public PreInit() {
             log.debug("PoiController", "PreInit()");
+
+            // Queue all templates for downloading immediately
+            templateProvider.queueTemplateDownload(config.templatePOIPreview);
             templateProvider.queueTemplateDownload(config.templatePOIDetailsView);
         }
 
@@ -38,6 +41,18 @@ module App.Controllers {
                 if (currentView && currentView.name != "poiView" && currentView.name != "arView")
                     poiController.hidePoiPreview();
             });
+
+            viewController.addSelectEvent(function (event: JQueryEventObject, oldView: System.GUI.ViewControllerItem, newView: System.GUI.ViewControllerItem) {
+                if (newView.name === "poiView") {
+                    windowSizeController.HideTopMenu();
+                } else {
+                    if (oldView && oldView.name == "poiView") {
+                        windowSizeController.ShowTopMenu();
+                    // Moved away from poiView? Hide it. (not required any more since we are not using dialog)
+                        poiController.hidePoiPreview();
+                    }
+                }
+            });
         }
 
         /**
@@ -49,15 +64,11 @@ module App.Controllers {
         public OpenPreview(poi: App.Models.PointOfInterest, show: Boolean) {
             var _this = this;
             var poiPrev = $("#poiPreview");
-            poiPrev.html('<div class="right"><img src="Content/images/AppIcons/moreInfo.png" id="openDetailBtn" class="previewBtn"/><br/>'
-                + '<img src="Content/images/AppIcons/lessInfo.png" id="closePreviewBtn" class="previewBtn"/></div>'
-                + '<div class="left leftPreview"><img src="' + poi.iconCategoryURL() + '" class="categoryImage"></div>'
-                + '<div class="middle previewName"><h2>' + poi.name() + '</h2>'
-            //+ _this.renderMediaIcons(poi)
-                + '<img src="' + poi.iconMediaTypeURL() + '" class="mediaImage left"/>'
-                + '</div>');
-
+            var keys = this.getReplacementKeys(poi);
+            var str = templateProvider.getTemplate(config.templatePOIPreview, keys);
+            poiPrev.html(str);
             phoneGapProvider.fixALinksIfPhoneGap(poiPrev);
+
 
             var _this = this;
             $("#closePreviewBtn").mousedown(function () { _this.hidePoiPreview(); });
@@ -82,6 +93,19 @@ module App.Controllers {
             return mediaIcons.toString();
         }
 
+        private getReplacementKeys(obj: any): { [name: string]: string; } {
+            // Create replacement keys by copying POI into them first
+            var keys: { [name: string]: string; } = {};
+            $.each(obj, function (k, v) {
+                keys[k] = v;
+            });
+            // Then copy in config, just in case. Prefix with "config."
+            $.each(config, function (k, v) {
+                keys["config." + k] = v;
+            });
+            return keys;
+        }
+
         /**
             Opens the POI Detail inside the poi view
             @method App.Controllers.PoiController#OpenDetail
@@ -95,60 +119,14 @@ module App.Controllers {
 
             var _this = this;
 
-            //fill fields with data from POI
-            var poiDetail = $("#poiDetail");
-            if (poi.thumbnail().length > 0) {
-                poiDetail.find("#poiThumbnail").attr("src", poi.thumbnail());
-                poiDetail.find("#poiImage").show();
-            }
+            var keys = this.getReplacementKeys(poi);
 
-            poiDetail.find("#poiIngress").html(poi.ingress());
-            poiDetail.find("#poiDescription").html(poi.description());
-
-            var tags = "";
-            if (poi.tags())
-                tags = "<b>$T[Subjects]:</b> " + poi.tags().toString() + "</br>";
-            var date = "";
-            if (poi.year())
-                date = "<b>$T[Dating]:</b> " + poi.year() + " </br>";
-            var eierinstitusjon = "";
-            if (poi.owner())
-                eierinstitusjon = "<b>$T[Source]:</b> " + poi.owner() + " <br / > "
-            var institusjon = "";
-            if (poi.institution())
-                institusjon = "<b>Institusjon:</b> " + poi.institution() + "</br>";
-            var originalVersjon = "";
-            if (poi.originalVersion())
-                originalVersjon = "<b>$T[Original version]:</b> " + poi.originalVersion() + "</br>";
-            var opphavsPerson = "";
-            if (poi.creator())
-                opphavsPerson = "<b>$T[Creator]:</b> " + poi.creator() + " </br > ";
-            var lisens = "";
-            if (poi.license() && poi.license().toString() != "")
-                lisens = "<b>$T[License]:</b> " + poi.license().toString() + "</br>";
-            var eksterneLenker = "";
-            if (poi.linkMoreInfo())
-                eksterneLenker += "<a href='" + poi.linkMoreInfo() + "'> " + poi.linkMoreInfo() + " </a><br />";
-            if (poi.landingPage())
-                eksterneLenker += "<a href='" + poi.landingPage() + "'>" + poi.landingPage() + "</a><br />";
-            if (poi.link())
-                eksterneLenker += "<a href='" + poi.link() + "'>" + poi.link() + "</a>";
-            if (eksterneLenker)
-                eksterneLenker = "<b>$T[External links]:</b> " + eksterneLenker;
-
-            poiDetail.find("#poiAboutData").html(tr.translateSubString(
-                    tags
-                    + date
-                    + eierinstitusjon
-                    + institusjon
-                    + originalVersjon
-                    + opphavsPerson
-                    + lisens
-                    + eksterneLenker
-            )
-                );
-
-            //_this.showImage(poi.thumbnail());
+            viewController.selectView("poiView");
+            
+            var str = templateProvider.getTemplate(config.templatePOIDetailsView, keys);
+            var poiView = $("#poiView");
+            poiView.html(str);
+            phoneGapProvider.fixALinksIfPhoneGap(poiView);
 
             //check mediatypes of POI to show the appropriate viewers
             $.each(poi.mediaTypes(), function (k, v: string) {
@@ -180,17 +158,10 @@ module App.Controllers {
 
             //return to previous view when closing the dialog, should this be handled some other way,
             //such as placing the poiview on top of current view instead? how?
-            $("#closePreviewBtn").mousedown(function () { viewController.selectView(viewController.getOldView().name); });
-
-            phoneGapProvider.fixALinksIfPhoneGap(poiDetail);
-
-            viewController.selectView("poiView");
-
-    var keys: { [name: string]: string; } = {};
-    keys = <any>poi;
-    var str = templateProvider.getTemplate(config.templatePOIDetailsView, keys);
-    $("#poiView").html(str);
-            $("#poiView").dialog();
+            $("#closePreviewBtn").mousedown(function () {
+                viewController.selectView(viewController.getOldView().name);
+            });
+            //poiView.dialog();
 
         }
 
@@ -298,18 +269,5 @@ module App.Controllers {
 
 }
 var poiController = new App.Controllers.PoiController();
-viewController.addPreSelectEvent(function () {
-    var oldView = viewController.getOldView();
-    var currentView = viewController.getCurrentView();
-
-    if (oldView && oldView.name == "poiView") {
-        poiController.hidePoiPreview();
-    }
-
-    if (currentView && currentView.name == "arView") {
-
-    }
-
-});
 startup.addPreInit(function () { poiController.PreInit(); }, "PoiController");
 startup.addInit(function () { poiController.Init(); }, "PoiController");

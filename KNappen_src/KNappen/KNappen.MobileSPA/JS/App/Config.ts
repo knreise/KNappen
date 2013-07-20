@@ -21,6 +21,7 @@ module App
 
         public templatePOIDetailsView: string = "Views/POIDetails.html";
         public templateAboutView: string = "Views/About.html";
+        public templatePOIPreview: string = "POIPreview.html";
 
         // For "prod"
         public routeAdminIndexUrl: string = "http://knappen.konge.net/KNappenService.Prod/api/RouteIndex";
