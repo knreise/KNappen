@@ -104,6 +104,22 @@ module System.Providers {
                 }
             });
         }
+
+        public menuButton() {
+            $('#mainPopupMenu').toggle();
+        }
+
+        public backButton() {
+            log.debug("PhoneGapPRovider", "Back-button pressed.");
+            var result = viewController.goBack();
+
+            if (!result) {
+                var url = 'architectsdk://sql?action=exit';
+                var d: any = document;
+                d.location = url;
+            }
+
+        }
     }
 }
 var phoneGapProvider = new System.Providers.PhoneGapProvider();

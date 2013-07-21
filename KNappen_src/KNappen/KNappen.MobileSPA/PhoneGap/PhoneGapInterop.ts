@@ -1,6 +1,7 @@
 /// <reference path="../Scripts/typings/phonegap/phonegap.d.ts" />
 module PhoneGap {
     declare var WikitudePlugin;
+    declare var navigator;
     // Class
     export class PhoneGapInterop {
         constructor() { }
@@ -9,6 +10,12 @@ module PhoneGap {
         public dbVersion = "1";
 
         public Init() {
+            // To be able to respond on events inside the ARchitect World, we set a onURLInvoke callback
+            WikitudePlugin.setOnUrlInvokeCallback(phoneGapInterop.onClickInARchitectWorld);
+
+            document.addEventListener("backbutton", phoneGapInterop.onBackButton, false);
+            document.addEventListener("menubutton", phoneGapInterop.onMenuButton, false);
+
             console.log("SQL: Opening database KNAppenDB");
             phoneGapInterop.db = window.openDatabase("KNAppenDB", "", "KNAppenDB", 20 * 1000 * 1024);
 
@@ -70,6 +77,7 @@ module PhoneGap {
 
         public onClickInARchitectWorld(url: string) {
             //console.log("URL: " + url);
+            
 
             var action = getUrlParameterForKey(url, 'action');
             var table = getUrlParameterForKey(url, 'table');
@@ -80,6 +88,11 @@ module PhoneGap {
             console.log("PhoneGap received Wikitude command: action: " + action + ", table: " + table + ", key: " + key + ", value: " + value);
 
             var sql = "";
+            if (action == "exit")
+            {
+                phoneGapInterop.onExitApp();
+            }
+
             if (action == "set")
             {
 
@@ -168,6 +181,21 @@ module PhoneGap {
         public callJavaScript(script: string) {
             console.log("Executing Wikitude script command: " + script);
             WikitudePlugin.callJavaScript(script);
+        }
+
+        
+        public onBackButton() {
+            console.log("Back-button pressed");
+            WikitudePlugin.callJavaScript("phoneGapProvider.backButton();");
+        }
+        public onMenuButton() {
+            console.log("Menu-button pressed");
+            WikitudePlugin.callJavaScript("phoneGapProvider.menuButton();");
+        }
+
+        public onExitApp() {
+            console.log("Application exiting...");
+            navigator.app.exitApp();
         }
 
     }

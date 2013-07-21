@@ -4,10 +4,10 @@
     GUI modules
     @namespace
 */
-module System.GUI
-{ 
-    export class ViewControllerItem
-    {
+module System.GUI {
+    declare var config: System.ConfigBase;
+
+    export class ViewControllerItem {
         /**
             ViewControllerItem
             @class System.GUI.ViewControllerItem
@@ -32,20 +32,19 @@ module System.GUI
         public item: JQuery;
     }
 
-    export class ViewController
-    {
+    export class ViewController {
         /** @ignore */ private currentView: ViewControllerItem;
         /** @ignore */ private oldView: ViewControllerItem;
-        /** @ignore */ private knownViews: { [name: string]: ViewControllerItem; } = {};
+        /** @ignore */ private knownViews: { [name: string]: System.GUI.ViewControllerItem; } = {};
         /** @ignore */ private _this: JQuery;
+        /** @ignore */ public viewHistory: System.GUI.ViewControllerItem[] = [];
 
         /**
             ViewController
             @class System.GUI.ViewController
             @classdesc Creates an instance of a ViewController
         */
-        constructor()
-        {
+        constructor() {
             this._this = $(this);
             var _this = this;
             window.onhashchange = function () { _this.processUrl(); };
@@ -57,11 +56,11 @@ module System.GUI
             @type bool
             @public
         */
-        public processUrl(): bool {
+        public processUrl(): System.GUI.ViewControllerItem {
 
             var hash: string = location.hash;
             if (hash.indexOf("#") < 0)
-                return false;
+                return null;
 
             var id = hash.replace('#', '');
             log.debug("ViewController", "Hash navigation: " + id);
@@ -74,8 +73,7 @@ module System.GUI
             @param {string} name The ID of the DOMElement, for example the ID of the DIV tag.
             @public
           */
-        public AddView(name: string)
-        {
+        public AddView(name: string) {
             log.debug("ViewController", "Adding view: " + name);
             var v = new System.GUI.ViewControllerItem();
             v.name = name;
@@ -96,9 +94,26 @@ module System.GUI
             @type Array A hash of all known ViewControllerItem.
             @public
           */
-        public getViews(): { [name: string]: ViewControllerItem; }
-        {
+        public getViews(): { [name: string]: ViewControllerItem; } {
             return this.knownViews;
+        }
+
+        public goBack(): bool {
+            log.debug("ViewController", "goBack: History length: " + this.viewHistory.length);
+            if (this.viewHistory.length < 1)
+                return false;
+            
+            var view = this.viewHistory.pop();
+
+            if (view && view.name) {
+                this.selectView(view.name);
+                log.debug("ViewController", "goBack: Last page: " + view.name);
+                return true;
+            }
+            
+            log.debug("ViewController", "goBack: No more history items.");
+            return false;
+            
         }
 
         /**
@@ -107,8 +122,7 @@ module System.GUI
             @type ViewControllerItem Name of current view.
             @public
           */
-        public getCurrentView(): ViewControllerItem
-        {
+        public getCurrentView(): ViewControllerItem {
             return this.currentView;
         }
 
@@ -128,24 +142,33 @@ module System.GUI
             @param {string} name The ID of the DOMElement, for example the ID of the DIV tag.
             @public
           */
-        public selectView(name: string) {
+        public selectView(name: string): System.GUI.ViewControllerItem {
             //location.hash = "#" + name;
-            this.openView(name);
+            var view = this.openView(name);
+
+            // Push to history
+            if (this.oldView)
+                this.viewHistory.push(this.oldView);
+
+            while(this.viewHistory.length > config.maxViewControllerBackHistory) {
+                this.viewHistory.shift();
+            }
+
+            return view;
         }
-        private openView(name: string): bool
-        {
+        private openView(name: string): System.GUI.ViewControllerItem {
             var view = this.knownViews[name];
             if (!view)
             {
                 // Sanity check
                 log.error("ViewController", "selectView: View '" + name + "' does not exist.");
-                return false;
+                return null;
             }
             log.debug("ViewController", "selectView: View '" + name + "' selected.");
 
             // Do not execute if same page
             if (this.currentView && this.currentView.name == name)
-                return true;
+                return this.currentView;
 
 
             this.oldView = this.currentView;
@@ -156,19 +179,18 @@ module System.GUI
             view.item.show();
             this.doSelectEvent(this.oldView, view);
             this.doPostSelectEvent(this.oldView, view);
-            return true;
+            return this.currentView;
         }
 
 
 
         /** @ignore */
-        private hideAllViews()
-        {
+        private hideAllViews() {
             $.each(this.knownViews,
                 function (k, v) {
                     //log.verboseDebug("ViewController", "Hiding: " + k);
                     v.item.hide();
-            });
+                });
         }
 
         //
@@ -180,8 +202,7 @@ module System.GUI
             @param {eventCallback} Callback function with signature "function (event: JQueryEventObject, oldView: System.GUI.ViewControllerItem, newView: System.GUI.ViewControllerItem) {}" (or just "function (event, oldView, newView) {}" in JS).
             @public          
         */
-        public addPreSelectEvent(eventCallback: { (event: JQueryEventObject, oldView: System.GUI.ViewControllerItem , newView: System.GUI.ViewControllerItem): void; })
-        {
+        public addPreSelectEvent(eventCallback: { (event: JQueryEventObject, oldView: System.GUI.ViewControllerItem, newView: System.GUI.ViewControllerItem): void; }) {
             this._this.on('PreSelectView', eventCallback);
         }
 
@@ -191,8 +212,7 @@ module System.GUI
             @param {eventCallback} Callback function with signature "function (event: JQueryEventObject, oldView: System.GUI.ViewControllerItem, newView: System.GUI.ViewControllerItem) {}" (or just "function (event, oldView, newView) {}" in JS).
             @public  
         */
-        public addSelectEvent(eventCallback: { (event: JQueryEventObject, oldView: System.GUI.ViewControllerItem, newView: System.GUI.ViewControllerItem): void; })
-        {
+        public addSelectEvent(eventCallback: { (event: JQueryEventObject, oldView: System.GUI.ViewControllerItem, newView: System.GUI.ViewControllerItem): void; }) {
             this._this.on('SelectView', eventCallback);
         }
 
@@ -202,26 +222,22 @@ module System.GUI
             @param {eventCallback} Callback function with signature "function (event: JQueryEventObject, oldView: System.GUI.ViewControllerItem, newView: System.GUI.ViewControllerItem) {}" (or just "function (event, oldView, newView) {}" in JS).
             @public  
         */
-        public addPostSelectEvent(eventCallback: { (event: JQueryEventObject, oldView: System.GUI.ViewControllerItem, newView: System.GUI.ViewControllerItem): void; })
-        {
+        public addPostSelectEvent(eventCallback: { (event: JQueryEventObject, oldView: System.GUI.ViewControllerItem, newView: System.GUI.ViewControllerItem): void; }) {
             this._this.on('PostSelectView', eventCallback);
         }
 
         /** @ignore */
-        private doPreSelectEvent(oldView: System.GUI.ViewControllerItem, newView: System.GUI.ViewControllerItem)
-        {
+        private doPreSelectEvent(oldView: System.GUI.ViewControllerItem, newView: System.GUI.ViewControllerItem) {
             this._this.trigger('PreSelectView', [oldView, newView]);
         }
 
         /** @ignore */
-        private doSelectEvent(oldView: System.GUI.ViewControllerItem, newView: System.GUI.ViewControllerItem)
-        {
+        private doSelectEvent(oldView: System.GUI.ViewControllerItem, newView: System.GUI.ViewControllerItem) {
             this._this.trigger('SelectView', [oldView, newView]);
         }
 
         /** @ignore */
-        private doPostSelectEvent(oldView: System.GUI.ViewControllerItem, newView: System.GUI.ViewControllerItem)
-        {
+        private doPostSelectEvent(oldView: System.GUI.ViewControllerItem, newView: System.GUI.ViewControllerItem) {
             this._this.trigger('PostSelectView', [oldView, newView]);
         }
     }
