@@ -73,8 +73,8 @@ module App.Providers {
 
             }
 
-            searchDigitalArkivet = false;
-            searchWikipedia = false;
+            //searchDigitalArkivet = false;
+            //searchWikipedia = false;
 
             this.numSearchProviders = 0;
             if (searchNorvegiana)
