@@ -61,11 +61,11 @@ module App.Controllers {
                     var poi = <App.Models.PointOfInterest>_poi;
                     var preImageUrl = "";
 
-                    if (navigator.userAgent.match(/(Android)/)) {
-                        preImageUrl = "file:///android_asset/world/KNappen/";
-                    }
+                    //if (navigator.userAgent.match(/(Android)/)) {
+                    //    preImageUrl = "file:///android_asset/world/KNappen/";
+                    //}
 
-                    return '<div class="poi"><img src="' + preImageUrl + poi.iconCategoryURL() + '"/></div>';
+                    return '<div class="poi"><img src="' + phoneGapProvider.fixLocalFileRef(poi.iconCategoryURL()) + '"/></div>';
                     // Causes annoying IE crash during debugging: onError="$(this).unbind("error").attr("src", "Images/Icon-Large.gif");"
                 }
             );
