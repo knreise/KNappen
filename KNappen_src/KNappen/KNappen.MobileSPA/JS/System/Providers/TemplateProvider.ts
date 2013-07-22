@@ -11,8 +11,9 @@ module System.Providers {
         public queueTemplateDownload(name: string, doneCallback: { (data: string): void; } = null, failCallback: { (message: string): void; } = null, alwaysCallback: { (): void; } = null) {
             log.debug("TemplateProvider", "Queued template for download: " + name);
             var _this = this;
+            var fullName = phoneGapProvider.fixLocalFileRef(config.TemplateProviderFolder + "/" + name);
             var item = new System.Providers.HttpDownloadItem(name,
-                config.TemplateProviderFolder + "/" + name,
+                fullName,
                 function _doneCallback(data: string) {
                     log.debug("TemplateProvider", "Success downloading template " + name);
                     _this.setTemplate(name, data);
@@ -20,7 +21,7 @@ module System.Providers {
                         doneCallback(data);
                 },
                 function _failCallback(message: string) {
-                    log.error("TemplateProvider", "Error downloading template " + name + ": " + message);
+                    log.error("TemplateProvider", "Error downloading template " + name + " (" + fullName + "): " + message);
                     if (failCallback)
                         failCallback(message);
                 },

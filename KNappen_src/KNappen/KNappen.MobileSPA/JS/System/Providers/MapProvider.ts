@@ -141,6 +141,23 @@ module System.Providers {
             this.map.setLayerIndex(this.layerWMS, 1000);
         }
 
+        public showLayer() {
+            if (this.layerWMS) {
+                this.map.removeLayer(this.layerWMS);
+                this.map.addLayer(this.layerWMS);
+                this.map.setLayerIndex(this.layerWMS, 1000);
+            }
+                        
+        }
+        public hideLayer() {
+            if (this.layerWMS) {
+                this.map.removeLayer(this.layerWMS);
+                this.map.addLayer(this.layerWMS);
+                this.map.setLayerIndex(this.layerWMS, 1000);
+            }
+        
+        }
+
         public updateSize() {
             if (this.layerWMS) {
                 this.map.removeLayer(this.layerWMS);
@@ -164,6 +181,8 @@ module System.Providers {
 
 
 
+            if (mapType == "OSM")
+                return new OpenLayers.Layer.OSM("OpenStreetMap");;
             if (mapType == "GoogleStreets")
                 return new OpenLayers.Layer.Google("Google Streets");
             if (mapType == "GooglePhysical")

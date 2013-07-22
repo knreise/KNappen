@@ -57,7 +57,7 @@ module System.Providers {
             d.location = url;
         }
 
-        public SqlCallbackSet(key:string, value:string, metaStr: string) {
+        public SqlCallbackSet(key: string, value: string, metaStr: string) {
             storageProvider.setRaw(key, value);
             storageProvider.setRaw(key + ".meta", serializer.deserializeJSObject(metaStr));
         }
@@ -119,6 +119,14 @@ module System.Providers {
                 d.location = url;
             }
 
+        }
+
+        public fixLocalFileRef(file: string): string {
+            if (navigator.userAgent.match(/(Android)/)) {
+                return "file:///android_asset/world/KNappen/" + file;
+            } else {
+                return file;
+            }
         }
     }
 }
