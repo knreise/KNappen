@@ -29,28 +29,28 @@ module App.SearchProviders {
             var _this = this;
 
             inNorvegianaSearch = true;
-            setTimeout(function () {
-                if (inNorvegianaSearch) {
-                    // Handle error accordingly
-                    log.error("DataSourceNorvegiana", "Error: Search timeout / error condition.")
-                    log.userPopup(tr.translate("TIMEOUT"), tr.translate("TIMEOUT_NORVEGIANA_SEARCH"));
-                    inNorvegianaSearch = false;
+            //setTimeout(function () {
+            //    if (inNorvegianaSearch) {
+            //        // Handle error accordingly
+            //        log.error("DataSourceNorvegiana", "Error: Search timeout / error condition.")
+            //        log.userPopup(tr.translate("TIMEOUT"), tr.translate("TIMEOUT_NORVEGIANA_SEARCH"));
+            //        inNorvegianaSearch = false;
 
-                    // Retry search
-                    autoRetries--;
-                    if (autoRetries > 0) {
-                        setTimeout(function () {
-                            if (!inNorvegianaSearch) {
-                                log.info("DataSourceNorvegiana", "Autoretrying search...")
-                                log.userPopup(tr.translate("TIMEOUT"), tr.translate("TIMEOUT_NORVEGIANA_RETRY"));
-                                _this.search(searchCriteria, successCallback, errorCallback);
-                            }
-                        }, config.norvegianaAutoRetryDelaySeconds * 1000);
-                    } else {
-                        autoRetries = config.norvegianaAutoRetryCount;
-                    }
-                }
-            }, config.norvegianaSearchTimeoutSeconds * 1000);
+            //        // Retry search
+            //        autoRetries--;
+            //        if (autoRetries > 0) {
+            //            setTimeout(function () {
+            //                if (!inNorvegianaSearch) {
+            //                    log.info("DataSourceNorvegiana", "Autoretrying search...")
+            //                    log.userPopup(tr.translate("TIMEOUT"), tr.translate("TIMEOUT_NORVEGIANA_RETRY"));
+            //                    _this.search(searchCriteria, successCallback, errorCallback);
+            //                }
+            //            }, config.norvegianaAutoRetryDelaySeconds * 1000);
+            //        } else {
+            //            autoRetries = config.norvegianaAutoRetryCount;
+            //        }
+            //    }
+            //}, config.norvegianaSearchTimeoutSeconds * 1000);
 
 
             //var searchUrl = searchCriteria.norvegiana.mkUrl();
