@@ -69,7 +69,7 @@ module App.Controllers {
                     //    preImageUrl = "file:///android_asset/world/KNappen/";
                     //}
                     var keys = templateProvider.getReplacementKeys(poi);
-                    (<any>keys).iconCategoryURL() = config.fixLocalFileRef((<any>keys).iconCategoryURL());
+                    (<any>keys).iconCategoryURL(config.fixLocalFileRef((<any>keys).iconCategoryURL()));
                     
                     return templateProvider.getTemplate(config.templatePOIAR, keys);
 
