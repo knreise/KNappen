@@ -121,13 +121,6 @@ module System.Providers {
 
         }
 
-        public fixLocalFileRef(file: string): string {
-            if (navigator.userAgent.match(/(Android)/)) {
-                return "file:///android_asset/world/KNappen/" + file;
-            } else {
-                return file;
-            }
-        }
     }
 }
 var phoneGapProvider = new System.Providers.PhoneGapProvider();

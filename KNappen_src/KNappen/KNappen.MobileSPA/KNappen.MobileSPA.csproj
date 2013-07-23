@@ -234,6 +234,7 @@
     </Content>
     <Content Include="Scripts\typings\videojs\videojs.d.ts" />
     <Content Include="Scripts\video.js" />
+    <Content Include="Templates\POIAR.html" />
     <Content Include="Templates\POIPreview.html" />
     <Content Include="Templates\Views\About.html" />
     <Content Include="Templates\Views\POIDetails.html" />

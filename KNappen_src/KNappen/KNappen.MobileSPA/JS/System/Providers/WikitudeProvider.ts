@@ -35,8 +35,15 @@ module System.Providers {
                 } catch (e) {
                     log.error("WikitudeProvider", "Error hooking up Wikitude onLocationChanged: " + e);
                 }
-            }, 10 * 1000);
+            }, 2 * 1000);
 
+            try { }
+            catch (exception) {
+                // http://www.wikitude.com/external/doc/documentation/3.0/Reference/JavaScript%20Reference/context.html
+                AR.context.scene.maxScalingDistance = 1000;
+                AR.context.scene.maxScalingDistance = 20000;
+                AR.context.scene.scalingFactor = 0.5;
+            }
 
 
             //window.setInterval(function () {
@@ -157,11 +164,12 @@ module System.Providers {
             //log.verboseDebug("WikitudeProvider", "PoI: " + item.id() + " at " + item.pos().toString() + " HTML: " + htmlStr);
 
             try {
+                // http://www.wikitude.com/external/doc/documentation/3.0/Reference/JavaScript%20Reference/context.html
                 var ev = this._events;
                 var poiGeoLocation = new AR.GeoLocation(parseFloat(item.pos().lat()), parseFloat(item.pos().lon()));
                 var htmlDrawable = new AR.HtmlDrawable({ html: htmlStr }, 1, {
                     updateRate: AR.HtmlDrawable.UPDATE_RATE.STATIC,
-                    scale: 16,
+                    scale: 24,
                     offsetX: 1,
                     onClick: function () {
                         log.info("WikitudeProvider", "User clicked " + item.id());
@@ -172,7 +180,10 @@ module System.Providers {
                         return true;
                     },
                     _verticalAnchor: AR.CONST.HORIZONTAL_ANCHOR.MIDDLE,
-                    opacity: 1.0
+                    opacity: 1.0,
+                    clickThroughEnabled: true,
+                    //viewportWidth: 500,
+                    //width: 
                 });
 
                 myDrawables.push(htmlDrawable);

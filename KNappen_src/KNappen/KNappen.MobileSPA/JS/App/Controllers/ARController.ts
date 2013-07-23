@@ -19,6 +19,10 @@ module App.Controllers {
             this._this = this;
         }
 
+        public PreInit() {
+            templateProvider.queueTemplateDownload(config.templatePOIAR);
+        }
+
         /**
             Hooks up the searchresultcallback event to renderView and adds a PoiClickHandler
             @method App.Controllers.ARController#Init
@@ -64,8 +68,12 @@ module App.Controllers {
                     //if (navigator.userAgent.match(/(Android)/)) {
                     //    preImageUrl = "file:///android_asset/world/KNappen/";
                     //}
+                    var keys = templateProvider.getReplacementKeys(poi);
+                    (<any>keys).iconCategoryURL() = config.fixLocalFileRef((<any>keys).iconCategoryURL());
+                    
+                    return templateProvider.getTemplate(config.templatePOIAR, keys);
 
-                    return '<div class="poi"><img src="' + phoneGapProvider.fixLocalFileRef(poi.iconCategoryURL()) + '"/></div>';
+                    //return '<div class="poi"><img src="' +  + '"/></div>';
                     // Causes annoying IE crash during debugging: onError="$(this).unbind("error").attr("src", "Images/Icon-Large.gif");"
                 }
             );
@@ -140,3 +148,4 @@ module App.Controllers {
 
 var arController = new App.Controllers.ARController();
 startup.addInit(function () { arController.Init(); }, "ARController");
+startup.addPreInit(function () { arController.PreInit(); }, "ARController");

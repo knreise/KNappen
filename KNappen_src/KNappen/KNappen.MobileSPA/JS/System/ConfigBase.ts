@@ -56,7 +56,7 @@ module System {
          * @classdesc Contains base config (available to System namespace). Inherited by App.Config.
          */
         constructor() {            
-            this.TemplateProviderFolder = phoneGapProvider.fixLocalFileRef(this.TemplateProviderFolder);
+            //this.TemplateProviderFolder = this.fixLocalFileRef(this.TemplateProviderFolder);
             
 
             this.openLayersMapUrl["std0"] = "http://opencache.statkart.no/gatekeeper/gk/gk.open?SERVICE=WMS&";
@@ -78,6 +78,14 @@ module System {
             //this.mapCacheLevelDetail[10] = new MapCacheLevelItem(3);
             //this.mapCacheLevelDetail[9] = new MapCacheLevelItem(3);
             //this.mapCacheLevelDetail[8] = new MapCacheLevelItem(3);
+        }
+
+        public fixLocalFileRef(file: string): string {
+            if (navigator.userAgent.match(/(Android)/)) {
+                return "file:///android_asset/world/KNappen/" + file;
+            } else {
+                return file;
+            }
         }
 
     }

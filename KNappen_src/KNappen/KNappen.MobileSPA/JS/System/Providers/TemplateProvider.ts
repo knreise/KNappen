@@ -67,6 +67,20 @@ module System.Providers {
 
             return ret;
         }
+
+        public getReplacementKeys(obj: any): { [name: string]: string; } {
+            // Create replacement keys by copying POI into them first
+            var keys: { [name: string]: string; } = {};
+            $.each(obj, function (k, v) {
+                keys[k] = v;
+            });
+            // Then copy in config, just in case. Prefix with "config."
+            $.each(config, function (k, v) {
+                keys["config." + k] = v;
+            });
+            return keys;
+        }
+
     }
 }
 var templateProvider = new System.Providers.TemplateProvider();

@@ -67,7 +67,7 @@ module App.Controllers {
         public OpenPreview(poi: App.Models.PointOfInterest, show: Boolean) {
             var _this = this;
             var poiPrev = $("#poiPreview");
-            var keys = this.getReplacementKeys(poi);
+            var keys = templateProvider.getReplacementKeys(poi);
             var str = templateProvider.getTemplate(config.templatePOIPreview, keys);
             poiPrev.html(str);
             phoneGapProvider.fixALinksIfPhoneGap(poiPrev);
@@ -96,18 +96,6 @@ module App.Controllers {
             return mediaIcons.toString();
         }
 
-        private getReplacementKeys(obj: any): { [name: string]: string; } {
-            // Create replacement keys by copying POI into them first
-            var keys: { [name: string]: string; } = {};
-            $.each(obj, function (k, v) {
-                keys[k] = v;
-            });
-            // Then copy in config, just in case. Prefix with "config."
-            $.each(config, function (k, v) {
-                keys["config." + k] = v;
-            });
-            return keys;
-        }
 
         /**
             Opens the POI Detail inside the poi view
@@ -122,7 +110,7 @@ module App.Controllers {
 
             var _this = this;
 
-            var keys = this.getReplacementKeys(poi);
+            var keys = templateProvider.getReplacementKeys(poi);
 
             viewController.selectView("poiView");
             
