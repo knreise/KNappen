@@ -56,13 +56,13 @@ module System.Providers {
                         r = (<any>r)();
                     return r;
                 });
-                ret = ret.replace(/\$IF(![\s\S]*?)\$ENDIF/gm, function (fullMatch, match, offset) {
-                    var v = match.replace(/^\(([^\)]+)\).*/, "$1");
+                ret = ret.replace(/\$IF(\(![\s\S]*?)\$ENDIF/gm, function (fullMatch, match, offset) {
+                    var v = match.replace(/^\(!([^\)]+)\).*/, "$1");
                     if (!replacement[v])
                         return match.replace(/^\([^\)]+\)(.*)/, "$1");
                     return "";
                 });
-                ret = ret.replace(/\$IF([\s\S]*?)\$ENDIF/gm, function (fullMatch, match, offset) {
+                ret = ret.replace(/\$IF(\([\s\S]*?)\$ENDIF/gm, function (fullMatch, match, offset) {
                     var v = match.replace(/^\(([^\)]+)\).*/, "$1");
                     if (replacement[v])
                         return match.replace(/^\([^\)]+\)(.*)/, "$1");
