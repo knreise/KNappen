@@ -56,24 +56,24 @@ module System.Providers {
                         r = (<any>r)();
                     return r;
                 });
-                ret = ret.replace(/\$IF(\(![\s\S]*?)\$ENDIF/gm, function (fullMatch, match, offset) {
-                    var v = match.replace(/^\(!([^\)]+)\).*/, "$1");
+                ret = ret.replace(/\$IF(\(\![\s\S]*?)\$ENDIF/gm, function (fullMatch, match, offset) {
+                    var v = match.replace(/^\(\!([^\)]+)\)[\s\S]*/gm, "$1");
                     var r = replacement[v];
                     // If it is a method, execute it
                     if (typeof r === "function")
                         r = (<any>r)();
                     if (!r)
-                        return match.replace(/^\([^\)]+\)(.*)/, "$1");
+                        return match.replace(/^\([^\)]+\)([\s\S]*)/gm, "$1");
                     return "";
                 });
                 ret = ret.replace(/\$IF(\([\s\S]*?)\$ENDIF/gm, function (fullMatch, match, offset) {
-                    var v = match.replace(/^\(([^\)]+)\).*/, "$1");
+                    var v = match.replace(/^\(([^\)]+)\)[\s\S]*/gm, "$1");
                     var r = replacement[v];
                     // If it is a method, execute it
                     if (typeof r === "function")
                         r = (<any>r)();
                     if (r)
-                        return match.replace(/^\([^\)]+\)(.*)/, "$1");
+                        return match.replace(/^\([^\)]+\)([\s\S]*)/gm, "$1");
                     return "";
                 });
             }
