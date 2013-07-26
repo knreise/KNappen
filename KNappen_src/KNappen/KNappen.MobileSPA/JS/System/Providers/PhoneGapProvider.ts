@@ -121,6 +121,16 @@ module System.Providers {
 
         }
 
+        public callbackSqlReadSuccess() {
+            log.debug("PhoneGapProvider", "PhoneGapInterop reports success on SQL read.")
+            startup.continueStartup();
+        }
+
+        public callbackSqlReadError(errorCode: string, errorMessage: string) {
+            log.debug("PhoneGapProvider", "PhoneGapInterop reports error on SQL read: Code: " + errorCode + ", message: " + errorMessage);
+            startup.continueStartup();
+        }
+
     }
 }
 var phoneGapProvider = new System.Providers.PhoneGapProvider();

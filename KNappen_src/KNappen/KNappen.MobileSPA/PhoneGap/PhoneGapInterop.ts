@@ -161,10 +161,17 @@ module PhoneGap {
                             });
                     },
                     function (error) {
-                        if (error)
+                        if (error) {
                             console.log("SQL SELECT: \"" + sql + "\": Error: " + error.code + ": " + error.message);
+                            phoneGapInterop.callJavaScript("phoneGapProvider.callbackSqlReadError('" + error.code + "', '" + error.message + "')");
+                        } else {
+                            phoneGapInterop.callJavaScript("phoneGapProvider.callbackSqlReadError('', '')");
+                        }
                     },
-                    function () { console.log("SQL SELECT Success: " + sql); }
+                    function () {
+                        console.log("SQL SELECT Success: " + sql);
+                        phoneGapInterop.callJavaScript("phoneGapProvider.callbackSqlReadSuccess()");
+                    }
                     );
             }
 
