@@ -123,12 +123,12 @@ module System.Providers {
 
         public callbackSqlReadSuccess() {
             log.debug("PhoneGapProvider", "PhoneGapInterop reports success on SQL read.")
-            startup.continueStartup();
+            startup.shortcutLoadTimeout();
         }
 
         public callbackSqlReadError(errorCode: string, errorMessage: string) {
             log.debug("PhoneGapProvider", "PhoneGapInterop reports error on SQL read: Code: " + errorCode + ", message: " + errorMessage);
-            startup.continueStartup();
+            startup.shortcutLoadTimeout();
         }
 
     }
