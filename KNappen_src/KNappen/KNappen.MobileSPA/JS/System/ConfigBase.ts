@@ -14,6 +14,7 @@ module System {
           @type bool
           */
         public debug: bool = true;
+        
         /**
           Short name of application
           @type string 
