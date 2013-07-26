@@ -41,10 +41,16 @@ module App.Controllers {
             $("#settingsButtonSave").mousedown(function () {
                 settings.save();
                 mapStorageProvider.setEnabled(!settings.disableCaching);
-
                 log.userPopup(tr.translate('SETTINGS'), tr.translate('SETTINGS_SAVED'));
                 return false;
             });
+
+            settings.onPostSave.addHandler(function () {
+                mapStorageProvider.setEnabled(!settings.disableCaching);
+            }, "SettingsController");
+            settings.onPostLoad.addHandler(function () {
+                mapStorageProvider.setEnabled(!settings.disableCaching);
+            }, "SettingsController");
 
             // Clear cache button
             $("#btnClearCache").mousedown(function () {
@@ -58,7 +64,7 @@ module App.Controllers {
             // Open admin if logo clicked 10 times
             $("#logoFrame").mousedown(function () {
                 _this.adminOpenCounter++;
-                if (_this.adminOpenCounter > 9) {
+                if (_this.adminOpenCounter == 10) {
                     $("#adminSettingsDiv").show();
                     viewController.selectView("settingsView");
                 }

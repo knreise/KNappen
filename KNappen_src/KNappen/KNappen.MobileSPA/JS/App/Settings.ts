@@ -8,6 +8,12 @@ module App {
       * @class
       */
     export class Settings {
+
+        public onPreLoad = new System.Utils.Event("Settings.PreLoad");
+        public onPostLoad = new System.Utils.Event("Settings.PostLoad");
+        public onPreSave = new System.Utils.Event("Settings.PreSave");
+        public onPostSave = new System.Utils.Event("Settings.PostSave");
+
         public mapTypes: KnockoutObservableArray;
         public mapZoomLevels: KnockoutObservableArray;
         public searchDistances: KnockoutObservableArray;
@@ -25,6 +31,9 @@ module App {
         public adminPassword: KnockoutObservableString = ko.observable('');
         public disableCaching: KnockoutObservableBool = ko.observable(false);
 
+        constructor() {
+        }
+
         public PreInit() {
             log.debug("Settings", "PreInit()");
 
@@ -33,38 +42,42 @@ module App {
         }
 
         public save() {
+            this.onPreSave.trigger('PreSave');
             serializer.serializeKnockoutObjectToFile("Settings", this);
+            this.onPostSave.trigger('PostSave');
         }
 
         public load(): bool {
+            this.onPreLoad.trigger('PreLoad');
             var ret = serializer.deserializeKnockoutObjectFromFile("Settings", this);
             this.setOverrides();
+            this.onPostLoad.trigger('PostLoad');
             return ret;
         }
 
         private setOverrides() {
             this.mapTypes = ko.observableArray([
-            { id: "WMS:std0:norges_grunnkart", name: "Norges grunnkart" },
-            { id: "WMS:std0:topo2", name: "Topologisk" },
-            //{ id: "nib0:NiB", name: "Flyfoto" },
-            //{ id: "WMTS:nib0:NiB", name: "Flyfoto" },
+                { id: "WMS:std0:norges_grunnkart", name: "Norges grunnkart" },
+                { id: "WMS:std0:topo2", name: "Topologisk" },
+                //{ id: "nib0:NiB", name: "Flyfoto" },
+                //{ id: "WMTS:nib0:NiB", name: "Flyfoto" },
             ]);
 
 
             this.mapZoomLevels = ko.observableArray(
                 [
-                { id: 7, name: "7 (land)" },
-                { id: 8, name: "8" },
-                { id: 9, name: "9" },
-                { id: 10, name: "10 (fylke)" },
-                { id: 11, name: "11" },
-                { id: 12, name: "12" },
-                { id: 13, name: "13 (by)" },
-                { id: 14, name: "14" },
-                { id: 15, name: "15 (bydel)" },
-                { id: 15, name: "16" },
-                { id: 15, name: "17" },
-                { id: 15, name: "18 (gate)" }
+                    { id: 7, name: "7 (land)" },
+                    { id: 8, name: "8" },
+                    { id: 9, name: "9" },
+                    { id: 10, name: "10 (fylke)" },
+                    { id: 11, name: "11" },
+                    { id: 12, name: "12" },
+                    { id: 13, name: "13 (by)" },
+                    { id: 14, name: "14" },
+                    { id: 15, name: "15 (bydel)" },
+                    { id: 15, name: "16" },
+                    { id: 15, name: "17" },
+                    { id: 15, name: "18 (gate)" }
                 ]);
 
             this.searchDistances = ko.observableArray([
@@ -101,13 +114,14 @@ module App {
                 { id: "listView", name: "Søkeresultat" },
             ]);
 
-
-            //this.searchCategories = ko.observableArray([
-            //    { id: "mapView", name: "Kart" },
-            //    { id: "listView", name: "Søkeresultat" },
-            //    { id: "arView", name: "Utvidet virkelighet" }
-            //]);
         }
+      
+        //this.searchCategories = ko.observableArray([
+        //    { id: "mapView", name: "Kart" },
+        //    { id: "listView", name: "Søkeresultat" },
+        //    { id: "arView", name: "Utvidet virkelighet" }
+        //]);
+    
     }
 
 }

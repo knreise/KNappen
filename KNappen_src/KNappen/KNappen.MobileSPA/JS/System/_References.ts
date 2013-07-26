@@ -1,3 +1,4 @@
+/// <reference path="Utils/Event.ts" />
 /// <reference path="Utils/CompatibilityInfo.ts" />
 /// <reference path="Providers/TemplateProvider.ts" />
 /// <reference path="Providers/MapCacheProvider.ts" />
