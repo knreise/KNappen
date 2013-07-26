@@ -23,6 +23,7 @@ module App {
         public startView: KnockoutObservableString = ko.observable('mapView');
 
         public adminPassword: KnockoutObservableString = ko.observable('');
+        public disableCaching: KnockoutObservableBool = ko.observable(false);
 
         public PreInit() {
             log.debug("Settings", "PreInit()");

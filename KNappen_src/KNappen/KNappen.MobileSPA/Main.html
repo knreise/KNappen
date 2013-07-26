@@ -124,6 +124,7 @@
 
     <!-- Controllers -->
     <script src="JS/System/GUI/ViewController.js"></script>
+    <script src="JS/App/Controllers/SettingsController.js"></script>
     <script src="JS/App/Controllers/WindowSizeController.js"></script>
     <script src="JS/App/Controllers/PoiController.js"></script>
     <script src="JS/App/Controllers/SearchController.js"></script>
@@ -218,7 +219,7 @@
 
 
         startup.addInit(function () {
-            
+
 
             // Set to default startup view only if we don't have a valid URL
             if (!viewController.processUrl())
@@ -378,23 +379,26 @@
                 <select id="ddlSettingsStartMapType" class="refreshSelectAfterDataBind" data-bind="value: settings().startMapType, jqmOptions: settings().mapTypes, optionsText: 'name', optionsValue: 'id'"></select>
             </div>
             <br />
-            <script>
-                var adminOpen = 0;
-                $("#logoFrame").mousedown(function () {
-                    adminOpen++;
-                    if (adminOpen > 9) {
-                        $("#adminPasswordDiv").show();
-                        viewController.selectView("settingsView");
-                    }
-                });
-            </script>
-            <div id="adminPasswordDiv" class="hidden">
-                <h3 class="translate">$T[Adminpassword]</h3>
-                <input type="text" id="inputSettingsAdminPassword" data-bind="value: settings().adminPassword, valueUpdate: 'afterkeydown'" />
+        
+            <div id="adminSettingsDiv" class="hidden">
+                <div>
+                    <h3 class="translate">$T[Adminpassword]</h3>
+                    <input type="text" id="inputSettingsAdminPassword" data-bind="value: settings().adminPassword, valueUpdate: 'afterkeydown'" />
+                </div>
+                <div>
+                    <h3 class="translate"><input type="checkbox" data-bind="value: settings().disableCaching"> $T[Disable caching]</h3>
+                    <div class="translate">
+                        <input type="button" id="btnClearCache" value="$T[Clear cache]" />
+
+                    </div>
+                </div>
+
                 <br />
                 <br />
             </div>
-            <input type="button" value="Lagre" onmousedown="settings.save(); log.userPopup(tr.translate('SETTINGS'), tr.translate('SETTINGS_SAVED')); return false;" />
+            <div class="translate">
+                <input id="settingsButtonSave" type="button" value="$T[Save]" />
+            </div>
         </div>
 
         <div id="searchView" class="contentPage">

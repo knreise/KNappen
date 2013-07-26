@@ -1,15 +1,13 @@
 /// <reference path="../../../Scripts/typings/jquery/jquery.d.ts" />
-/// <reference path="../ConfigBase.ts" />
 
 /**
     Diagnostics modules
     @namespace System.Diagnostics
 */
 module System.Diagnostics {
-    // This is necessary since this module won't know the App.Config module instance yet.
-    declare var config: System.ConfigBase;
 
     export enum LogTypeEnum {
+        VerboseDebug,
         Debug,
         Info,
         Error,
@@ -24,11 +22,13 @@ module System.Diagnostics {
         // Somewhere to keep events
         /** @ignore */ private _this: JQuery;
         private logLevel: System.Diagnostics.LogTypeEnum = null;
+
         private logLevelEnabled_VerboseDebug: bool = true;
         private logLevelEnabled_Debug: bool = true;
         private logLevelEnabled_Info: bool = true;
         private logLevelEnabled_Error: bool = true;
         private logLevelEnabled_Fatal: bool = true;
+
         /**
             Log
             @class System.Diagnostics.Log
@@ -136,9 +136,6 @@ module System.Diagnostics {
 
         /** @ignore */
         private raw(msg) {
-            if (!config.debug)
-                return;
-
             try {
                 //if (typeof console === "undefined" || typeof console.log === "undefined") {
                 //} else {

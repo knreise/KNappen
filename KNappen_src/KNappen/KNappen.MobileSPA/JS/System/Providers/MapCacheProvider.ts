@@ -22,6 +22,7 @@ module System.Providers {
             cacheWrite.cachingType = cachingType;
             map.addControl(cacheWrite);
         }
+
     }
 
     /* ======================================================================

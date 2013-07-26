@@ -15,7 +15,7 @@ module System {
         // Somewhere to keep events
         /** @ignore */ private eventHooks: JQuery;
 
-        private loadCountdownMs = 10 * 1000; // Plus loadIntervalCheckMs to be exact, but who keeps track
+        public loadCountdownMs = 10; // Plus loadIntervalCheckMs to be exact, but who keeps track
         private loadIntervalCheckMs = 100;
 
         /**
