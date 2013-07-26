@@ -139,7 +139,7 @@ module System {
             var _this = this;
             setTimeout(function () {
                 _this.eventHooks.trigger('Load');
-                this.waitForLoadContinue();
+                _this.waitForLoadContinue();
             });
         }
     }

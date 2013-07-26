@@ -234,6 +234,12 @@
                 });
 
         }, "Main:DownloadTemplates");
+
+        startup.addPostInit(function () {
+            if (!compatibilityInfo.hasAR) {
+                $("#mainPopupMenuButtonAR").hide();
+            }
+        }, "Main:HideIncompatible");
     </script>
 
     <script>
@@ -464,7 +470,7 @@
         <div class="popupMenuButton translate" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('mapView'); return false;">
             <img src="Content/images/MenuImages/mapIcon.png" />$T[Map]
         </div>
-        <div class="popupMenuButton translate" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('arView'); return false;">
+        <div id="mainPopupMenuButtonAR" class="popupMenuButton translate" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('arView'); return false;">
             <img src="Content/images/MenuImages/ar.png" />$T[Camera]
         </div>
         <div class="popupMenuButton translate" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('listView'); return false;">

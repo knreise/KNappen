@@ -28,15 +28,10 @@ module System.Providers {
         */
         constructor() {
             this._this = $(this);
-            // If browser supports GPS coordinates
-            var hasAR = false;
-            try {
-                if (AR)
-                    hasAR = true;
-            } catch (exception) {
-            }
+        }
 
-            if (!hasAR) {
+        public PostInit() {
+            if (!compatibilityInfo.hasAR) {
                 if (navigator.geolocation) {
                     log.debug("GpsProvider", "Runtime environment supports GPS, will use.");
                     this.readBrowserGpsPos(this);
@@ -115,3 +110,4 @@ module System.Providers {
 }
 
 var gpsProvider = new System.Providers.GpsProvider();
+startup.addPostInit(function () { gpsProvider.PostInit(); });

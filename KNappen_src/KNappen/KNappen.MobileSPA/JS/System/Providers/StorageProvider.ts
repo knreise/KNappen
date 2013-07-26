@@ -37,11 +37,7 @@ module System.Providers {
         constructor() {
 
             //store.setStore(cookieStore);
-            try {
-                if (AR)
-                    this.isPhoneGap = true;
-            } catch (exception) {
-            }
+            this.isPhoneGap = compatibilityInfo.isPhoneGap;
             this.ReInit();
         }
 

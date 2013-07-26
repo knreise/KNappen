@@ -1,3 +1,4 @@
+/// <reference path="Utils/CompatibilityInfo.ts" />
 /**
     System root
     @namespace
