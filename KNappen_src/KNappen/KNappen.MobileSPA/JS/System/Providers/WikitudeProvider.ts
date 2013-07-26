@@ -181,7 +181,7 @@ module System.Providers {
                     },
                     _verticalAnchor: AR.CONST.HORIZONTAL_ANCHOR.MIDDLE,
                     opacity: 1.0,
-                    clickThroughEnabled: true,
+                    clickThroughEnabled: tru
                     //viewportWidth: 500,
                     //width: 
                 });

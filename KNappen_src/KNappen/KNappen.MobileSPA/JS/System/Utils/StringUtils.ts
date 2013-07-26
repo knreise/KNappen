@@ -71,6 +71,12 @@ module System.Util {
             }
             return hash;
         }
+
+        public shorten(str: string, len: number) {
+            if (str.length < len + 3)
+                return str;
+            return str.substring(0, len) + "...";
+        }
     }
 }
 
