@@ -81,7 +81,7 @@ module System {
         }
 
         public fixLocalFileRef(file: string): string {
-            if (navigator.userAgent.match(/(Android)/)) {
+            if (compatibilityInfo.hasAR && compatibilityInfo.isAndroid) {
                 return "file:///android_asset/world/KNappen/" + file;
             } else {
                 return file;

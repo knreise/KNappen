@@ -226,6 +226,10 @@
     <Content Include="JS\System\Providers\TemplateProvider.min.js">
       <DependentUpon>TemplateProvider.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="JS\System\Utils\CompatibilityInfo.ts" />
+    <Content Include="JS\System\Utils\CompatibilityInfo.js">
+      <DependentUpon>CompatibilityInfo.ts</DependentUpon>
+    </Content>
     <Content Include="PhoneGap\PhoneGapInterop.js">
       <DependentUpon>PhoneGapInterop.ts</DependentUpon>
     </Content>
@@ -565,6 +569,9 @@
     </Content>
     <Content Include="JS\App\Controllers\WindowSizeController.js.map">
       <DependentUpon>WindowSizeController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Utils\CompatibilityInfo.js.map">
+      <DependentUpon>CompatibilityInfo.ts</DependentUpon>
     </Content>
     <None Include="Scripts\OpenLayers.js_DoNotUse_NotModified" />
     <None Include="Scripts\OpenLayers.light.debug.js_DoNotUse_NotModified" />

@@ -78,6 +78,7 @@
     <script src="JS/System/Diagnostics/Log.js"></script>
     <script src="JS/System/Startup.js"></script>
     <script src="JS/System/Providers/TemplateProvider.js"></script>
+    <script src="JS/System/Utils/CompatibilityInfo.js"></script>
 
     <!-- Models -->
     <script src="JS/System/Models/Position.js"></script>
@@ -142,10 +143,10 @@
         //localStorage.clear();
 
         // Store globally wether we think its phone or not 
-        var IsMobileBrowser = false;
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
-            IsMobileBrowser = true;
-        }
+        //var IsMobileBrowser = false;
+        //if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
+        //    IsMobileBrowser = true;
+        //}
 
         //// If it is not mobile, load ade.js for Wikitude simulation
         //if (!IsMobileBrowser) {

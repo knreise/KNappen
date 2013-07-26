@@ -85,6 +85,7 @@ module System {
         public shortcutLoadTimeout() {
             // Make sure we don't re-execute startup if called after startup is done
             if (this.loadCountdownMs > 0) {
+                log.debug("Startup", "Shortcutting load timeout.");
                 // Set remaining time to exactly one tick so it will execute on next tick
                 this.loadCountdownMs = this.loadIntervalCheckMs;
                 // Execute next tick
@@ -116,7 +117,8 @@ module System {
 
             // We made it this far, it means we should consider ourselves done.
             this.loadCountdownMs = -1;
-
+    
+            log.debug("Startup", "Load timeout, proceeding with startup procedure.");
             setTimeout(function () {
                 _this.eventHooks.trigger('PreInit');
                 setTimeout(function () {
