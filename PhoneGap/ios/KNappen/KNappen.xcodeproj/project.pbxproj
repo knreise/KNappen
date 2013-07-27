@@ -508,7 +508,7 @@
 				);
 				PRODUCT_NAME = KNappen;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/KNappen/Framework\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/KNappen/Framework\"/** \"$(SRCROOT)/CordovaLib\"/** \"$(SRCROOT)/cordova\"/**";
 				VALID_ARCHS = armv7;
 			};
 			name = Debug;
@@ -545,7 +545,7 @@
 				);
 				PRODUCT_NAME = KNappen;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/KNappen/Framework\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/KNappen/Framework\"/** \"$(SRCROOT)/CordovaLib\"/** \"$(SRCROOT)/cordova\"/**";
 				VALID_ARCHS = armv7;
 			};
 			name = Release;
