@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set
+
 #find . -type f | grep "\.ts" | grep -v "\.d\.ts" > TypeScriptFiles.txt
 (
   find ./KNappen.MobileSPA/JS/System/ -type f; 

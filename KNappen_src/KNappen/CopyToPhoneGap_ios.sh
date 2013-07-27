@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DD=../../PhoneGap/Android/KNappen/assets/world/KNappen
+DD=../../PhoneGap/ios/KNappen/assets/world/KNappen
 rm -rf "$DD"
 mkdir -p "$DD"
 cp -va ./KNappen.MobileSPA/* "$DD"
