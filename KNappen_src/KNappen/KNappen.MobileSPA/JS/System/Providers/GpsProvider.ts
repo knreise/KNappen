@@ -81,10 +81,18 @@ module System.Providers {
             @param {number} acc Accelleration.
             @public
           */
-        public setPos(lat: number, lon: number, alt: number, acc: number) {
+        public setPos(lat: number, lon: number, alt?: number, acc?: number, altitudeAccuracy?: number, heading?: number, speed?: number, timestamp?: Date) {
             // We have received an update of GPS pos
-            log.debug("GpsProvider", "Location changed: (" + lat + ", " + lon + ", " + alt + ", " + acc + ")");
-
+            //log.debug("GpsProvider", "Location changed: (" + lat + ", " + lon + ", " + alt + ", " + acc + ")");
+            log.verboseDebug("GpsProvider", "Received geolocation: "
+                + 'Latitude: ' + lat + ', '
+                + 'Longitude: ' + lon + ', '
+                + 'Altitude: ' + alt + ', '
+                + 'Accuracy: ' + acc + ', '
+                + 'Altitude Accuracy: ' + altitudeAccuracy + ', '
+                + 'Heading: ' + heading + ', '
+                + 'Speed: ' + speed + ', '
+                + 'Timestamp: ' + timestamp + '');
             // Set a global position so others parts of app quickly can access last known pos any time
             this.lastPos = new System.Models.Position(lat, lon, alt, acc);
             var lp = this.lastPos;

@@ -17,6 +17,7 @@ module System {
 
         public loadCountdownMs = 10; // Plus loadIntervalCheckMs to be exact, but who keeps track
         private loadIntervalCheckMs = 100;
+        public autoStartup: bool = true;
 
         /**
          * Startup
@@ -117,7 +118,7 @@ module System {
 
             // We made it this far, it means we should consider ourselves done.
             this.loadCountdownMs = -1;
-    
+            
             log.debug("Startup", "Load timeout, proceeding with startup procedure.");
             setTimeout(function () {
                 _this.eventHooks.trigger('PreInit');
@@ -150,5 +151,6 @@ var startup = new System.Startup();
 
 // Execute when we are done loading
 $(function () {
-    startup.executeStartup();
+    if (startup.autoStartup)
+        startup.executeStartup();
 });

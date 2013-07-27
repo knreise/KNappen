@@ -1,0 +1,503 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta name="viewport" content="width=320, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="HandheldFriendly" content="true" />
+
+    <!--
+        
+        // 
+        // Pointers to pointers to printf()-like functions, 
+        // Unary minus and nested conjunctions, 
+        // Integers, booleans, characters, strings, 
+        // These are a few of my favorite things! 
+        // 
+        // Encapsuled functions with routines embeded. 
+        // Parallel process to run multi-threaded. 
+        // Routines that lighten the processor load. 
+        // This is just some of my favorite code! 
+        // 
+        // /* When the bug bites! When the core dumps! 
+        //    when the code is bad. 
+        //    I simply remember my favorite things, 
+        //    and then I don’t feel so mad. */ 
+        // 
+        // API reference and good indentation. 
+        // Pointers to strings that have null-termination. 
+        // Callbacks to functions of referencing strings. 
+        // These are a few of my favorite things. 
+        // 
+        // malloc() and calloc() and database files. 
+        // Error-free coding that always compiles. 
+        // Arrays of structures and quick file sort. 
+        // These are my favorite things to import! 
+        // 
+        // /* When the link fails! When the code bombs! 
+        //    When it won’t execute. 
+        //    I simply compile my favorite things 
+        //    and then I can go Re-boot! */ 
+        //
+        // - Fred Curtis
+        -->
+
+
+    <!-- Stylesheets -->
+    <!-- <link href="theme/default/style.css" rel="stylesheet" />
+    <link href="theme/default/style.mobile.css" rel="stylesheet" />-->
+    <link href="Content/themes/base/jquery-ui.css" rel="stylesheet" />
+    <link href="Content/toastr.css" rel="stylesheet" />
+    <link href="Content/themes/base/jquery.ui.dialog.css" rel="stylesheet" />
+    <link href="Content/TypIcons/typicons.min.css" rel="stylesheet" />
+    <link href="Content/style.css" rel="stylesheet" />
+    <link href="Content/video-js.css" rel="stylesheet" />
+
+    <!-- Runtime (Wikitude) -->
+    <script src="architect://architect.js"></script>
+
+    <!-- Third-party -->
+    <!--<script src="Scripts/jquery-2.0.0.min.js"></script>-->
+    <script src="Scripts/jquery-1.9.1.min.js"></script>
+    <script src="Scripts/jquery-ui-1.10.2.min.js"></script>
+    <script src="Scripts/jquery.ui.touch-punch.min.js"></script>
+    <script src="Scripts/knockout-2.2.1.js"></script>
+    <script src="Scripts/knockout.mapping-latest.js"></script>
+    <script src="Scripts/moment.min.js"></script>
+    <script src="Scripts/OpenLayers.debug.js"></script>
+    <script src="Scripts/OpenLayers.Control.ClickHold.js"></script>
+    <script src="Scripts/toastr.js"></script>
+    <script src="Scripts/json2.min.js"></script>
+    <script src="Scripts/LatLon.js"></script>
+    <script src="Scripts/cache.js"></script>
+    <script src="Scripts/stores.js"></script>
+    <script src="Scripts/proj4.js"></script>
+    <script src="Scripts/soundmanager2-jsmin.js"></script>
+    <script src="Scripts/video.js"></script>
+
+    <!-- Base -->
+    <script src="JS/System/Diagnostics/Log.js"></script>
+    <script src="JS/System/Startup.js"></script>
+    <script src="JS/System/Utils/Event.js"></script>
+    <script src="JS/System/Providers/TemplateProvider.js"></script>
+    <script src="JS/System/Utils/CompatibilityInfo.js"></script>
+
+    <!-- Models -->
+    <script src="JS/System/Models/Position.js"></script>
+    <script src="JS/System/Models/PointOfInterestBase.js"></script>
+    <script src="JS/App/Models/SearchCriteriaEnums.js"></script>
+    <script src="JS/App/Models/SearchCriteria.js"></script>
+    <script src="JS/App/Models/SearchResult.js"></script>
+    <script src="JS/App/Models/PointOfInterest.js"></script>
+
+    <!-- Config -->
+    <script src="JS/System/ConfigBase.js"></script>
+    <script src="JS/App/Config.js"></script>
+    <script src="JS/App/Settings.js"></script>
+
+    <!-- Base -->
+    <script src="JS/System/Providers/PhoneGapProvider.js"></script>
+    <script src="JS/System/Utils/StringUtils.js"></script>
+    <script src="JS/System/Utils/Translater.js"></script>
+    <script src="JS/System/Utils/ErrorTool.js"></script>
+    <script src="JS/System/Utils/Serializer.js"></script>
+    <script src="JS/App/Providers/TranslationProviderNB.js"></script>
+
+    <!-- Providers -->
+    <script src="JS/System/Providers/StorageProvider.js"></script>
+    <script src="JS/System/Providers/GoogleAnalyticsProvider.js"></script>
+    <script src="JS/System/Providers/GpsProvider.js"></script>
+    <script src="JS/System/Providers/MapCacheProvider.js"></script>
+    <script src="JS/System/Providers/MapStorageProvider.js"></script>
+    <script src="JS/System/Providers/MapProvider.js"></script>
+    <script src="JS/System/Providers/MapPreCacheProvider.js"></script>
+    <script src="JS/System/Providers/WikitudeProvider.js"></script>
+    <script src="JS/System/Providers/ARProvider.js"></script>
+    <script src="JS/System/Providers/HttpDownloadProvider.js"></script>
+    <script src="JS/App/Providers/SearchProvider.js"></script>
+    <script src="JS/App/Providers/MultiViewBindingProvider.js"></script>
+    <script src="JS/App/Providers/RouteProvider.js"></script>
+    <script src="JS/App/Providers/PointOfInterestTypeProvider.js"></script>
+    <script src="JS/App/SearchProviders/DataSourceNorvegiana.js"></script>
+    <script src="JS/App/SearchProviders/DataSourceDigitalarkivetProperty.js"></script>
+    <script src="JS/App/SearchProviders/DataSourceWikiLocation.js"></script>
+    <script src="JS/App/SearchProviders/SSRSearch.js"></script>
+    <script src="JS/System/Providers/AudioProvider.js"></script>
+
+    <!-- Controllers -->
+    <script src="JS/System/GUI/ViewController.js"></script>
+    <script src="JS/App/Controllers/SettingsController.js"></script>
+    <script src="JS/App/Controllers/WindowSizeController.js"></script>
+    <script src="JS/App/Controllers/PoiController.js"></script>
+    <script src="JS/App/Controllers/SearchController.js"></script>
+    <script src="JS/App/Controllers/MapController.js"></script>
+    <script src="JS/App/Controllers/ResultListController.js"></script>
+    <script src="JS/App/Controllers/UserPopupController.js"></script>
+    <script src="JS/App/Controllers/ARController.js"></script>
+    <script src="JS/App/Controllers/RouteController.js"></script>
+    <script src="JS/App/Controllers/FeedbackController.js"></script>
+    <script src="JS/App/Controllers/GoogleAnalyticsController.js"></script>
+    <script src="JS/App/Controllers/SearchViewController.js"></script>
+    <script src="JS/App/Controllers/AudioController.js"></script>
+
+    <!-- GUI -->
+    <script src="JS/App/GUI/PoiDialog.js"></script>
+    <script>
+        //localStorage.clear();
+
+        ///alert(stringUtils.getHostFromUrl("architectsdk://sql?action=read"));
+
+        //// If it is not mobile, load ade.js for Wikitude simulation
+        //if (!compatibilityInfo.hasAR && !compatibilityInfo.isMobile) {
+        //    var js = document.createElement("script");
+
+        //    js.type = "text/javascript";
+        //    js.src = "Scripts/ade.js";
+
+        //    var head = document.getElementsByTagName('head')[0];
+        //    head.appendChild(js);
+        //    compatibilityInfo.hasAR = true;
+        //}
+    </script>
+
+    <script>
+        // If mobile we turn off all jQuery animation effects
+        if (compatibilityInfo.isMobile) {
+            $.fx.off = true;
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#mainSection").hide().delay(100).show();
+            $("#routeTabs").tabs();
+
+            $("#sortableEditorialRoutes").sortable();
+            $("#sortableEditorialRoutes").disableSelection();
+
+            $("#addPoiToRoute").mousedown(function () {
+                $("#addPoiToRouteForm").toggle();
+            });
+
+            $(document).mousedown(function () {
+                $('#mainPopupMenu').hide();
+            });
+
+            $("#headerMenuBtn").mousedown(function (e) {
+                $('#mainPopupMenu').toggle();
+                e.stopPropagation();
+            });
+
+            $("#poiPreview").mousedown(function (e) {
+                e.stopPropagation();
+            });
+        });
+        // Init
+        config.appName = "KNappen";
+        config.appFullName = "Kultur- og Naturreise";
+        config.debug = true;
+
+
+        // Add all known views to ViewController.
+        startup.addPreInit(function () {
+            viewController.AddView("listView");
+            viewController.AddView("mapView");
+            viewController.AddView("arView");
+            viewController.AddView("feedbackView");
+            viewController.AddView("settingsView");
+            viewController.AddView("searchView");
+            viewController.AddView("aboutView");
+            viewController.AddView("debugView");
+            viewController.AddView("routeView");
+            viewController.AddView("poiView");
+        }, "Main:AddViews");
+
+
+
+        startup.addInit(function () {
+
+            // Set to default startup view only if we don't have a valid URL
+            if (!viewController.processUrl())
+                viewController.selectView(settings.startView());
+
+        }, "Main:SelectView");
+
+        startup.addPreInit(function () {
+            templateProvider.queueTemplateDownload(config.templateAboutView,
+                function (data) { $("#aboutView").html(data); },
+                function (message) {
+                    $("#aboutView").html("Error downloading template " + config.templateAboutView + ": " + message);
+                });
+
+        }, "Main:DownloadTemplates");
+
+        startup.addPostInit(function () {
+            if (!compatibilityInfo.hasAR) {
+                $("#mainPopupMenuButtonAR").hide();
+            }
+        }, "Main:HideIncompatible");
+    </script>
+
+    <script>
+        
+    </script>
+
+</head>
+<body>
+    <div id="headerSection" class="headerSection">
+        <div class="popupMenuOpenButton left" id="headerMenuBtn">
+            <img src="Content/images/MenuImages/menu_Inactive.png" />
+        </div>
+        <div class="right">
+            <img src="Content/images/AppIcons/search_Active.png" class="appImage" onmousedown="viewController.selectView('searchView');" />
+        </div>
+        <div id="logoFrame" class="middle" onmousedown="viewController.selectView(settings.startView());">
+            <h2>Kultur- og naturreise</h2>
+        </div>
+
+    </div>
+    <div id="headerSectionSize"></div>
+    <div id="mainSection" class="mainSection">
+
+        <div id="listView" class="contentPage">
+            <!-- Fill this with data from Norvegiana in this format: <h3><div> -->
+            <div id="routeName">
+                <h3></h3>
+            </div>
+            <div id="listCount" class="resultListCentered">
+            </div>
+            <div id="listAccordion">
+            </div>
+            <div id="listPager" class="resultListCentered">
+            </div>
+        </div>
+        <div id="routeView" class="contentPage">
+            <input type="button" id="btnCache" value="Forh&aring;ndslagre" />
+
+            <div id="routeTabs">
+                <ul>
+                    <li><a href="#routeListEditorial" class="translate">$T[Recommended]</a></li>
+                    <li><a href="#routeListUser" class="translate">$T[User defined]</a></li>
+                </ul>
+                <div id="routeListEditorial">
+                    <ul id="editorialRoutes" class="routes">
+                    </ul>
+                </div>
+                <div id="routeListUser">
+                    <ul id="userRoutes" class="routes">
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="mapView" class="contentPage" style="background-color: lightgrey;">
+            <div id="map" class="map"></div>
+            <div id="mapCacheWriteStatus"></div>
+            <div id="mapCacheReadStatus"></div>
+        </div>
+        <div id="arView" style="height: 0; background: transparent" class="contentPage">
+        </div>
+        <script>
+            // Attempt at getting jQuery mobile to show default selected at init... http://stackoverflow.com/questions/9373982/knockout-and-jquery-mobile-binding-data-to-select-lists
+            ko.bindingHandlers.jqmOptions = {
+                init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+                    if (typeof ko.bindingHandlers.options.init !== 'undefined') {
+                        ko.bindingHandlers.options.init(element, valueAccessor, allBindingsAccessor, viewModel);
+                    }
+                },
+
+                update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+                    if (typeof ko.bindingHandlers.options.update !== 'undefined') {
+                        ko.bindingHandlers.options.update(element, valueAccessor, allBindingsAccessor, viewModel);
+                    }
+
+                    var instance = $.data(element, 'selectmenu');
+                    if (instance) {
+                        $(element).selectmenu('refresh', true);
+                    }
+                }
+            };
+
+            ko.bindingHandlers.jqmValue = {
+                init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+                    if (typeof ko.bindingHandlers.value.init !== 'undefined') {
+                        ko.bindingHandlers.value.init(element, valueAccessor, allBindingsAccessor, viewModel);
+                    }
+                },
+
+                update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+                    if (typeof ko.bindingHandlers.value.update !== 'undefined') {
+                        ko.bindingHandlers.value.update(element, valueAccessor, allBindingsAccessor, viewModel);
+                    }
+
+                    var instance = $.data(element, 'selectmenu');
+                    if (instance) {
+                        $(element).selectmenu('refresh', true);
+                    }
+                }
+            };
+        </script>
+
+        <div id="settingsView" class="contentPage">
+
+            <h2 class="translate">$T[Startup settings]</h2>
+            <div>
+                <h3 class="translate">$T[Start view]</h3>
+                <select id="ddlSettingsStartView" class="refreshSelectAfterDataBind" data-bind="value: settings().startView, jqmOptions: settings().views, optionsText: 'name', optionsValue: 'id'"></select>
+            </div>
+            <br />
+            <div>
+                <h3 class="translate">$T[Default number of results]</h3>
+                <select id="ddlSettingsStartResultAmount" class="refreshSelectAfterDataBind" data-bind="value: settings().startResultAmount, jqmOptions: settings().resultAmounts, optionsText: 'name', optionsValue: 'id'"></select>
+            </div>
+            <br />
+            <div>
+                <h3 class="translate">$T[Default search distance]</h3>
+                <select id="ddlSettingsStartSearchDistance" class="refreshSelectAfterDataBind" data-bind="value: settings().startSearchDistance, jqmOptions: settings().searchDistances, optionsText: 'name', optionsValue: 'id'"></select>
+            </div>
+            <br />
+            <!--
+                <div>
+                    <h3>Standard kategori i søk</h3>
+                    <select id="ddlSettingsStartSearchCategory" class="refreshSelectAfterDataBind" data-bind="value: settings().startSearchCategory, jqmOptions: settings().searchCategories, optionsText: 'name', optionsValue: 'id'">
+                        <option value=""></option>                    
+                    </select>
+                </div>
+                <br />
+             -->
+            <div>
+                <h3 class="translate">$T[Default zoom level]</h3>
+                <select id="ddlSettingsStartMapZoomLevel" class="refreshSelectAfterDataBind" data-bind="value: settings().startMapZoomLevel, jqmOptions: settings().mapZoomLevels, optionsText: 'name', optionsValue: 'id'"></select>
+            </div>
+            <br />
+            <div>
+                <h3 class="translate">$T[Default map type]</h3>
+                <select id="ddlSettingsStartMapType" class="refreshSelectAfterDataBind" data-bind="value: settings().startMapType, jqmOptions: settings().mapTypes, optionsText: 'name', optionsValue: 'id'"></select>
+            </div>
+            <br />
+        
+            <div id="adminSettingsDiv" class="hidden">
+                <div>
+                    <h3 class="translate">$T[Adminpassword]</h3>
+                    <input type="text" id="inputSettingsAdminPassword" data-bind="value: settings().adminPassword, valueUpdate: 'afterkeydown'" />
+                </div>
+                <div>
+                    <h3 class="translate"><input type="checkbox" data-bind="value: settings().disableCaching"> $T[Disable caching]</h3>
+                    <div class="translate">
+                        <input type="button" id="btnClearCache" value="$T[Clear cache]" />
+
+                    </div>
+                </div>
+
+                <br />
+                <br />
+            </div>
+            <div class="translate">
+                <input id="settingsButtonSave" type="button" value="$T[Save]" />
+            </div>
+        </div>
+
+        <div id="searchView" class="contentPage">
+            <div class="padding">
+                <div class="translate">
+                    <input type="text" value="$T[Text]" data-bind="value: searchCriteria().query" />
+                </div>
+                <br />
+                <h3 class="translate">$T[Number of hits from each datasource]</h3>
+                <select id="ddlSearchAmount" class="refreshSelectAfterDataBind" data-bind="value: searchCriteria().rows, jqmOptions: settings().resultAmounts, optionsText: 'name', optionsValue: 'id'"></select>
+                <br />
+                <h3 class="translate">$T[Distance]</h3>
+                <select id="ddlSearchDist" class="refreshSelectAfterDataBind" data-bind="value: searchCriteria().radius, jqmOptions: settings().searchDistances, optionsText: 'name', optionsValue: 'id'"></select>
+                <br />
+                <h3 class="translate">$T[Genre]</h3>
+                <select id="ddlSearchGenre" class="refreshSelectAfterDataBind" data-bind="value: searchCriteria().genre"></select>
+                <br />
+                <h3 class="translate">$T[Subjects]</h3>
+                <select id="ddlSearchCategory" class="refreshSelectAfterDataBind" data-bind="value: searchCriteria().category"></select>
+                <br />
+                <h3 class="translate">$T[MediaTypes]</h3>
+                <select id="ddlSearchMediaType" class="refreshSelectAfterDataBind" data-bind="value: searchCriteria().mediaType"></select>
+                <br />
+                <div class="translate">
+                    <input type="button" value="$T[SEARCH]" onmousedown="searchController.doSearch(); viewController.selectView(settings.startView()); return false;" />
+                </div>
+            </div>
+        </div>
+
+        <div id="feedbackView" class="contentPage">
+            <select id="feedbackCategory" name="Kategori">
+                <option value="forslag" selected="selected" class="translate">$T[Functional error]</option>
+                <option value="ris" class="translate">$T[Comment on content]</option>
+            </select><br />
+            <span class="translate">$T[Your email address]:</span>
+            <input type="text" id="feedbackFromAddress" size="30" />
+            <br />
+            <textarea id="feedbackText" rows="5" cols="40"></textarea>
+            <br />
+            <div class="translate">
+                <input type="button" value="$T[Send feedback]" onmousedown="feedbackController.send(); return false;" />
+            </div>
+        </div>
+
+        <div id="aboutView" class="contentPage">
+        </div>
+        <div id="debugView" class="contentPage">
+            <div id="debugLog">
+            </div>
+        </div>
+
+
+
+        <!-- Trying this to make stuff prettier -->
+        <div id="poiView" class="contentPage">
+        </div>
+    </div>
+    <div id="footerSection" class="footerSection">
+        <div id="poiAudioBar" class="audioBar hidden">
+            <span id="audioStatusDiv"></span>
+            <span id="audioButtonPlay" class='typcn typcn-media-play typiconButton'></span>
+            <span id="audioButtonPause" class='typcn typcn-media-pause typiconButton'></span>
+            <span id="audioButtonStop" class='typcn typcn-media-stop typiconButton'></span>
+            <span id="audioTitle"></span>
+        </div>
+        <!--            Kultur og Naturreise-->
+
+    </div>
+    <div id="mainPopupMenu" class="popupMenu">
+        <div class="popupMenuButton" onmousedown="$('#mainPopupMenu').hide(); return false;">
+            <img src="Content/images/MenuImages/menu_Active.png" />
+        </div>
+        <div class="popupMenuButton translate" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('mapView'); return false;">
+            <img src="Content/images/MenuImages/mapIcon.png" />$T[Map]
+        </div>
+        <div id="mainPopupMenuButtonAR" class="popupMenuButton translate" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('arView'); return false;">
+            <img src="Content/images/MenuImages/ar.png" />$T[Camera]
+        </div>
+        <div class="popupMenuButton translate" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('listView'); return false;">
+            <img src="Content/images/MenuImages/list.png" />$T[List]
+        </div>
+        <div class="popupMenuButton translate" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('routeView'); return false;">
+            <img src="Content/images/MenuImages/routes.png" />$T[Routes]
+        </div>
+        <div class="popupMenuButton translate" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('searchView'); return false;">
+            <img src="Content/images/MenuImages/search.png" />$T[Search]
+        </div>
+        <div class="popupMenuButton translate" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('settingsView'); return false;">
+            <img src="Content/images/MenuImages/settings.png" />$T[Settings]
+        </div>
+        <div class="popupMenuButton translate" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('feedbackView'); return false;">
+            <img src="Content/images/MenuImages/feedback.png" />$T[Feedback]
+        </div>
+        <div class="popupMenuButton translate" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('aboutView'); return false;">
+            <img src="Content/images/MenuImages/about.png" />$T[About]
+        </div>
+        <div class="popupMenuButton translate" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('debugView'); return false;">$T[Debug log]</div>
+        <img src="Content/images/topLogo.png" class="popupMenuButton" />
+    </div>
+    <script>
+        $('#mainPopupMenu').hide();
+    </script>
+
+
+    <script src="http://knappen.konge.net/KNappen_Script.js"></script>
+
+</body>
+</html>

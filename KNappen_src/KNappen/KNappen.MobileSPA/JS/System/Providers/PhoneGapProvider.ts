@@ -22,9 +22,13 @@ module System.Providers {
           * @param {string} value Value to store.
           */
         public SqlSetKey(table: string, key: string, value: string, meta: string) {
-            var url = 'architectsdk://sql?action=set&table=' + encodeURIComponent(table) + '&key=' + encodeURIComponent(key) + '&value=' + encodeURIComponent(value) + "&meta=" + encodeURIComponent(meta);
-            var d: any = document;
-            d.location = url;
+            this.sendPhoneGapCommand("sql", "remove",
+                {
+                    "table": table,
+                    "key": key,
+                    "value": value,
+                    "meta": meta
+                });
         }
         /**
           * Remove a key-value pair.
@@ -33,9 +37,11 @@ module System.Providers {
           * @param {string} key Key to remove.
           */
         public SqlRemoveKey(table: string, key: string) {
-            var url = 'architectsdk://sql?action=remove&table=' + encodeURIComponent(table) + '&key=' + encodeURIComponent(key);
-            var d: any = document;
-            d.location = url;
+            this.sendPhoneGapCommand("sql", "remove",
+                {
+                    "table": table,
+                    "key": key
+                });
         }
         /**
           * Signal PhoneGap to read SQL table and set keys into storageProvider.
@@ -43,9 +49,10 @@ module System.Providers {
           * @param {string} table Name of SQL table.
           */
         public SqlRead(table: string) {
-            var url = 'architectsdk://sql?action=read&table=' + encodeURIComponent(table);
-            var d: any = document;
-            d.location = url;
+            this.sendPhoneGapCommand("sql", "read",
+                {
+                    "table": table
+                });
         }
 
         public SqlCallbackSet(key: string, value: string, metaStr: string) {
@@ -96,20 +103,41 @@ module System.Providers {
             });
         }
 
-        public menuButton() {
+        public sendExit() {
+            this.sendPhoneGapCommand("system", "exit");
+        }
+
+        public sendPhoneGapCommand(target: string, action: string, params?: { [key: string]: string; }) {
+            var url = 'architectsdk://' + target + '?action=' + encodeURIComponent(action);
+            if (params) {
+                $.each(params, function (k, v) {
+                    if (k) {
+                        url += "&" + encodeURIComponent(k)
+                    if (v)
+                            url += "=" + encodeURIComponent(v);
+                    }
+                });
+            }
+
+            log.debug("PhoneGapProvider", "Sending command type \"" + target + "\" action \"" + action + "\" to PhoneGap: " + url);
+
+            var d: any = document;
+            d.location = url;
+        }
+
+
+        public callbackMenuButton() {
             $('#mainPopupMenu').toggle();
         }
 
-        public backButton() {
-            log.debug("PhoneGapPRovider", "Back-button pressed.");
+        public callbackBackButton() {
+            log.debug("PhoneGapProvider", "Back button pressed. Navigating back.");
             var result = viewController.goBack();
 
             if (!result) {
-                var url = 'architectsdk://sql?action=exit';
-                var d: any = document;
-                d.location = url;
+                log.debug("PhoneGapProvider", "No more navigation history - exiting app.");
+                this.sendExit();
             }
-
         }
 
         public callbackSqlReadSuccess() {
@@ -121,6 +149,11 @@ module System.Providers {
             log.debug("PhoneGapProvider", "PhoneGapInterop reports error on SQL read: Code: " + errorCode + ", message: " + errorMessage);
             startup.shortcutLoadTimeout();
         }
+
+        public callbackGeoLocationUpdate(latitude: number, longitude: number, altitude: number, accuracy: number, altitudeAccuracy: number, heading: number, speed: number, timestamp: Date) {
+            gpsProvider.setPos(latitude, longitude, altitude, accuracy, altitudeAccuracy, heading, speed, timestamp);
+        }
+
 
     }
 }

@@ -59,7 +59,7 @@ module System {
          * @classdesc Contains base config (available to System namespace). Inherited by App.Config.
          */
         constructor() {            
-            //this.TemplateProviderFolder = this.fixLocalFileRef(this.TemplateProviderFolder);
+            this.TemplateProviderFolder = this.fixLocalFileRef(this.TemplateProviderFolder);
             log.setLogLevel(this.logLevel);
 
             this.openLayersMapUrl["std0"] = "http://opencache.statkart.no/gatekeeper/gk/gk.open?SERVICE=WMS&";
@@ -84,8 +84,8 @@ module System {
         }
 
         public fixLocalFileRef(file: string): string {
-            if (compatibilityInfo.hasAR && compatibilityInfo.isAndroid) {
-                return "file:///android_asset/world/KNappen/" + file;
+            if (compatibilityInfo.isPhoneGap && compatibilityInfo.isAndroid) {
+                return "file:///" + ("android_asset/world/KNappen/" + file).replace(/\/\//, "/");
             } else {
                 return file;
             }

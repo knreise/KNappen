@@ -57,21 +57,21 @@
 
     <!-- Third-party -->
     <!--<script src="Scripts/jquery-2.0.0.min.js"></script>-->
-    <script src="Scripts/jquery-1.9.1.js"></script>
-    <script src="Scripts/jquery-ui-1.10.2.js"></script>
+    <script src="Scripts/jquery-1.9.1.min.js"></script>
+    <script src="Scripts/jquery-ui-1.10.2.min.js"></script>
     <script src="Scripts/jquery.ui.touch-punch.min.js"></script>
     <script src="Scripts/knockout-2.2.1.js"></script>
     <script src="Scripts/knockout.mapping-latest.js"></script>
-    <script src="Scripts/moment.js"></script>
+    <script src="Scripts/moment.min.js"></script>
     <script src="Scripts/OpenLayers.debug.js"></script>
     <script src="Scripts/OpenLayers.Control.ClickHold.js"></script>
     <script src="Scripts/toastr.js"></script>
-    <script src="Scripts/json2.js"></script>
+    <script src="Scripts/json2.min.js"></script>
     <script src="Scripts/LatLon.js"></script>
     <script src="Scripts/cache.js"></script>
     <script src="Scripts/stores.js"></script>
     <script src="Scripts/proj4.js"></script>
-    <script src="Scripts/soundmanager2.js"></script>
+    <script src="Scripts/soundmanager2-jsmin.js"></script>
     <script src="Scripts/video.js"></script>
 
     <!-- Base -->
@@ -144,14 +144,10 @@
     <script>
         //localStorage.clear();
 
-        // Store globally wether we think its phone or not 
-        //var IsMobileBrowser = false;
-        //if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
-        //    IsMobileBrowser = true;
-        //}
+        ///alert(stringUtils.getHostFromUrl("architectsdk://sql?action=read"));
 
         //// If it is not mobile, load ade.js for Wikitude simulation
-        //if (!IsMobileBrowser) {
+        //if (!compatibilityInfo.hasAR && !compatibilityInfo.isMobile) {
         //    var js = document.createElement("script");
 
         //    js.type = "text/javascript";
@@ -159,22 +155,20 @@
 
         //    var head = document.getElementsByTagName('head')[0];
         //    head.appendChild(js);
+        //    compatibilityInfo.hasAR = true;
         //}
     </script>
 
     <script>
         // If mobile we turn off all jQuery animation effects
-        //if (IsMobileBrowser) {
-        $.fx.off = true;
-        //$.mobile.defaultDialogTransition = 'none';
-        //$.mobile.defaultPageTransition = 'none';
-        //}
-        //$.mobile.page.prototype.options.addBackBtn = true;
+        if (compatibilityInfo.isMobile) {
+            $.fx.off = true;
+        }
     </script>
 
     <script>
         $(document).ready(function () {
-            $("#mainSection").hide().delay(1000).show();
+            $("#mainSection").hide().delay(100).show();
             $("#routeTabs").tabs();
 
             $("#sortableEditorialRoutes").sortable();
@@ -220,7 +214,6 @@
 
 
         startup.addInit(function () {
-
 
             // Set to default startup view only if we don't have a valid URL
             if (!viewController.processUrl())
