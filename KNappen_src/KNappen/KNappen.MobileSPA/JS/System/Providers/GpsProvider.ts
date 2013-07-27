@@ -28,15 +28,10 @@ module System.Providers {
         */
         constructor() {
             this._this = $(this);
-            // If browser supports GPS coordinates
-            var hasAR = false;
-            try {
-                if (AR)
-                    hasAR = true;
-            } catch (exception) {
-            }
+        }
 
-            if (!hasAR) {
+        public PostInit() {
+            if (!compatibilityInfo.hasAR) {
                 if (navigator.geolocation) {
                     log.debug("GpsProvider", "Runtime environment supports GPS, will use.");
                     this.readBrowserGpsPos(this);
@@ -86,10 +81,18 @@ module System.Providers {
             @param {number} acc Accelleration.
             @public
           */
-        public setPos(lat: number, lon: number, alt: number, acc: number) {
+        public setPos(lat: number, lon: number, alt?: number, acc?: number, altitudeAccuracy?: number, heading?: number, speed?: number, timestamp?: Date) {
             // We have received an update of GPS pos
-            log.debug("GpsProvider", "Location changed: (" + lat + ", " + lon + ", " + alt + ", " + acc + ")");
-
+            //log.debug("GpsProvider", "Location changed: (" + lat + ", " + lon + ", " + alt + ", " + acc + ")");
+            log.verboseDebug("GpsProvider", "Received geolocation: "
+                + 'Latitude: ' + lat + ', '
+                + 'Longitude: ' + lon + ', '
+                + 'Altitude: ' + alt + ', '
+                + 'Accuracy: ' + acc + ', '
+                + 'Altitude Accuracy: ' + altitudeAccuracy + ', '
+                + 'Heading: ' + heading + ', '
+                + 'Speed: ' + speed + ', '
+                + 'Timestamp: ' + timestamp + '');
             // Set a global position so others parts of app quickly can access last known pos any time
             this.lastPos = new System.Models.Position(lat, lon, alt, acc);
             var lp = this.lastPos;
@@ -115,3 +118,4 @@ module System.Providers {
 }
 
 var gpsProvider = new System.Providers.GpsProvider();
+startup.addPostInit(function () { gpsProvider.PostInit(); });

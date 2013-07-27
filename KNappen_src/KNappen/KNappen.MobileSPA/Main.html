@@ -57,27 +57,29 @@
 
     <!-- Third-party -->
     <!--<script src="Scripts/jquery-2.0.0.min.js"></script>-->
-    <script src="Scripts/jquery-1.9.1.js"></script>
-    <script src="Scripts/jquery-ui-1.10.2.js"></script>
+    <script src="Scripts/jquery-1.9.1.min.js"></script>
+    <script src="Scripts/jquery-ui-1.10.2.min.js"></script>
     <script src="Scripts/jquery.ui.touch-punch.min.js"></script>
     <script src="Scripts/knockout-2.2.1.js"></script>
     <script src="Scripts/knockout.mapping-latest.js"></script>
-    <script src="Scripts/moment.js"></script>
+    <script src="Scripts/moment.min.js"></script>
     <script src="Scripts/OpenLayers.debug.js"></script>
     <script src="Scripts/OpenLayers.Control.ClickHold.js"></script>
     <script src="Scripts/toastr.js"></script>
-    <script src="Scripts/json2.js"></script>
+    <script src="Scripts/json2.min.js"></script>
     <script src="Scripts/LatLon.js"></script>
     <script src="Scripts/cache.js"></script>
     <script src="Scripts/stores.js"></script>
     <script src="Scripts/proj4.js"></script>
-    <script src="Scripts/soundmanager2.js"></script>
+    <script src="Scripts/soundmanager2-jsmin.js"></script>
     <script src="Scripts/video.js"></script>
 
     <!-- Base -->
     <script src="JS/System/Diagnostics/Log.js"></script>
     <script src="JS/System/Startup.js"></script>
+    <script src="JS/System/Utils/Event.js"></script>
     <script src="JS/System/Providers/TemplateProvider.js"></script>
+    <script src="JS/System/Utils/CompatibilityInfo.js"></script>
 
     <!-- Models -->
     <script src="JS/System/Models/Position.js"></script>
@@ -123,6 +125,7 @@
 
     <!-- Controllers -->
     <script src="JS/System/GUI/ViewController.js"></script>
+    <script src="JS/App/Controllers/SettingsController.js"></script>
     <script src="JS/App/Controllers/WindowSizeController.js"></script>
     <script src="JS/App/Controllers/PoiController.js"></script>
     <script src="JS/App/Controllers/SearchController.js"></script>
@@ -141,14 +144,10 @@
     <script>
         //localStorage.clear();
 
-        // Store globally wether we think its phone or not 
-        var IsMobileBrowser = false;
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
-            IsMobileBrowser = true;
-        }
+        ///alert(stringUtils.getHostFromUrl("architectsdk://sql?action=read"));
 
         //// If it is not mobile, load ade.js for Wikitude simulation
-        //if (!IsMobileBrowser) {
+        //if (!compatibilityInfo.hasAR && !compatibilityInfo.isMobile) {
         //    var js = document.createElement("script");
 
         //    js.type = "text/javascript";
@@ -156,22 +155,20 @@
 
         //    var head = document.getElementsByTagName('head')[0];
         //    head.appendChild(js);
+        //    compatibilityInfo.hasAR = true;
         //}
     </script>
 
     <script>
         // If mobile we turn off all jQuery animation effects
-        //if (IsMobileBrowser) {
-        $.fx.off = true;
-        //$.mobile.defaultDialogTransition = 'none';
-        //$.mobile.defaultPageTransition = 'none';
-        //}
-        //$.mobile.page.prototype.options.addBackBtn = true;
+        if (compatibilityInfo.isMobile) {
+            $.fx.off = true;
+        }
     </script>
 
     <script>
         $(document).ready(function () {
-            $("#mainSection").hide().delay(1000).show();
+            $("#mainSection").hide().delay(100).show();
             $("#routeTabs").tabs();
 
             $("#sortableEditorialRoutes").sortable();
@@ -217,7 +214,6 @@
 
 
         startup.addInit(function () {
-            
 
             // Set to default startup view only if we don't have a valid URL
             if (!viewController.processUrl())
@@ -233,6 +229,12 @@
                 });
 
         }, "Main:DownloadTemplates");
+
+        startup.addPostInit(function () {
+            if (!compatibilityInfo.hasAR) {
+                $("#mainPopupMenuButtonAR").hide();
+            }
+        }, "Main:HideIncompatible");
     </script>
 
     <script>
@@ -371,23 +373,26 @@
                 <select id="ddlSettingsStartMapType" class="refreshSelectAfterDataBind" data-bind="value: settings().startMapType, jqmOptions: settings().mapTypes, optionsText: 'name', optionsValue: 'id'"></select>
             </div>
             <br />
-            <script>
-                var adminOpen = 0;
-                $("#logoFrame").mousedown(function () {
-                    adminOpen++;
-                    if (adminOpen > 9) {
-                        $("#adminPasswordDiv").show();
-                        viewController.selectView("settingsView");
-                    }
-                });
-            </script>
-            <div id="adminPasswordDiv" class="hidden">
-                <h3 class="translate">$T[Adminpassword]</h3>
-                <input type="text" id="inputSettingsAdminPassword" data-bind="value: settings().adminPassword, valueUpdate: 'afterkeydown'" />
+        
+            <div id="adminSettingsDiv" class="hidden">
+                <div>
+                    <h3 class="translate">$T[Adminpassword]</h3>
+                    <input type="text" id="inputSettingsAdminPassword" data-bind="value: settings().adminPassword, valueUpdate: 'afterkeydown'" />
+                </div>
+                <div>
+                    <h3 class="translate"><input type="checkbox" data-bind="value: settings().disableCaching"> $T[Disable caching]</h3>
+                    <div class="translate">
+                        <input type="button" id="btnClearCache" value="$T[Clear cache]" />
+
+                    </div>
+                </div>
+
                 <br />
                 <br />
             </div>
-            <input type="button" value="Lagre" onmousedown="settings.save(); log.userPopup(tr.translate('SETTINGS'), tr.translate('SETTINGS_SAVED')); return false;" />
+            <div class="translate">
+                <input id="settingsButtonSave" type="button" value="$T[Save]" />
+            </div>
         </div>
 
         <div id="searchView" class="contentPage">
@@ -463,7 +468,7 @@
         <div class="popupMenuButton translate" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('mapView'); return false;">
             <img src="Content/images/MenuImages/mapIcon.png" />$T[Map]
         </div>
-        <div class="popupMenuButton translate" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('arView'); return false;">
+        <div id="mainPopupMenuButtonAR" class="popupMenuButton translate" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('arView'); return false;">
             <img src="Content/images/MenuImages/ar.png" />$T[Camera]
         </div>
         <div class="popupMenuButton translate" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('listView'); return false;">

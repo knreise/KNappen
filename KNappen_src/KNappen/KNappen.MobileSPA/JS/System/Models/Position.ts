@@ -26,6 +26,12 @@ module System.Models {
         public lon: KnockoutObservableNumber;
         public alt: KnockoutObservableNumber;
         public acc: KnockoutObservableNumber;
+
+        public altitudeAccuracy: KnockoutObservableNumber;
+        public heading: KnockoutObservableNumber;
+        public speed: KnockoutObservableNumber;
+        public timestamp: KnockoutObservableDate;
+
         /** 
             Position
             @class System.Models.Position
@@ -35,15 +41,19 @@ module System.Models {
             @property {number} Altitude.
             @property {number} Accelleration.
           */
-        constructor(lat: number, lon: number, alt?: number, acc?: number) {
+        constructor(lat: number, lon: number, alt?: number, acc?: number, altitudeAccuracy?: number, heading?: number, speed?: number, timestamp?: Date) {
             this.lat = ko.observable(lat);
             this.lon = ko.observable(lon);
             this.alt = ko.observable(alt);
             this.acc = ko.observable(acc);
+
+            this.altitudeAccuracy = ko.observable();
+            this.heading = ko.observable();
+            this.speed = ko.observable();
+            this.timestamp = ko.observable();
         }
 
-        public toString(): string
-        {
+        public toString(): string {
             return "lat: " + (this.lat() || "NA")
                 + ", lon: " + (this.lon() || "NA")
                 + ", alt: " + (this.alt() || "NA")

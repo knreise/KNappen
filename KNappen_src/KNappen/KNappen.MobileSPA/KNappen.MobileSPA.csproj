@@ -226,12 +226,86 @@
     <Content Include="JS\System\Providers\TemplateProvider.min.js">
       <DependentUpon>TemplateProvider.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="JS\System\Utils\CompatibilityInfo.ts" />
+    <Content Include="JS\System\Utils\CompatibilityInfo.js">
+      <DependentUpon>CompatibilityInfo.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="JS\System\Utils\Event.ts" />
+    <Content Include="JS\System\Utils\CompatibilityInfo.min.js">
+      <DependentUpon>CompatibilityInfo.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Utils\Event.js">
+      <DependentUpon>Event.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="PhoneGap\AppLoader.ts" />
+    <Content Include="JS\System\Utils\Event.min.js">
+      <DependentUpon>Event.ts</DependentUpon>
+    </Content>
+    <Content Include="PhoneGap\AppLoader.js">
+      <DependentUpon>AppLoader.ts</DependentUpon>
+    </Content>
+    <Content Include="PhoneGap\AppLoader.min.js">
+      <DependentUpon>AppLoader.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="PhoneGap\Config.ts" />
+    <Content Include="PhoneGap\Config.js">
+      <DependentUpon>Config.ts</DependentUpon>
+    </Content>
+    <Content Include="PhoneGap\Config.min.js">
+      <DependentUpon>Config.ts</DependentUpon>
+    </Content>
+    <Content Include="PhoneGap\cordova.js" />
+    <Content Include="PhoneGap\index.html" />
+    <TypeScriptCompile Include="PhoneGap\InteropProviders\SqlProvider.ts" />
+    <TypeScriptCompile Include="PhoneGap\InteropProviders\ButtonProvider.ts" />
+    <TypeScriptCompile Include="PhoneGap\InteropProviders\SystemCommandProvider.ts" />
+    <Content Include="PhoneGap\InteropProviders\ButtonProvider.js">
+      <DependentUpon>ButtonProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="PhoneGap\InteropProviders\ButtonProvider.min.js">
+      <DependentUpon>ButtonProvider.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="PhoneGap\Providers\GeoLocationProvider.ts" />
+    <Content Include="PhoneGap\Providers\GeoLocationProvider.js">
+      <DependentUpon>GeoLocationProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="PhoneGap\Providers\GeoLocationProvider.min.js">
+      <DependentUpon>GeoLocationProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="PhoneGap\InteropProviders\SqlProvider.js">
+      <DependentUpon>SqlProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="PhoneGap\InteropProviders\SqlProvider.min.js">
+      <DependentUpon>SqlProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="PhoneGap\InteropProviders\SystemCommandProvider.js">
+      <DependentUpon>SystemCommandProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="PhoneGap\InteropProviders\SystemCommandProvider.min.js">
+      <DependentUpon>SystemCommandProvider.ts</DependentUpon>
+    </Content>
     <Content Include="PhoneGap\PhoneGapInterop.js">
       <DependentUpon>PhoneGapInterop.ts</DependentUpon>
     </Content>
     <Content Include="PhoneGap\PhoneGapInterop.min.js">
       <DependentUpon>PhoneGapInterop.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="PhoneGap\_References.ts" />
+    <TypeScriptCompile Include="PhoneGap\Providers\WikitudePluginProvider.ts" />
+    <Content Include="PhoneGap\Providers\WikitudePluginProvider.js">
+      <DependentUpon>WikitudePluginProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="PhoneGap\Providers\WikitudePluginProvider.min.js">
+      <DependentUpon>WikitudePluginProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="PhoneGap\WikitudePlugin.js" />
+    <Content Include="PhoneGap\_References.js">
+      <DependentUpon>_References.ts</DependentUpon>
+    </Content>
+    <Content Include="PhoneGap\_References.min.js">
+      <DependentUpon>_References.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\soundmanager2-jsmin.js" />
     <Content Include="Scripts\typings\videojs\videojs.d.ts" />
     <Content Include="Scripts\video.js" />
     <Content Include="Templates\POIAR.html" />
@@ -333,10 +407,6 @@
     <Content Include="Scripts\OpenLayers.Control.ClickHold.js" />
     <Content Include="Scripts\proj4.js" />
     <Content Include="Scripts\proj4js.min.js" />
-    <Content Include="Scripts\soundmanager2-jsmin.js" />
-    <Content Include="Scripts\soundmanager2-nodebug-jsmin.js" />
-    <Content Include="Scripts\soundmanager2-nodebug.js" />
-    <Content Include="Scripts\soundmanager2.js" />
     <Content Include="Scripts\stores.js" />
     <Content Include="Scripts\typings\knockout.mapping\knockout.mapping.d.ts" />
     <Content Include="Scripts\typings\knockout\knockout.amd.d.ts" />
@@ -553,8 +623,6 @@
       <DependentUpon>_References.ts</DependentUpon>
     </Content>
     <Content Include="Main.html" />
-    <Content Include="Scripts\ade.js" />
-    <Content Include="Scripts\json2.js" />
     <Content Include="Scripts\json2.min.js" />
     <Content Include="Scripts\OpenLayers.debug.js" />
     <Content Include="JS\System\Providers\TemplateProvider.js.map">
@@ -566,6 +634,36 @@
     <Content Include="JS\App\Controllers\WindowSizeController.js.map">
       <DependentUpon>WindowSizeController.ts</DependentUpon>
     </Content>
+    <Content Include="JS\System\Utils\CompatibilityInfo.js.map">
+      <DependentUpon>CompatibilityInfo.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Utils\Event.js.map">
+      <DependentUpon>Event.ts</DependentUpon>
+    </Content>
+    <Content Include="PhoneGap\_References.js.map">
+      <DependentUpon>_References.ts</DependentUpon>
+    </Content>
+    <Content Include="PhoneGap\InteropProviders\SystemCommandProvider.js.map">
+      <DependentUpon>SystemCommandProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="PhoneGap\AppLoader.js.map">
+      <DependentUpon>AppLoader.ts</DependentUpon>
+    </Content>
+    <Content Include="PhoneGap\InteropProviders\ButtonProvider.js.map">
+      <DependentUpon>ButtonProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="PhoneGap\InteropProviders\SqlProvider.js.map">
+      <DependentUpon>SqlProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="PhoneGap\Providers\WikitudePluginProvider.js.map">
+      <DependentUpon>WikitudePluginProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="PhoneGap\Config.js.map">
+      <DependentUpon>Config.ts</DependentUpon>
+    </Content>
+    <Content Include="PhoneGap\Providers\GeoLocationProvider.js.map">
+      <DependentUpon>GeoLocationProvider.ts</DependentUpon>
+    </Content>
     <None Include="Scripts\OpenLayers.js_DoNotUse_NotModified" />
     <None Include="Scripts\OpenLayers.light.debug.js_DoNotUse_NotModified" />
     <None Include="Scripts\OpenLayers.light.js_DoNotUse_NotModified" />
@@ -575,7 +673,6 @@
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
     <Content Include="Scripts\typings\toastr\toastr.d.ts" />
-    <Content Include="Scripts\WikitudePlugin.js" />
     <Content Include="Test.html" />
     <Content Include="theme\default\google.css" />
     <Content Include="theme\default\google.tidy.css" />
@@ -783,10 +880,7 @@
     <Content Include="JS\System\Providers\MapCacheProvider.js.map">
       <DependentUpon>MapCacheProvider.ts</DependentUpon>
     </Content>
-    <None Include="Scripts\jquery-1.9.1.intellisense.js" />
-    <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
-    <Content Include="Scripts\jquery-ui-1.10.2.js" />
     <Content Include="Scripts\jquery-ui-1.10.2.min.js" />
     <TypeScriptCompile Include="JS\System\Providers\HttpDownloadProvider.ts" />
     <TypeScriptCompile Include="JS\System\GUI\ViewController.ts" />
@@ -817,8 +911,6 @@
     <Content Include="JS\System\GUI\ViewController.js.map">
       <DependentUpon>ViewController.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\jquery-1.9.1.min.map" />
-    <None Include="Scripts\jquery-2.0.0.intellisense.js" />
     <Content Include="Scripts\jquery.mobile-1.3.0.min.js" />
     <Content Include="Scripts\typings\phonegap\phonegap.d.ts" />
     <Content Include="Scripts\typings\requirejs\require.d.ts" />
@@ -911,11 +1003,8 @@
     <Content Include="JS\System\Startup.min.js">
       <DependentUpon>Startup.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\jquery-2.0.0.js" />
-    <Content Include="Scripts\jquery-2.0.0.min.js" />
     <Content Include="Scripts\knockout-2.2.1.debug.js" />
     <Content Include="Scripts\knockout-2.2.1.js" />
-    <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\typings\durandal\durandal.d.ts" />
     <Content Include="Scripts\typings\jquery\jquery.d.ts" />
@@ -949,7 +1038,6 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Scripts\jquery-2.0.0.min.map" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

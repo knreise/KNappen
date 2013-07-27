@@ -77,6 +77,28 @@ module System.Util {
                 return str;
             return str.substring(0, len) + "...";
         }
+
+        public getHostFromUrl(url: string): string {
+            var ret = url.replace(/^[^:]+:\/+([^\/\?]+).*/, "$1");
+            return ret;
+        }
+
+        public getParamsFromUrl(url: string): { [key: string]: string; } {
+            var ret: { [name: string]: string; } = {};
+
+            url = url.replace(/^.*?\?/, "");
+
+            url = url.replace(/([^&]*)/gm, function (fullMatch, match, offset) {
+                console.log("Match: Type: " + typeof (match) + ", data: " + match);
+                var k = match.replace(/^&?([^=]*).*/gm, "$1");
+                var v = match.replace(/^&?[^=]*=(.*)/gm, "$1");
+                if (k)
+                    ret[decodeURIComponent(k)] = decodeURIComponent(v);
+                return "";
+            });
+
+            return ret;
+        }
     }
 }
 

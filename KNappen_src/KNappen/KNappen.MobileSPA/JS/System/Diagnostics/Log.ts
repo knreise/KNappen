@@ -1,21 +1,18 @@
 /// <reference path="../../../Scripts/typings/jquery/jquery.d.ts" />
-/// <reference path="../ConfigBase.ts" />
 
 /**
     Diagnostics modules
     @namespace System.Diagnostics
 */
 module System.Diagnostics {
-    // This is necessary since this module won't know the App.Config module instance yet.
-    declare var config: System.ConfigBase;
 
-    //export enum LogTypeEnum
-    //{
-    //    Debug,
-    //    Info,
-    //    Error,
-    //    Fatal
-    //}
+    export enum LogTypeEnum {
+        VerboseDebug,
+        Debug,
+        Info,
+        Error,
+        Fatal
+    }
 
     /**
       * Creates a new logger.
@@ -24,6 +21,13 @@ module System.Diagnostics {
     export class Log {
         // Somewhere to keep events
         /** @ignore */ private _this: JQuery;
+        private logLevel: System.Diagnostics.LogTypeEnum = null;
+
+        private logLevelEnabled_VerboseDebug: bool = true;
+        private logLevelEnabled_Debug: bool = true;
+        private logLevelEnabled_Info: bool = true;
+        private logLevelEnabled_Error: bool = true;
+        private logLevelEnabled_Fatal: bool = true;
 
         /**
             Log
@@ -47,9 +51,30 @@ module System.Diagnostics {
             @param logHandlerCallback Callback method logHandlerCallback: { (event: JQueryEventObject, logType: string, sender: string, msg: string): void; }
             @public
         */
-        public addLogHandler(logHandlerCallback: { (event: JQueryEventObject, logType: string, sender: string, msg: string): void; })
-        {
+        public addLogHandler(logHandlerCallback: { (event: JQueryEventObject, logType: string, sender: string, msg: string): void; }) {
             this._this.on('Log', logHandlerCallback);
+        }
+
+        public setLogLevel(logLevel: System.Diagnostics.LogTypeEnum) {
+            this.logLevel = logLevel;
+            this.logLevelEnabled_Fatal = true;
+            this.logLevelEnabled_Error = false;
+            this.logLevelEnabled_Info = false;
+            this.logLevelEnabled_Debug = false;
+            this.logLevelEnabled_VerboseDebug = false;
+
+            if (this.logLevel == System.Diagnostics.LogTypeEnum.Fatal)
+                return;
+            this.logLevelEnabled_Error = true;
+            if (this.logLevel == System.Diagnostics.LogTypeEnum.Error)
+                return;
+            this.logLevelEnabled_Info = true;
+            if (this.logLevel == System.Diagnostics.LogTypeEnum.Info)
+                return;
+            this.logLevelEnabled_Debug = true;
+            if (this.logLevel == System.Diagnostics.LogTypeEnum.Debug)
+                return;
+            this.logLevelEnabled_VerboseDebug = true;
         }
 
         //UserDisplay true/false, vis som toast? Toast.Make("","", {}); for de forskjellige, show i metodene
@@ -61,7 +86,7 @@ module System.Diagnostics {
            @param {string} msg Message to log.
            @public
           */
-        public verboseDebug(sender: string, msg: string) { this.log('VerboseDebug', sender, msg); }
+        public verboseDebug(sender: string, msg: string) { if (this.logLevelEnabled_VerboseDebug) this.log('VerboseDebug', sender, msg); }
         /**
             Send to log.
             @method System.Diagnostics.Log#debug
@@ -69,7 +94,7 @@ module System.Diagnostics {
             @param {string} msg Message to log.
             @public
           */
-        public debug(sender: string, msg: string) { this.log('Debug', sender, msg); }
+        public debug(sender: string, msg: string) { if (this.logLevelEnabled_Debug) this.log('Debug', sender, msg); }
         /**
             Send to log.
             @method System.Diagnostics.Log#info
@@ -77,7 +102,7 @@ module System.Diagnostics {
             @param {string} msg Message to log.
             @public
           */
-        public info(sender: string, msg: string) { this.log('Info', sender, msg); }
+        public info(sender: string, msg: string) { if (this.logLevelEnabled_Info) this.log('Info', sender, msg); }
         /**
             Send to log.
             @method System.Diagnostics.Log#error
@@ -85,7 +110,7 @@ module System.Diagnostics {
             @param {string} msg Message to log.
             @public
           */
-        public error(sender: string, msg: string) { this.log('Error', sender, msg); }
+        public error(sender: string, msg: string) { if (this.logLevelEnabled_Error) this.log('Error', sender, msg); }
         /**
             Send to log.
             @method System.Diagnostics.Log#fatal
@@ -93,7 +118,7 @@ module System.Diagnostics {
             @param {string} msg Message to log.
             @public
           */
-        public fatal(sender: string, msg: string) { this.log('Fatal', sender, msg); }
+        public fatal(sender: string, msg: string) { if (this.logLevelEnabled_Fatal) this.log('Fatal', sender, msg); }
         /**
             Send to user popup window to display this in the app
             @method System.Diagnostics.Log#userPopup
@@ -111,9 +136,6 @@ module System.Diagnostics {
 
         /** @ignore */
         private raw(msg) {
-            if (!config.debug)
-                return;
-
             try {
                 //if (typeof console === "undefined" || typeof console.log === "undefined") {
                 //} else {

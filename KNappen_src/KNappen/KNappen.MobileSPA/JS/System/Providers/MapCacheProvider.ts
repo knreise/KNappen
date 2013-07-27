@@ -22,6 +22,7 @@ module System.Providers {
             cacheWrite.cachingType = cachingType;
             map.addControl(cacheWrite);
         }
+
     }
 
     /* ======================================================================
@@ -386,7 +387,7 @@ module System.Providers {
 
             //$.each(obj.tile.imgDiv.classList, function (k, v) { log.debug("MapCacheProvider", "ClassList: " + v); });
 
-            log.debug("MapCacheProvider", "Event type: " + obj.type);
+            //log.debug("MapCacheProvider", "Event type: " + obj.type);
             var tile = obj.tile;
             
             try {

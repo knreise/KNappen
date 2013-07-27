@@ -28,14 +28,14 @@ module System.Providers {
             // We want to update distance every 10 sec
             log.info("WikitudeProvider", "PreInit()");
             var _this = this;
-            window.setTimeout(function () {
-                try {
-                    log.info("WikitudeProvider", "Hooking up GPS listener");
-                    AR.context.onLocationChanged = _this.onLocationChangedHandler;
-                } catch (e) {
-                    log.error("WikitudeProvider", "Error hooking up Wikitude onLocationChanged: " + e);
-                }
-            }, 2 * 1000);
+            //window.setTimeout(function () {
+            //    try {
+            //        log.info("WikitudeProvider", "Hooking up GPS listener");
+            //        AR.context.onLocationChanged = _this.onLocationChangedHandler;
+            //    } catch (e) {
+            //        log.error("WikitudeProvider", "Error hooking up Wikitude onLocationChanged: " + e);
+            //    }
+            //}, 2 * 1000);
 
             try { }
             catch (exception) {
@@ -66,10 +66,10 @@ module System.Providers {
             this._events.on('PoiClick', clickCallback);
         }
 
-        private onLocationChangedHandler(lat: number, lon: number, alt: number, acc: number) {
-            log.debug("WikitudeProvider", "Location changed: lat: " + lat + "lon: " + lon);
-            gpsProvider.setPos(lat, lon, alt, acc);
-        }
+        //private onLocationChangedHandler(lat: number, lon: number, alt: number, acc: number) {
+        //    log.debug("WikitudeProvider", "Location changed: lat: " + lat + "lon: " + lon);
+        //    gpsProvider.setPos(lat, lon, alt, acc);
+        //}
 
         /**
           * Reset (turn off) AR camera

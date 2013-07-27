@@ -33,7 +33,7 @@
     <access origin=".*" />
 
     <!-- <content src="http://mysite.com/myapp.html" /> for external pages -->
-    <content src="index.html" />
+    <content src="../world/KNappen/PhoneGap/index.html" />
 
     <log level="DEBUG" />
 

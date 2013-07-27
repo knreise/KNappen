@@ -1,3 +1,5 @@
+/// <reference path="Diagnostics/Log.ts" />
+/// <reference path="Utils/CompatibilityInfo.ts" />
 /**
     System root
     @namespace
@@ -9,10 +11,11 @@ module System {
       */
     export class ConfigBase {
         /**
-          Enable debugging mode.
-          @type bool
+          Log level
+          @type System.Diagnostics.LogTypeEnum.Debug
           */
-        public debug: bool = true;
+        public logLevel = System.Diagnostics.LogTypeEnum.VerboseDebug;
+        
         /**
           Short name of application
           @type string 
@@ -56,8 +59,8 @@ module System {
          * @classdesc Contains base config (available to System namespace). Inherited by App.Config.
          */
         constructor() {            
-            //this.TemplateProviderFolder = this.fixLocalFileRef(this.TemplateProviderFolder);
-            
+            this.TemplateProviderFolder = this.fixLocalFileRef(this.TemplateProviderFolder);
+            log.setLogLevel(this.logLevel);
 
             this.openLayersMapUrl["std0"] = "http://opencache.statkart.no/gatekeeper/gk/gk.open?SERVICE=WMS&";
             //this.openLayersMapUrl["std0"] = "http://knappen.konge.net/KNappenService.Prod/WebProxy.aspx?url=http%3A%2F%2Fopencache.statkart.no%2Fgatekeeper%2Fgk%2Fgk.open%3FSERVICE%3DWMS%26";
@@ -81,8 +84,8 @@ module System {
         }
 
         public fixLocalFileRef(file: string): string {
-            if (navigator.userAgent.match(/(Android)/)) {
-                return "file:///android_asset/world/KNappen/" + file;
+            if (compatibilityInfo.isPhoneGap && compatibilityInfo.isAndroid) {
+                return "file:///" + ("android_asset/world/KNappen/" + file).replace(/\/\//, "/");
             } else {
                 return file;
             }

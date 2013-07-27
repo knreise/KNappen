@@ -13,15 +13,19 @@ module System {
      */
     export class Startup {
         // Somewhere to keep events
-        /** @ignore */ private _this: JQuery;
+        /** @ignore */ private eventHooks: JQuery;
 
-         /**
-          * Startup
-          * @class System.Startup
-          * @classdesc Add event handler to PostInit event.
-          */
+        public loadCountdownMs = 10; // Plus loadIntervalCheckMs to be exact, but who keeps track
+        private loadIntervalCheckMs = 100;
+        public autoStartup: bool = true;
+
+        /**
+         * Startup
+         * @class System.Startup
+         * @classdesc Add event handler to PostInit event.
+         */
         constructor() {
-            this._this = $(this);
+            this.eventHooks = $(this);
         }
 
         // Methods to hook up to events
@@ -65,7 +69,7 @@ module System {
 
         /** @ignore */
         private addEventHandler(eventName: string, eventCallback: { (): void; }, moduleName?: string) {
-            this._this.on(eventName, function () {
+            this.eventHooks.on(eventName, function () {
                 try {
                     eventCallback();
                 } catch (error) {
@@ -76,23 +80,68 @@ module System {
         }
 
         /**
+          * Shortcut load timeout. Will force startup to proceed with PreInit, Init and PostInit by reducing remaining wait time.
+          * @method System.Startup#shortcutLoadTimeout
+          */
+        public shortcutLoadTimeout() {
+            // Make sure we don't re-execute startup if called after startup is done
+            if (this.loadCountdownMs > 0) {
+                log.debug("Startup", "Shortcutting load timeout.");
+                // Set remaining time to exactly one tick so it will execute on next tick
+                this.loadCountdownMs = this.loadIntervalCheckMs;
+                // Execute next tick
+                this.waitForLoadContinue();
+            }
+        }
+
+        /**
+          * Timeout waiting for Load to complete so we can continue with PreInit, Init and PostInit.
+          * @method System.Startup#waitForLoadContinue
+          */
+        private waitForLoadContinue() {
+
+            var _this = this;
+
+            if (this.loadCountdownMs < 0) {
+                // Redundant call, nothing to do.
+                return;
+            }
+            // Reduce timer
+            this.loadCountdownMs -= this.loadIntervalCheckMs;
+
+            // If we aren't low enough yet we need another pass, so set up a timeout for it
+            if (this.loadCountdownMs > (this.loadIntervalCheckMs / 2))
+            {
+                setTimeout(function () { _this.waitForLoadContinue(); }, this.loadIntervalCheckMs);
+                return;
+            }
+
+            // We made it this far, it means we should consider ourselves done.
+            this.loadCountdownMs = -1;
+            
+            log.debug("Startup", "Load timeout, proceeding with startup procedure.");
+            setTimeout(function () {
+                _this.eventHooks.trigger('PreInit');
+                setTimeout(function () {
+                    _this.eventHooks.trigger('Init');
+                    setTimeout(function () {
+                        _this.eventHooks.trigger('PostInit');
+                    }, 10);
+                }, 10);
+            }, 10);
+
+        }
+
+        /**
           * Execute startup. Must only be done once by module itself!
           * @method System.Startup#executeStartup
           */
         public executeStartup() {
-            var that = this;
+            var _this = this;
             setTimeout(function () {
-                that._this.trigger('Load');
-                setTimeout(function () {
-                    that._this.trigger('PreInit');
-                    setTimeout(function () {
-                        that._this.trigger('Init');
-                        setTimeout(function () {
-                            that._this.trigger('PostInit');
-                        }, 10);
-                    }, 10);
-                }, 1000);
-            }, 10);
+                _this.eventHooks.trigger('Load');
+                _this.waitForLoadContinue();
+            });
         }
     }
 }
@@ -102,5 +151,6 @@ var startup = new System.Startup();
 
 // Execute when we are done loading
 $(function () {
-    startup.executeStartup();
+    if (startup.autoStartup)
+        startup.executeStartup();
 });

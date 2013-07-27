@@ -65,15 +65,10 @@ module App.Controllers {
                     var poi = <App.Models.PointOfInterest>_poi;
                     var preImageUrl = "";
 
-                    //if (navigator.userAgent.match(/(Android)/)) {
-                    //    preImageUrl = "file:///android_asset/world/KNappen/";
-                    //}
                     var keys = templateProvider.getReplacementKeys(poi);
                     (<any>keys).iconCategoryURL(config.fixLocalFileRef((<any>keys).iconCategoryURL()));
                     
                     return templateProvider.getTemplate(config.templatePOIAR, keys);
-
-                    //return '<div class="poi"><img src="' +  + '"/></div>';
                     // Causes annoying IE crash during debugging: onError="$(this).unbind("error").attr("src", "Images/Icon-Large.gif");"
                 }
             );

@@ -37,12 +37,17 @@ module System.Providers {
         constructor() {
 
             //store.setStore(cookieStore);
-            try {
-                if (AR)
-                    this.isPhoneGap = true;
-            } catch (exception) {
-            }
+            this.isPhoneGap = compatibilityInfo.isPhoneGap;
             this.ReInit();
+        }
+
+        public Load() {
+            if (storageProvider.isPhoneGap) {
+                // Increase startup sequence timeout for load while waiting for phonegap
+                startup.loadCountdownMs = 20 * 1000;
+                // Initiate async SQL read
+                phoneGapProvider.SqlRead("settings");
+            }
         }
 
         /**
@@ -153,8 +158,4 @@ module System.Providers {
     }
 }
 var storageProvider = new System.Providers.StorageProvider();
-startup.addLoad(function () {
-    if (storageProvider.isPhoneGap)
-        phoneGapProvider.SqlRead("settings");
-}, "StorageProvider");
-
+startup.addLoad(function () { storageProvider.Load(); }, "StorageProvider");
