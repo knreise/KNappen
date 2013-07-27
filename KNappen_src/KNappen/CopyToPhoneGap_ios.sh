@@ -1,11 +1,10 @@
 #!/bin/bash
 
 DD=../../PhoneGap/ios/KNappen/assets/world/KNappen
-rm -rf $DD
-mkdir $DD
-cp -va ./KNappen.MobileSPA/* $DD
+rm -rf "$DD"
+mkdir -p "$DD"
+cp -va ./KNappen.MobileSPA/* "$DD"
 
-pushd $DD
-rm -rf bin obj Properties UnitTests index.html Test.html index.html *.csproj *.user config.xml Web*.config packages.config
+pushd "$DD"
+rm -rf *.ts bin obj Properties UnitTests index.html Test.html index.html *.csproj *.user config.xml Web*.config packages.config
 popd
-
