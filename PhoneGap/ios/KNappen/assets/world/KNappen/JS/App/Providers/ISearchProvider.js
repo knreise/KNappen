@@ -1,0 +1,1 @@
+//@ sourceMappingURL=ISearchProvider.js.map
