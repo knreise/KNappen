@@ -161,7 +161,7 @@ input[type=text]{
     bottom: 0 !important;
     right: 0 !important;
     background: rgba(0, 0, 0, 0.1);
-    font-family: Arial;
+    /*font-family: Arial;*/
     padding: 2px 4px;
     border-radius: 5px 0 0 0;
 }
