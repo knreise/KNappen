@@ -435,7 +435,7 @@ body {
 .mediaImage{
     width:30px;
     bottom: 2px;
-    position:absolute;
+    /*position:absolute;*/
     float:left;
 }
 
