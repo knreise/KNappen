@@ -107,6 +107,7 @@ module App.Providers {
             translater.addTranslation("Cache", "Mellomlagring");
             translater.addTranslation("Cache cleared", "Mellomlagring t&oslash;mt");
             translater.addTranslation("Save", "Lagre");
+            translater.addTranslation("Message", "Beskjed");
 
         }
     }

@@ -2,7 +2,7 @@
     <div id="poiDetailContent" class="poiDetailContent">
         <div id="poiName"></div>
         <input type="button" id="addPoiToRoute" value="Legg til i rute" />
-        <div id="addPoiToRouteForm" class="hidden padding translate">
+        <div id="addPoiToRouteForm" class="hidden translate">
             <input type="text" id="newRouteName" />
             <input type="button" value="$T[Create]" id="createNewRouteBtn" />
             <ul id="listExistingRoutes"></ul>
@@ -20,9 +20,9 @@
     </div>
     <div id="poiAudio" class="hidden">
     </div>
-    <div id="poiIngress" class="padding">$[ingress]</div>
+    <div id="poiIngress" class="">$[ingress]</div>
 
-    <div id="detailAccordion" class="padding ui-accordion">
+    <div id="detailAccordion" class="ui-accordion">
         <h3 class="ui-accordion-header translate">$T[Description]</h3>
         <div id="poiDescription" class="ui-accordion-content">$[description]</div>
         <h3 class="ui-accordion-header translate">$T[More information]</h3>

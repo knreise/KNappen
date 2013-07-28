@@ -288,12 +288,12 @@
                 </div>
             </div>
         </div>
-        <div id="mapView" class="contentPage" style="background-color: lightgrey;">
+        <div id="mapView" class="contentPage noPadding" style="background-color: lightgrey;">
             <div id="map" class="map"></div>
             <div id="mapCacheWriteStatus"></div>
             <div id="mapCacheReadStatus"></div>
         </div>
-        <div id="arView" style="height: 0; background: transparent" class="contentPage">
+        <div id="arView" style="height: 0; background: transparent" class="contentPage noPadding">
         </div>
         <script>
             // Attempt at getting jQuery mobile to show default selected at init... http://stackoverflow.com/questions/9373982/knockout-and-jquery-mobile-binding-data-to-select-lists
@@ -425,14 +425,15 @@
         </div>
 
         <div id="feedbackView" class="contentPage">
-            <select id="feedbackCategory" name="Kategori">
+            <select id="feedbackCategory" name="Kategori" style="width: 200px;">
                 <option value="forslag" selected="selected" class="translate">$T[Functional error]</option>
                 <option value="ris" class="translate">$T[Comment on content]</option>
             </select><br />
-            <span class="translate">$T[Your email address]:</span>
-            <input type="text" id="feedbackFromAddress" size="30" />
+            <span class="translate">$T[Your email address]:</span><br />
+            <input type="text" id="feedbackFromAddress" size="20" style="width: 200px;" />
             <br />
-            <textarea id="feedbackText" rows="5" cols="40"></textarea>
+            <span class="translate">$T[Message]:</span><br />
+            <textarea id="feedbackText" rows="5" cols="40" style="width: 200px;"></textarea>
             <br />
             <div class="translate">
                 <input type="button" value="$T[Send feedback]" onmousedown="feedbackController.send(); return false;" />

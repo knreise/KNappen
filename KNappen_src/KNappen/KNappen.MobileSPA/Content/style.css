@@ -35,7 +35,6 @@ input[type=button]{
     border: 1px solid rgb(231, 245, 247);
     background-color: rgb(231, 245, 247);
     font-size: 120%;
-    margin: 3px;
 }
 
 input[type=text]{
@@ -219,13 +218,13 @@ input[type=text]{
 .poiDetail
 {
     background-color: white;
-    overflow-y: scroll;
+    /*overflow-y: scroll; 
     top: 0px;
     bottom: 2px;
-    /*position: fixed;*/
+    position: fixed;
     font-size: 1.2em;
     padding: 5px;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.03em;*/
     width: 100%;
 }
 
@@ -312,11 +311,17 @@ input[type=text]{
     width: 100%;
     height: 100%;
     overflow-y: auto;
-    float: right;
-    padding: 0;
+/*    float: right;*/
+/*    padding: 0; */
+    padding-left: 3px;
+    padding-right: 3px;
     display: none;
 }
 
+.noPadding
+{
+    padding: 0;
+}
 
 .headerSection
 {
