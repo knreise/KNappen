@@ -113,7 +113,7 @@ module App.Controllers {
             @param {string} name
             @param {App.Models.PointOfInterest} poi
         */
-        public createRoute(name: string, poi?: App.Models.PointOfInterest) {
+        public createRoute(name: string) {
             var routeItem: App.Providers.RouteItem = new App.Providers.RouteItem();
             routeItem.name(name);
             routeItem.version(routeItem.version() + 1);
@@ -122,34 +122,10 @@ module App.Controllers {
             this.routeProvider.userRoutes.saveRoutes();
             userPopupController.sendSuccess(tr.translate("Route created"), tr.translate("The route '{0}' was created.", [name]));
 
-            if (poi) {
-                this.openRouteList(poi);
-            }
-            else {
-                this.renderRouteView();
-            }
+            this.renderRouteView();
         }
 
-        /**
-            Renders the routelist in poiview that is used when adding a poi to a route
-            @method App.Controllers.RouteController#openRouteList
-            @param {App.Models.PointOfInterest} poi
-            @public
-        */
-        public openRouteList(poi: App.Models.PointOfInterest) {
-            //output names of routes the poi can be added to, and binds click event
-            var $listExistingRoutes = $("#listExistingRoutes");
-            $listExistingRoutes.empty();
-            routeController.routeProvider.userRoutes.getRoutes().forEach(function (v: App.Providers.RouteItem, k) {
-                $listExistingRoutes.append("<li class='routeName' id='route_" + v.id() + "'><h3>" + v.name() + "</h3></li>");
-                $("#route_" + v.id()).mousedown(function () {
-                    v.pois.push(poi);
-                    routeController.routeProvider.userRoutes.saveRoutes();
-                    $("#addPoiToRouteForm").hide();
-                });
-            });
-        }
-
+ 
         /**
             Renders the routeview
             @method App.Controllers.RouteController#renderRouteView

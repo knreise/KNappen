@@ -57,6 +57,8 @@ module App.Providers {
             translater.addTranslation("Create", "Opprett");
             translater.addTranslation("Create route", "Opprett rute");
             translater.addTranslation("Create route from search", "Opprett rute fra s&oslash;k");
+            translater.addTranslation("POI added", "Lagt til");
+            translater.addTranslation("POI added to route", "Interessepunkt lagt til rute");
             translater.addTranslation("Description", "Beskrivelse");
             translater.addTranslation("More information", "Mer informasjon");
             translater.addTranslation("Map", "Kart");

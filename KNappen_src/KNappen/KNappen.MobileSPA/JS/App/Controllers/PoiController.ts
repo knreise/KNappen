@@ -138,25 +138,49 @@ module App.Controllers {
                     _this.showAudio(poi.name()[0], poi.soundUri()[0]);
             });
 
-            var detailAccordion = $("#detailAccordion");
+            var detailAccordion = poiView.find("#detailAccordion");
             detailAccordion.accordion({ active: false, collapsible: false });
             //Todo: fix this later
             detailAccordion.accordion("option", "icons", { 'header': 'showMoreAccordion', 'activeHeader': 'showLessAccordion' });
-            $('#detailAccordion .ui-accordion-content').show();
+            poiView.find('#detailAccordion .ui-accordion-content').show();
+            var addPoiToRouteForm = poiView.find("#addPoiToRouteForm");
 
-            $("#addPoiToRoute").mousedown(function () {
-                routeController.openRouteList(poi);
+            // Show list of existing routes to add to
+            poiView.find("#addPoiToRoute").mousedown(function () {
+                var listExistingRoutes = poiView.find("#listExistingRoutes");
+                addPoiToRouteForm.show();
+
+                listExistingRoutes.empty();
+                routeController.routeProvider.userRoutes.getRoutes().forEach(function (v: App.Providers.RouteItem, k) {
+                    var item = $("<li class='routeName' id='route_" + v.id() + "'><h3>" + v.name() + "</h3></li>");
+                    listExistingRoutes.append(item);
+                    item.mousedown(function () {
+                        v.pois.push(poi);
+                        routeController.routeProvider.userRoutes.saveRoutes();
+                        userPopupController.sendSuccess("POI added", "POI added to route");
+                        addPoiToRouteForm.hide();
+                    });
+                });
             });
 
-            $("#createNewRouteBtn").mousedown(function () {
-                var name = $("#newRouteName").val();
-                routeController.createRoute(name, poi);
-                $("#newRouteName").val("");
-            });
+            // Set up "Create new route-button"
+            poiView.find("#createNewRouteBtn").mousedown(function () {
+                var name = poiView.find("#newRouteName").val();
+                poiView.find("#newRouteName").val("");
+                // Create route
+                routeController.createRoute(name);
+                // Add current poi to new route
+                routeController.routeProvider.userRoutes.findRouteByName(name).pois.push(poi);
+                // Save route
+                routeController.routeProvider.userRoutes.saveRoutes();
+
+                userPopupController.sendSuccess("POI added", "POI added to route");
+                addPoiToRouteForm.hide();
+    });
 
             //return to previous view when closing the dialog, should this be handled some other way,
             //such as placing the poiview on top of current view instead? how?
-            $("#closePreviewBtn").mousedown(function () {
+            poiView.find("#closePreviewBtn").mousedown(function () {
                 viewController.selectView(viewController.getOldView().name);
             });
             //poiView.dialog();
@@ -187,7 +211,7 @@ module App.Controllers {
             poiDetail.find("#poiAboutData").html("");
             poiDetail.find("#poiRelatedLinks").html("");
         }
-        
+
         private showVideo(path: string) {
             log.debug("PoiController", "Setting video URL: " + path)
 
