@@ -31,7 +31,7 @@ module App.Controllers {
             this.footerSection.css('height', '0px');
             //this.ShowFooter(false);
 
-            this.resize();
+            //this.resize(); // Done in post
         
         }
 
@@ -58,6 +58,9 @@ module App.Controllers {
                 this.headerSectionSize.outerHeight(headerHeight);
                 this.mainSection.outerHeight(mainHeight);
                 this.map.outerHeight(mainHeight);  
+
+                this.mainSection.css('top', headerHeight);
+                //this.map.css('top', headerHeight);
 
                 log.debug("WindowSizeController", "Resizing mainSection to " + mainHeight + "px (windows: " + windowHeight + ", header: " + headerHeight + ", footer: " + footerHeight + ")");
             }

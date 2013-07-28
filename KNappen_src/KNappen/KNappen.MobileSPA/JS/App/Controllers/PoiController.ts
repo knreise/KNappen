@@ -41,7 +41,7 @@ module App.Controllers {
                 if (currentView && currentView.name != "poiView" && currentView.name != "arView")
                     poiController.hidePoiPreview();
             });
-            
+
             viewController.addPostSelectEvent(function (event, oldView, newView) {
                 if (oldView && oldView.name == "poiView") poiController.closeDetail();
             });
@@ -51,7 +51,7 @@ module App.Controllers {
                 } else {
                     if (oldView && oldView.name == "poiView") {
                         windowSizeController.ShowHeader(true);
-                    // Moved away from poiView? Hide it. (not required any more since we are not using dialog)
+                        // Moved away from poiView? Hide it. (not required any more since we are not using dialog)
                         poiController.hidePoiPreview();
                     }
                 }
@@ -65,37 +65,34 @@ module App.Controllers {
             @public  
         */
         public OpenPreview(poi: App.Models.PointOfInterest, show: Boolean) {
-            var _this = this;
+
+            var content = this.getPreview(poi);
+
             var poiPrev = $("#poiPreview");
-            var keys = templateProvider.getReplacementKeys(poi);
-            var str = templateProvider.getTemplate(config.templatePOIPreview, keys);
-            poiPrev.html(str);
-            phoneGapProvider.fixALinksIfPhoneGap(poiPrev);
-
-
-            var _this = this;
-            $("#closePreviewBtn").mousedown(function () { _this.hidePoiPreview(); });
-            $("#openDetailBtn").mousedown(function () { _this.OpenDetail(poi); });
+            poiPrev.html(content);
 
             if (show)
                 $("#poiPreview").show();
         }
 
+        private getPreview(poi: App.Models.PointOfInterest): JQuery {
+            var _this = this;
+            var keys = templateProvider.getReplacementKeys(poi);
 
-        //Not used
-        private renderMediaIcons(poi: App.Models.PointOfInterest): string {
-            var mediaIcons: string[];
+            var content = $(templateProvider.getTemplate(config.templatePOIPreview, keys));
+            phoneGapProvider.fixALinksIfPhoneGap(content);
 
-            var mediaIcon: string;
-            var mediaType = pointOfInterestTypeProvider.getMediaType(poi);
-            $.each(mediaType, function (k, v: App.Providers.MediaTypeItem) {
-                mediaIcon = '<img src="' + v.icon + '" class="mediaImage"/>';
-                mediaIcons.push(mediaIcon);
+            // Hook up actions
+            content.find("#closePreviewBtn").mousedown(function () {
+                _this.hidePoiPreview();
+            });
+            content.find("#openDetailBtn").mousedown(function () {
+                _this.hidePoiPreview();
+                _this.OpenDetail(poi);
             });
 
-            return mediaIcons.toString();
+            return content;
         }
-
 
         /**
             Opens the POI Detail inside the poi view
@@ -105,19 +102,29 @@ module App.Controllers {
         */
         public OpenDetail(poi: App.Models.PointOfInterest) {
             log.debug("PoiController", "OpenDetail");
-            $("#poiPreview").addClass("poiPreviewActiveDetail").show();
+            //$("#poiPreview").addClass("poiPreviewActiveDetail").show();
             $("#poiPreview #openDetailBtn").hide();
 
             var _this = this;
 
             var keys = templateProvider.getReplacementKeys(poi);
 
-            viewController.selectView("poiView");
-            
-            var str = templateProvider.getTemplate(config.templatePOIDetailsView, keys);
+            var poiViewHeader = $("<div id='poiViewHeader'></div>");
+            var previewContent = this.getPreview(poi);
+            previewContent.find("#openDetailBtn").hide();
+
+            poiViewHeader.append(previewContent);
+            var poiViewBody = $(templateProvider.getTemplate(config.templatePOIDetailsView, keys));
+
+            // Add to view
             var poiView = $("#poiView");
-            poiView.html(str);
+            poiView.html('');
+            poiView.append(poiViewHeader);
+            poiView.append(poiViewBody)
             phoneGapProvider.fixALinksIfPhoneGap(poiView);
+
+            // Show view
+            viewController.selectView("poiView");
 
             //check mediatypes of POI to show the appropriate viewers
             $.each(poi.mediaTypes(), function (k, v: string) {
@@ -180,7 +187,7 @@ module App.Controllers {
             poiDetail.find("#poiAboutData").html("");
             poiDetail.find("#poiRelatedLinks").html("");
         }
-         
+        
         private showVideo(path: string) {
             log.debug("PoiController", "Setting video URL: " + path)
 

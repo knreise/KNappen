@@ -373,14 +373,16 @@
                 <select id="ddlSettingsStartMapType" class="refreshSelectAfterDataBind" data-bind="value: settings().startMapType, jqmOptions: settings().mapTypes, optionsText: 'name', optionsValue: 'id'"></select>
             </div>
             <br />
-        
+
             <div id="adminSettingsDiv" class="hidden">
                 <div>
                     <h3 class="translate">$T[Adminpassword]</h3>
                     <input type="text" id="inputSettingsAdminPassword" data-bind="value: settings().adminPassword, valueUpdate: 'afterkeydown'" />
                 </div>
                 <div>
-                    <h3 class="translate"><input type="checkbox" data-bind="value: settings().disableCaching"> $T[Disable caching]</h3>
+                    <h3 class="translate">
+                        <input type="checkbox" data-bind="value: settings().disableCaching">
+                        $T[Disable caching]</h3>
                     <div class="translate">
                         <input type="button" id="btnClearCache" value="$T[Clear cache]" />
 
@@ -439,14 +441,12 @@
 
         <div id="aboutView" class="contentPage">
         </div>
+
         <div id="debugView" class="contentPage">
             <div id="debugLog">
             </div>
         </div>
 
-
-
-        <!-- Trying this to make stuff prettier -->
         <div id="poiView" class="contentPage">
         </div>
     </div>
@@ -458,8 +458,6 @@
             <span id="audioButtonStop" class='typcn typcn-media-stop typiconButton'></span>
             <span id="audioTitle"></span>
         </div>
-        <!--            Kultur og Naturreise-->
-
     </div>
     <div id="mainPopupMenu" class="popupMenu">
         <div class="popupMenuButton" onmousedown="$('#mainPopupMenu').hide(); return false;">

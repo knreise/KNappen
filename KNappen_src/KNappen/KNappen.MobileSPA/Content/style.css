@@ -195,8 +195,8 @@ input[type=text]{
 }
 
 .poiPreviewActiveDetail{
-    top: 76px!important;
-    bottom: auto!important;
+    top: 0px!important;
+    /*bottom: auto!important;*/
     border: 1px thin rgb(231, 245, 247)!important;
     border-bottom: none;
 }
@@ -220,19 +220,19 @@ input[type=text]{
     background-color: white !important;
 }
 
-#poiDetailContent
+.poiDetailContent
 {
     overflow-y: auto;
     overflow-x: hidden;
 }
 
-#poiDetail
+.poiDetail
 {
     background-color: white;
     overflow-y: scroll;
-    top: 170px;
+    top: 0px;
     bottom: 2px;
-    position: fixed;
+    /*position: fixed;*/
     font-size: 1.2em;
     padding: 5px;
     letter-spacing: -0.03em;
