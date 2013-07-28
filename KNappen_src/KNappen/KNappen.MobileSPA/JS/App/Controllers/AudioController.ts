@@ -19,7 +19,8 @@ module App.Controllers {
             var _this = this;
             $("#audioTitle").html(title);
 
-           // $("#footerSection").show();
+            // $("#footerSection").show();
+            windowSizeController.ShowFooter(true);
             var audioStatusDiv = $("#audioStatusDiv");
             var poiAudioBar = $("#poiAudioBar");
             poiAudioBar.show();
@@ -67,6 +68,7 @@ module App.Controllers {
          //   $("#footerSection").hide();
             var poiAudioBar = $("#poiAudioBar");
             poiAudioBar.hide();
+            windowSizeController.ShowFooter(false);
             this.soundProvider.stop();
         }
 
