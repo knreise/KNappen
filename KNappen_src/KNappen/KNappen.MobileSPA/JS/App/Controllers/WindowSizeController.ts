@@ -103,9 +103,11 @@ module App.Controllers {
                 $("body").css('background-color', this.originalPageBGColor);
                 $("html").css('height', this.originalHTMLHeight);
                 $("body").css('height', this.originalBodyHeight);
+                this.mainSection.show();
                 this.ShowHeader(true);
             } else {
-                this.ShowHeader(false);
+                this.headerSection.css('height', '0px');
+                this.headerSectionSize.css('height', '0px');
                 this.ShowFooter(false);
                 this.mainSection.css('height', '0px');
                 this.mainSection.hide();
