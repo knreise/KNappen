@@ -8,13 +8,16 @@ module App.Controllers {
     export class WindowSizeController {
 
         public _window: any;
-        public headerSectionSize: any;
-        public headerSection: any;
+        private headerSectionSize: any;
+        private headerSection: any;
         public mainSection: any;
         public footerSection: any;
         public map: any;
-        public originalHeaderSectionHeight: number;
-        public originalFooterSectionHeight: number;
+        private originalHeaderSectionHeight: number;
+        private originalFooterSectionHeight: number;
+        public originalPageBGColor: string;
+        public originalBodyHeight: any;
+        public originalHTMLHeight: any;
 
         public Load() {
             this._window = $(window);
@@ -32,7 +35,7 @@ module App.Controllers {
             //this.ShowFooter(false);
 
             //this.resize(); // Done in post
-        
+
         }
 
         public PreInit() {
@@ -57,7 +60,7 @@ module App.Controllers {
             if (!viewController || !viewController.getCurrentView() || viewController.getCurrentView().name != "arView") {
                 this.headerSectionSize.outerHeight(headerHeight);
                 this.mainSection.outerHeight(mainHeight);
-                this.map.outerHeight(mainHeight);  
+                this.map.outerHeight(mainHeight);
 
                 this.mainSection.css('top', headerHeight);
                 //this.map.css('top', headerHeight);
@@ -91,6 +94,23 @@ module App.Controllers {
             this.resize();
         }
 
+        public ShowPage(visible: bool) {
+            
+            if (visible) {
+                $("body").css('background-color', this.originalPageBGColor);
+                $("html").css('height', this.originalHTMLHeight);
+                $("body").css('height', this.originalBodyHeight);
+            } else {
+                this.originalPageBGColor = $("body").css('background-color');
+                this.originalBodyHeight = $("body").css('height');
+                this.originalHTMLHeight = $("html").css('height');
+
+                $("body").css('background-color', 'transparent');
+                $("body").css('height', '0');
+                $("html").css('height', '0');
+            }
+
+        }
 
     }
 }

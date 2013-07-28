@@ -81,23 +81,27 @@ module App.Controllers {
         private oldHeaderSectionHeight: any;
 
         private onViewChangedPre(event: JQueryEventObject, oldView: System.GUI.ViewControllerItem, newView: System.GUI.ViewControllerItem) {
-            if (oldView && oldView.name == "arView") {
+            if (oldView && oldView.name == "arView"
+                && newView && newView.name != "arView") {
                 log.debug("ARController", "View changed away from AR: Disabling camera");
 
-                // Turn off AR camera
-                arProvider.enableAR(false);
+                    // Turn off AR camera
+                    arProvider.enableAR(false);
 
-                // Restore back what was here before endering arView
-                $("body").css('background-color', this.oldBodyBackgroundColor);
-                $("body").css('height', this.oldBodyHeight);
-                $("html").css('height', this.oldHtmlHeight);
-                //$("#mainSection").css('min-height', this.oldmainPageHeight);
-                $("#headerSection").css('height', this.oldHeaderSectionHeight);
-                $("#mainSection").show();
-                $("#headerSectionSize").show();
-                $("#logoFrame").show();
-                //$("[data-role=page]").show();
-                $("#footerSection").show();
+                    // Show HTML
+                    windowSizeController.ShowPage(true);
+
+                //// Restore back what was here before endering arView
+                //$("body").css('background-color', this.oldBodyBackgroundColor);
+                //$("body").css('height', this.oldBodyHeight);
+                //$("html").css('height', this.oldHtmlHeight);
+                ////$("#mainSection").css('min-height', this.oldmainPageHeight);
+                //$("#headerSection").css('height', this.oldHeaderSectionHeight);
+                //$("#mainSection").show();
+                //$("#headerSectionSize").show();
+                //$("#logoFrame").show();
+                ////$("[data-role=page]").show();
+                //$("#footerSection").show();
 
             }
         }
@@ -118,24 +122,27 @@ module App.Controllers {
                 // Turn on AR camera
                 arProvider.enableAR(true);
 
-                // Remember settings                
-                this.oldBodyBackgroundColor = $("body").css('background-color');
-                this.oldBodyHeight = $("body").css('height');
-                this.oldHtmlHeight = $("html").css('height');
-                //this.oldmainPageHeight = $("#mainPage").css('height');
-                this.oldHeaderSectionHeight = $("#headerSection").css('height');
+                // Hide AR
+                windowSizeController.ShowPage(false);
+                
+                //// Remember settings                
+                //this.oldBodyBackgroundColor = $("body").css('background-color');
+                //this.oldBodyHeight = $("body").css('height');
+                //this.oldHtmlHeight = $("html").css('height');
+                ////this.oldmainPageHeight = $("#mainPage").css('height');
+                //this.oldHeaderSectionHeight = $("#headerSection").css('height');
 
-                // Now hide HTML
-                $("body").css('background-color', 'transparent');
-                $("body").css('height', '0');
-                $("html").css('height', '0');
-                $("#mainSection").hide();
-                $("#headerSectionSize").hide();
-                $("#logoFrame").hide();
-                // TODO: TEMP, just to make it look ok
-                $("#headerSection").css('height', '24');
+                //// Now hide HTML
+                //$("body").css('background-color', 'transparent');
+                //$("body").css('height', '0');
+                //$("html").css('height', '0');
+                //$("#mainSection").hide();
+                //$("#headerSectionSize").hide();
+                //$("#logoFrame").hide();
+                //// TODO: TEMP, just to make it look ok
+                //$("#headerSection").css('height', '24');
 
-                $("#footerSection").hide();
+                //$("#footerSection").hide();
             }
         }
     }
