@@ -228,12 +228,12 @@ input[type=text]{
     width: 100%;
 }
 
-#poiImage{
+/*#poiImage{
     width: 95%;
-}
+}*/
 
-#poiImage img{
-    width:100%;
+.poiDetailImage {
+    max-width:80%;
 }
 
 .poiDetailHeader
