@@ -47,10 +47,10 @@ module App.Controllers {
             });
             viewController.addSelectEvent(function (event: JQueryEventObject, oldView: System.GUI.ViewControllerItem, newView: System.GUI.ViewControllerItem) {
                 if (newView.name === "poiView") {
-                    windowSizeController.HideTopMenu();
+                    windowSizeController.ShowHeader(false);
                 } else {
                     if (oldView && oldView.name == "poiView") {
-                        windowSizeController.ShowTopMenu();
+                        windowSizeController.ShowHeader(true);
                     // Moved away from poiView? Hide it. (not required any more since we are not using dialog)
                         poiController.hidePoiPreview();
                     }

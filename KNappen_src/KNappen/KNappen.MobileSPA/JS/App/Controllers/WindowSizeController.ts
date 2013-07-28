@@ -14,6 +14,7 @@ module App.Controllers {
         public footerSection: any;
         public map: any;
         public originalHeaderSectionHeight: number;
+        public originalFooterSectionHeight: number;
 
         public Load() {
             this._window = $(window);
@@ -24,6 +25,12 @@ module App.Controllers {
             this.map = $("#map");
 
             this.originalHeaderSectionHeight = this.headerSection.css('height');
+            this.originalFooterSectionHeight = this.footerSection.css('height');
+
+
+            this.footerSection.css('height', '0px');
+            //this.ShowFooter(false);
+
             this.resize();
         
         }
@@ -50,28 +57,38 @@ module App.Controllers {
             if (!viewController || !viewController.getCurrentView() || viewController.getCurrentView().name != "arView") {
                 this.headerSectionSize.outerHeight(headerHeight);
                 this.mainSection.outerHeight(mainHeight);
-                this.map.outerHeight(mainHeight);
-                
+                this.map.outerHeight(mainHeight);  
 
                 log.debug("WindowSizeController", "Resizing mainSection to " + mainHeight + "px (windows: " + windowHeight + ", header: " + headerHeight + ", footer: " + footerHeight + ")");
             }
 
-
         }
 
-        public ShowTopMenu() {
-            this.headerSection.show();
-            this.headerSection.css('height', this.originalHeaderSectionHeight);
-            this.headerSectionSize.css('height', this.originalHeaderSectionHeight);
+        public ShowHeader(visible: bool) {
+            if (visible) {
+                this.headerSection.show();
+                this.headerSection.css('height', this.originalHeaderSectionHeight);
+                this.headerSectionSize.css('height', this.originalHeaderSectionHeight);
+            } else {
+                this.headerSection.css('height', '0px');
+                this.headerSectionSize.css('height', '0px');
+                this.headerSection.hide();
+            }
             this.resize();
         }
 
-        public HideTopMenu() {
-            this.headerSection.css('height', '0px');
-            this.headerSectionSize.css('height', '0px');
-            this.headerSection.hide();
+        public ShowFooter(visible: bool) {
+            if (visible) {
+                this.footerSection.show();
+                this.footerSection.css('height', this.originalFooterSectionHeight);
+            } else {
+                this.footerSection.css('height', '0px');
+                this.footerSection.hide();
+            }
             this.resize();
         }
+
+
     }
 }
 var windowSizeController = new App.Controllers.WindowSizeController();
