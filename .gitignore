@@ -274,6 +274,12 @@
 /PhoneGap/Android/KNappen/.classpath
 /PhoneGap/Android/KNappen/.project
 /PhoneGap/Android/KNappen/gen
+/PhoneGap/Android/KNappen/assets/world/KNappen
+/PhoneGap/Android/KNappen/assets/world/KNappen/*
+/PhoneGap/ios/KNappen/assets/world/KNappen
+/PhoneGap/ios/KNappen/assets/world/KNappen/*
+/PhoneGap/Android/KNappen/bin
+/PhoneGap/Android/KNappen/bin/*
 
 /KNappen_src/KNappen/KNappen.MobileSPA/JS/System/Providers/TemplateProvider.min.js
 /KNappen_src/KNappen/KNappen.MobileSPA/JS/System/Providers/TemplateProvider.js
@@ -316,3 +322,4 @@
 /KNappen_src/KNappen/KNappen.MobileSPA/JS/App/Controllers/SplashScreenController.js.map
 /KNappen_src/KNappen/KNappen.MobileSPA/JS/App/Controllers/SplashScreenController.min.js
 /KNappen_src/KNappen/KNappen.MobileSPA/JS/App/Controllers/SplashScreenController.js
+

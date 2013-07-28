@@ -67,11 +67,10 @@ module App.Controllers {
 
                     var keys = templateProvider.getReplacementKeys(poi);
                     (<any>keys).iconCategoryURL(config.fixLocalFileRef((<any>keys).iconCategoryURL()));
-                    
+
                     return templateProvider.getTemplate(config.templatePOIAR, keys);
                     // Causes annoying IE crash during debugging: onError="$(this).unbind("error").attr("src", "Images/Icon-Large.gif");"
-                }
-            );
+                });
         }
 
 
@@ -85,11 +84,11 @@ module App.Controllers {
                 && newView && newView.name != "arView") {
                 log.debug("ARController", "View changed away from AR: Disabling camera");
 
-                    // Turn off AR camera
-                    arProvider.enableAR(false);
+                // Turn off AR camera
+                arProvider.enableAR(false);
 
-                    // Show HTML
-                    windowSizeController.ShowPage(true);
+                // Show HTML
+                windowSizeController.ShowPage(true);
 
                 //// Restore back what was here before endering arView
                 //$("body").css('background-color', this.oldBodyBackgroundColor);
@@ -116,15 +115,16 @@ module App.Controllers {
         private onViewChanged(event: JQueryEventObject, oldView: System.GUI.ViewControllerItem, newView: System.GUI.ViewControllerItem) {
             if (!oldView)
                 $("#arMenu").hide();
-          
-            if (newView.name == "arView") {
+
+            if (newView && newView.name == "arView"
+                && oldView && oldView.name != "arView") {
                 log.debug("ARController", "View changed to AR: Enabling camera");
                 // Turn on AR camera
                 arProvider.enableAR(true);
 
                 // Hide AR
                 windowSizeController.ShowPage(false);
-                
+
                 //// Remember settings                
                 //this.oldBodyBackgroundColor = $("body").css('background-color');
                 //this.oldBodyHeight = $("body").css('height');

@@ -7,17 +7,17 @@
 module App.Controllers {
     export class WindowSizeController {
 
-        public _window: any;
+        private _window: any;
         private headerSectionSize: any;
         private headerSection: any;
-        public mainSection: any;
-        public footerSection: any;
-        public map: any;
+        private mainSection: any;
+        private footerSection: any;
+        private map: any;
         private originalHeaderSectionHeight: number;
         private originalFooterSectionHeight: number;
-        public originalPageBGColor: string;
-        public originalBodyHeight: any;
-        public originalHTMLHeight: any;
+        private originalPageBGColor: string;
+        private originalBodyHeight: any;
+        private originalHTMLHeight: any;
 
         public Load() {
             this._window = $(window);
@@ -71,6 +71,7 @@ module App.Controllers {
         }
 
         public ShowHeader(visible: bool) {
+            log.debug("WindowSizeController", "showHeader: " + visible);
             if (visible) {
                 this.headerSection.show();
                 this.headerSection.css('height', this.originalHeaderSectionHeight);
@@ -84,6 +85,7 @@ module App.Controllers {
         }
 
         public ShowFooter(visible: bool) {
+            log.debug("WindowSizeController", "showFooter: " + visible);
             if (visible) {
                 this.footerSection.show();
                 this.footerSection.css('height', this.originalFooterSectionHeight);
@@ -95,12 +97,19 @@ module App.Controllers {
         }
 
         public ShowPage(visible: bool) {
+            log.debug("WindowSizeController", "showPage: " + visible);
             
             if (visible) {
                 $("body").css('background-color', this.originalPageBGColor);
                 $("html").css('height', this.originalHTMLHeight);
                 $("body").css('height', this.originalBodyHeight);
+                this.ShowHeader(true);
             } else {
+                this.ShowHeader(false);
+                this.ShowFooter(false);
+                this.mainSection.css('height', '0px');
+                this.mainSection.hide();
+
                 this.originalPageBGColor = $("body").css('background-color');
                 this.originalBodyHeight = $("body").css('height');
                 this.originalHTMLHeight = $("html").css('height');
@@ -109,7 +118,6 @@ module App.Controllers {
                 $("body").css('height', '0');
                 $("html").css('height', '0');
             }
-
         }
 
     }
