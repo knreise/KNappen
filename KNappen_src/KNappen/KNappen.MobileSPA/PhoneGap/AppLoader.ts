@@ -31,13 +31,15 @@ module PhoneGap {
 
             setTimeout(function () {
                 // before we actually call load, we check again if the device is able to open the world
-                if (!this.isLoaded && phoneGapInterop.wikitudePluginProvider.supportedDevice)
-                {
-                    log.debug("AppLoader", "Wikitude reports device is compatible, using Wikitude ARchitect world.");
-                    _this.loadWikitudeWorld();
-                } else {
-                    log.error("AppLoader", "Wikitude reports device is not compatible, using PhoneGap.");
-                    _this.loadPhoneGapWorld();
+                if (!this.isLoaded) {
+                    if (phoneGapInterop.wikitudePluginProvider.supportedDevice)
+                    {
+                        log.debug("AppLoader", "Wikitude reports device is compatible, using Wikitude ARchitect world.");
+                        _this.loadWikitudeWorld();
+                    } else {
+                        log.error("AppLoader", "Wikitude reports device is not compatible, using PhoneGap.");
+                        _this.loadPhoneGapWorld();
+                    }
                 }
             }, 1000);
 
