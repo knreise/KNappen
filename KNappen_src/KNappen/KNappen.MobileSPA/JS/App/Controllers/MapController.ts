@@ -95,11 +95,8 @@ module App.Controllers {
             this.panel = new OpenLayers.Control.Panel({
                 defaultControl: zb,
                 createControlMarkup: function (control) {
-                    var button = $("<input type='button' class='mapButton'>");
-                    var text = $("<span>");
-                    text.html(control.text);
-                    button.append(text);
-                     return button[0];
+                    var text = $(control.text);
+                    return text[0];
                     //var button = document.createElement('button');
                     //var iconSpan = document.createElement('span');
                     //var textSpan = document.createElement('span');
@@ -107,7 +104,7 @@ module App.Controllers {
                     //button.appendChild(iconSpan);
                     //if (control.text)
                     //    textSpan.innerHTML = control.text;
-                    
+                
                     //button.appendChild(textSpan);
                     //return button;
                 }
@@ -132,13 +129,13 @@ module App.Controllers {
                         _this.openPlaceSearch()
                     }
                 }),
-                    new OpenLayers.Control.Button({
-                        title: tr.translate("Change map layer"),
-                        text: "<span class='typcn typcn-image mapTypIconButton'></span>",
-                        trigger: function () {
-                            _this.nextMapLayer();
-                        }
-                    }),
+                new OpenLayers.Control.Button({
+                    title: tr.translate("Change map layer"),
+                    text: "<span class='typcn typcn-image mapTypIconButton'></span>",
+                    trigger: function () {
+                        _this.nextMapLayer();
+                    }
+                }),
                 new OpenLayers.Control.Button({
                     title: tr.translate("Cache result"),
                     text: "<span class='typcn typcn-attachment mapTypIconButton'></span>",
@@ -186,20 +183,20 @@ module App.Controllers {
                     mapResultToRouteDialogD.dialog("close");
                 }
             });
-            
+
             content.append(btn);
             mapResultToRouteDialog.html('');
             mapResultToRouteDialog.append(content);
-            
+
             mapResultToRouteDialogD.dialog({
                 autoOpen: true,
                 maxWidth: '90%',
                 maxHeight: '90%',
-//                width: '70%',
-//                height: '50%',
+                //                width: '70%',
+                //                height: '50%',
                 modal: true
             });
-            
+        
         }
 
         private nextMapLayer() {
@@ -258,7 +255,7 @@ module App.Controllers {
             });
         }
 
-        private searchClick (eventObject: JQueryMouseEventObject) {
+        private searchClick(eventObject: JQueryMouseEventObject) {
             var mapSearchDialogD: any = $("#mapSearchDialog");
             var mapSearchResult = $("#mapSearchResult");
             var mapSearchInputBox = $("#mapSearchInputBox");

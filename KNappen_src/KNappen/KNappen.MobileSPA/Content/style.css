@@ -522,11 +522,12 @@ body {
         -webkit-transform: translate3d(0, 0, 0);
     }
 }
-
+/*
 .mapButton {
     height: 20px;
     width: 20px;
 }
-.mapTypIconButton{
-    font-size: x-large;
+    */
+.mapTypIconButton {
+    font-size: 3.3em;
 }
