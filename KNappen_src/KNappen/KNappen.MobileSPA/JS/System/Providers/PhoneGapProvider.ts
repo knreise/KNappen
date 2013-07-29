@@ -22,7 +22,7 @@ module System.Providers {
           * @param {string} value Value to store.
           */
         public SqlSetKey(table: string, key: string, value: string, meta: string) {
-            this.sendPhoneGapCommand("sql", "remove",
+            this.sendPhoneGapCommand("sql", "set",
                 {
                     "table": table,
                     "key": key,
@@ -37,7 +37,7 @@ module System.Providers {
           * @param {string} key Key to remove.
           */
         public SqlRemoveKey(table: string, key: string) {
-            this.sendPhoneGapCommand("sql", "remove",
+            this.sendPhoneGapCommand("sql", "set",
                 {
                     "table": table,
                     "key": key
