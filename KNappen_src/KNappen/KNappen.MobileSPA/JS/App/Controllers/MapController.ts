@@ -95,16 +95,21 @@ module App.Controllers {
             this.panel = new OpenLayers.Control.Panel({
                 defaultControl: zb,
                 createControlMarkup: function (control) {
-                    var button = document.createElement('button'),
-                        iconSpan = document.createElement('span'),
-                        textSpan = document.createElement('span');
-                    iconSpan.innerHTML = '&nbsp;';
-                    button.appendChild(iconSpan);
-                    if (control.text) {
-                        textSpan.innerHTML = control.text;
-                    }
-                    button.appendChild(textSpan);
-                    return button;
+                    var button = $("<input type='button' class='mapButton'>");
+                    var text = $("<span>");
+                    text.html(control.text);
+                    button.append(text);
+                     return button[0];
+                    //var button = document.createElement('button');
+                    //var iconSpan = document.createElement('span');
+                    //var textSpan = document.createElement('span');
+                    //iconSpan.innerHTML = '&nbsp;';
+                    //button.appendChild(iconSpan);
+                    //if (control.text)
+                    //    textSpan.innerHTML = control.text;
+                    
+                    //button.appendChild(textSpan);
+                    //return button;
                 }
             });
             this.panel.addControls([
