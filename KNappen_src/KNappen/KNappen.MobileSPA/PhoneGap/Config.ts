@@ -5,7 +5,8 @@ module PhoneGap {
         public locationUpdateRateMs = 5000;
         public wikitudeARMode = "Geo";
         public wikitudeARWorldPath = "assets/world/KNappen/Main.html";
-        public phoneGapWorldPath = "../world/KNappen/Main.html";
+        public phoneGapWorldPath = "../Main.html";
+
     }
 }
 

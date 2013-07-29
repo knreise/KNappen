@@ -41,6 +41,7 @@ module PhoneGap.Providers {
 
     export class WikitudePluginProvider {
         public supportedDevice: bool = false;
+        public supportedDeviceChecked: bool = false;
 
         public sendInterop: PhoneGap.Providers.WikitudeSendInterop = new PhoneGap.Providers.WikitudeSendInterop();
 
@@ -81,11 +82,13 @@ module PhoneGap.Providers {
                     function () {
                         log.info("WikitudePluginProvider", "checkWikitudeCompatibility: Device is supported.");
                         _this.supportedDevice = true;
+                        _this.supportedDeviceChecked = true;
                         _this.onDeviceSupported.trigger();
                     },
                     function () {
                         log.info("WikitudePluginProvider", "checkWikitudeCompatibility: Device is not supported.");
                         _this.supportedDevice = false;
+                        _this.supportedDeviceChecked = true;
                         _this.onDeviceNotSupported.trigger();
                     },
                     "WikitudePlugin", "isDeviceSupported", [phoneGapInterop.config.wikitudeARMode]);
