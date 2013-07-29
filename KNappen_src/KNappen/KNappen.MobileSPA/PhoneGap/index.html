@@ -10,7 +10,24 @@
     <script src="../Scripts/jquery-1.9.1.min.js"></script>
     
     <!-- PhoneGap and Wikitude -->
-    <script type="text/javascript" src="cordova.js"></script>
+    <script>
+        function loadScript(scriptName) {
+            var js = document.createElement("script");
+
+            js.type = "text/javascript";
+            js.src = scriptName;
+
+            var head = document.getElementsByTagName('head')[0];
+            head.appendChild(js);
+        }
+        
+        if (/Android|webOS/i.test(navigator.userAgent))
+            loadScript("cordova_android.js");
+        if (/iPhone|iPad|iPod/i.test(navigator.userAgent))
+            loadScript("cordova_ios.js");
+    </script>
+
+<!--    <script type="text/javascript" src="cordova.js"></script>-->
 <!--    <script type="text/javascript" src="WikitudePlugin.js"></script>-->
     
     <!-- Base -->
