@@ -3,7 +3,94 @@
 <head>
     <title>Brukerdokumentasjon - KNappen</title>
 </head>
-<body>
+<body>  
+    <h1>Brukerdokumentasjon for Kultur og-naturreise</h1>
+
+    <h2>Kart</h2>
+    <h3>Kartet er den standard oppstartsvisningen til appen.</h3>
+    <img src="images/startPage.png"/>
+    <h3>
+        Det foretas et søk med standardinnstillinger idet man starter appen, når søket er fullført blir alle visninger
+        fylt med resultatet av søket.
+
+        Knappene øverst på kartet har følgende funksjonalitet:
+        <ol>
+            <li>Sentrer kartet rundt brukerens nåværende posisjon</li>
+            <li>Zoom inn</li>
+            <li>Zoom ut</li>
+            <li>Søk etter steder</li>
+            <li>Bytt karttype</li>
+            <li>Lagre nåværende kartutsnitt lokalt</li>
+        </ol>
+    </h3>
+
+    <h2>Meny</h2>
+    <img src="images/menu.png" />
+    <h3>
+        Ved å bruke menyen øverst i venstre hjørne kan man navigere til alle sider i appen.
+    </h3>
+
+    <h2>Kameravisning</h2>
+    <h3>Kameravisning, også kjent som "Utvidet virkelighet" viser alle objektene fra resultatet som flytende
+        ikoner tegnet oppå kameravisningen til mobilen.</h3>
+    
+    <h3>I denne visningen får man visualisert hvilke retninger
+        de forskjellige objektene er og hvor langt unna de er (basert på størrelse av ikonet).
+        Denne visningen benytter seg av mobilens kompass, og kan påvirkes av eksterne faktorer som forstyrrer dette.
+    </h3>
+
+    <h2>Liste</h2>
+    <img src="images/list.png" />
+    <h3>
+        Listevisningen viser alle resultater fra søket i en flat struktur. Her har man mulighet til å bla seg gjennom
+        resultatet dersom dette er stort.
+    </h3>
+
+    <h2>Forhåndsvisning av PoI</h2>
+    <h3>Forhåndsvisningen av et objekt inneholder kategori, mediatype og tittel.</h3>
+    <img src="images/poiPreviewMap.png" />
+    <img src="images/listExpanded.png" />
+    <!-- TODO: Screenshot av preview i AR -->
+    <h3>I kartvisning og kameravisning får man opp en forhåndsvisning av objektet man trykket på før man 
+        kan velge å gå videre til den fullstendige detaljvisningen av objektet.
+        I listevisningen fungerer ekspandering av listelementene som forhåndsvisningen.
+    </h3>
+
+    <h2>Detaljvisning</h2>
+    <h3>I detaljvisningen av et objekt får man opp all relevant informasjon om objektet.</h3>
+    <img src="images/poiDetail.png" />
+    <h3>
+        Felt som vises:
+        <ol>
+            <li>Tittel</li>
+            <li>Kategori (ikon)</li>
+            <li>Mediatype (ikon)</li>
+            <li>Bilde, video, lyd (utifra mediatype)</li>
+            <li>Ingress</li>
+            <li>Beskrivelse</li>
+            <li>Emneord (tags)</li>
+            <li>Datering</li>
+            <li>Kilde</li>
+            <li>Institusjon (hvem "eier" dataen)</li>
+            <li>Original versjon (opprinnelse av dataen)</li>
+            <li>Opphavsperson</li>
+            <li>Lisens</li>
+            <li>Eksterne lenker (andre lenker til informasjon om dataen)</li>
+        </ol>
+
+        I denne visningen kan man legge objektet til i en eksisterende rute, eller opprette en ny som objektet da
+        blir lagt inn i. Rutene kan man senere se på rutevisningen.
+    </h3>
+
+    <h2>Ruter</h2>
+    <h3>Rutevisningen inneholder alle ruter, delt opp i anbefalte ruter fra Kulturrådet samt egendefinerte
+        ruter som brukeren selv har laget.
+    </h3>
+    <img src="images/routes.png" />
+    <h3>
+        Ved å velge å følge ruten vil søkeresultatet som tidligere vist i kart, kameravisning og liste, bli erstattet med
+        objektene fra den valgte ruten. Etter dette er funksjonaliteten i objektene lik som med et vanlig søkeresultat.
+    </h3>
 
 </body>
 </html>

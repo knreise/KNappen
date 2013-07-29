@@ -44,6 +44,20 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Brukerdokumentasjon\images\about.png" />
+    <Content Include="Brukerdokumentasjon\images\adminSettings.png" />
+    <Content Include="Brukerdokumentasjon\images\editRoute.png" />
+    <Content Include="Brukerdokumentasjon\images\feedback.png" />
+    <Content Include="Brukerdokumentasjon\images\list.png" />
+    <Content Include="Brukerdokumentasjon\images\listExpanded.png" />
+    <Content Include="Brukerdokumentasjon\images\menu.png" />
+    <Content Include="Brukerdokumentasjon\images\poiDetail.png" />
+    <Content Include="Brukerdokumentasjon\images\poiPreviewMap.png" />
+    <Content Include="Brukerdokumentasjon\images\routes.png" />
+    <Content Include="Brukerdokumentasjon\images\search.png" />
+    <Content Include="Brukerdokumentasjon\images\settings.png" />
+    <Content Include="Brukerdokumentasjon\images\startPage.png" />
+    <Content Include="Brukerdokumentasjon\UserDocumentation.html" />
     <Content Include="config.xml" />
     <Content Include="Content\font\vjs.svg" />
     <Content Include="Content\images\AppIcons\defaultPoiIcon.png" />
