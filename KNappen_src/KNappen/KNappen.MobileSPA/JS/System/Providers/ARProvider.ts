@@ -43,8 +43,10 @@ module System.Providers {
           */
         public resultToPoI(poi: System.Models.KnockoutObservablePointOfInterestBaseArray, htmlDrawCallback: { (poi: System.Models.PointOfInterestBase): string; }) {
             // If we don't have AR then no need to run this
-            if (!compatibilityInfo.hasAR)
+            if (!compatibilityInfo.hasAR) {
+                log.debug("ARProvider", "No AR");
                 return;
+            }
 
             var count: number = 0;
             if (poi && poi())
