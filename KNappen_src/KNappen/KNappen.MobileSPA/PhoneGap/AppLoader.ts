@@ -6,12 +6,11 @@ module PhoneGap {
         private isLoaded = false;
         public Load() {
             var _this = this;
-            phoneGapInterop.wikitudePluginProvider.onARchitectWorldFailedLaunching.addHandler(
-                function (error) {
-                    log.error("AppLoader", "Failed to load Wikitude ARchitect world, falling back to PhoneGap.");
-                    _this.isLoaded = true;
-                    _this.loadPhoneGapWorld();
-                });
+            //phoneGapInterop.wikitudePluginProvider.onARchitectWorldFailedLaunching.addHandler(
+            //    function (error) {
+            //        log.error("AppLoader", "Failed to load Wikitude ARchitect world, falling back to PhoneGap.");
+            //        _this.loadPhoneGapWorld();
+            //    });
             phoneGapInterop.wikitudePluginProvider.onDeviceSupported.addHandler(
                 function () {
                     log.error("AppLoader", "Device is supported, using Wikitude ARchitect world.");
