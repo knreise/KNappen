@@ -479,9 +479,6 @@ body {
 .typiconButton {
     font-size: xx-large;
 }
-/*.mapTypIconButton{
-    font-size: x-large;
-}*/
 /*.olButton
 {
     height: 4em;
@@ -524,4 +521,12 @@ body {
     img.olTileImage .mapTypIconButton {
         -webkit-transform: translate3d(0, 0, 0);
     }
+}
+
+.mapButton {
+    height: 20px;
+    width: 20px;
+}
+.mapTypIconButton{
+    font-size: x-large;
 }
