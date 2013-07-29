@@ -254,7 +254,8 @@
     <Content Include="PhoneGap\Config.min.js">
       <DependentUpon>Config.ts</DependentUpon>
     </Content>
-    <Content Include="PhoneGap\cordova.js" />
+    <Content Include="PhoneGap\cordova_ios.js" />
+    <Content Include="PhoneGap\cordova_android.js" />
     <Content Include="PhoneGap\index.html" />
     <TypeScriptCompile Include="PhoneGap\InteropProviders\SqlProvider.ts" />
     <TypeScriptCompile Include="PhoneGap\InteropProviders\ButtonProvider.ts" />

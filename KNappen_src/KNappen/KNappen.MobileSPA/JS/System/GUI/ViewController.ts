@@ -1,3 +1,4 @@
+/// <reference path="../ConfigBase.ts" />
 /// <reference path="../Diagnostics/Log.ts" />
 /// <reference path="../../../Scripts/typings/jquery/jquery.d.ts" />
 /**
@@ -153,6 +154,8 @@ module System.GUI {
             while(this.viewHistory.length > config.maxViewControllerBackHistory) {
                 this.viewHistory.shift();
             }
+
+            window.scrollTo(0, 0);
 
             return view;
         }
