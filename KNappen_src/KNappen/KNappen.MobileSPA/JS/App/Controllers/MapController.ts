@@ -93,6 +93,7 @@ module App.Controllers {
                 }
             });
             this.panel = new OpenLayers.Control.Panel({
+                vertical: true,
                 defaultControl: zb,
                 createControlMarkup: function (control) {
                     var text = $(control.text);
