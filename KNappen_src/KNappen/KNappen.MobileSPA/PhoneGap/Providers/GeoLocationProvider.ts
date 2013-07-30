@@ -4,10 +4,21 @@ module PhoneGap.Providers {
     export class GeoLocationProvider {
         public onLocationUpdate = new System.Utils.Event("onLocationUpdate");
         public onLocationUpdateError = new System.Utils.Event("onLocationUpdateError");
-
+        public lastKnownPosition: any = null;
 
         public PostInit() {
             var _this = this;
+
+            setInterval(function () {
+                try {
+                    if (_this.lastKnownPosition)
+                        phoneGapInterop.wikitudePluginProvider.sendInterop.sendGeoLocationUpdate(_this.lastKnownPosition);
+                } catch (exception) {
+                    log.error("GeoLocationProvider", "Exception sending position to Wikitude (interop): " + exception);
+                }
+
+            }, phoneGapInterop.config.locationUpdateRateMs);
+
             navigator.geolocation.watchPosition(
                 function (position) {
                     log.verboseDebug("", "Received geolocation: "
@@ -19,21 +30,31 @@ module PhoneGap.Providers {
                         + 'Heading: ' + position.coords.heading + ', '
                         + 'Speed: ' + position.coords.speed + ', '
                         + 'Timestamp: ' + new Date(position.timestamp) + '');
-                    
+
+                    _this.lastKnownPosition = position;
+
                     // Set position in Wikitude
                     try {
                         phoneGapInterop.wikitudePluginProvider.setWikitudePosition(position);
-                    } catch (exception) { }
+                    } catch (exception) {
+                        log.error("GeoLocationProvider", "Exception setting Wikitude position: " + exception);
+                    }
 
+                    
                     _this.onLocationUpdate.trigger(position);
 
-                    phoneGapInterop.wikitudePluginProvider.sendInterop.sendGeoLocationUpdate(position);
+                
                 },
                 function (error: GeolocationError) {
                     log.error("GeoLocationProvider", "Error getting geolocation: code: " + error.code + ", message: " + error.message);
                     _this.onLocationUpdateError.trigger(error);
                 },
-                { frequency: phoneGapInterop.config.locationUpdateRateMs });
+                {
+                    frequency: phoneGapInterop.config.locationUpdateRateMs,
+                    maximumAge: 60000,
+                    timeout: 5000,
+                    enableHighAccuracy: true
+                });
         }
     }
 }
