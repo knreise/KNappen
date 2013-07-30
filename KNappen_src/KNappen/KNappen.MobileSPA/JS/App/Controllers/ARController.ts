@@ -62,6 +62,7 @@ module App.Controllers {
             // Send search result for rendering. Using HTML render callback to draw each POI elements HTML code.
             arProvider.resultToPoI(searchResult.items,
                 function (_poi: System.Models.PointOfInterestBase) {
+                    log.debug("ARController", "Drawing item");
                     var poi = <App.Models.PointOfInterest>_poi;
                     var preImageUrl = "";
 

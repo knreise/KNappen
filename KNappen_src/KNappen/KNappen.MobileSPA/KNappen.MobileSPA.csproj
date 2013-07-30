@@ -64,6 +64,7 @@
     <Content Include="Content\images\Categories\defaultCategory.png" />
     <Content Include="Content\images\Categories\wikipedia.png" />
     <Content Include="Content\images\MenuImages\feedback.png" />
+    <Content Include="Content\images\topLogo_white.png" />
     <Content Include="Content\swf\soundmanager2.swf" />
     <Content Include="Content\swf\soundmanager2_debug.swf" />
     <Content Include="Content\swf\soundmanager2_flash9.swf" />
