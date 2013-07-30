@@ -69,6 +69,7 @@ module App.Controllers {
                 _this.adminOpenCounter++;
                 if (_this.adminOpenCounter == 10) {
                     $("#adminSettingsDiv").show();
+                    $("#mainPopupMenuButtonDebug").show();
                     viewController.selectView("settingsView");
                 }
             });

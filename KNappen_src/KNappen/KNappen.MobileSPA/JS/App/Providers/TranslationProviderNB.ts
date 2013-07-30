@@ -49,7 +49,8 @@ module App.Providers {
             translater.addTranslation("Default number of results", "Standard antall resultater fra hver datakilde");
             translater.addTranslation("Default search distance", "Standard avstand i s&oslash;k");
             translater.addTranslation("Default map type", "Standard karttype");
-            translater.addTranslation("Default zoom level", "Standard zoomnivå i kart");
+            translater.addTranslation("Default zoom level", "Standard zoomniv&aring; i kart");
+            translater.addTranslation("Default category", "Standard kategori i s&oslash;k");
             translater.addTranslation("Functional error", "Funksjonelle feil");
             translater.addTranslation("Comment on content", "Kommentar til innhold");
             translater.addTranslation("Your email address", "Din e-post (valgfritt)");

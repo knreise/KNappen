@@ -352,15 +352,13 @@
                 <select id="ddlSettingsStartSearchDistance" class="refreshSelectAfterDataBind" data-bind="value: settings().startSearchDistance, jqmOptions: settings().searchDistances, optionsText: 'name', optionsValue: 'id'"></select>
             </div>
             <br />
-            <!--
                 <div>
-                    <h3>Standard kategori i søk</h3>
+                    <h3 class="translate">$T[Default category]</h3>
                     <select id="ddlSettingsStartSearchCategory" class="refreshSelectAfterDataBind" data-bind="value: settings().startSearchCategory, jqmOptions: settings().searchCategories, optionsText: 'name', optionsValue: 'id'">
                         <option value=""></option>                    
                     </select>
                 </div>
                 <br />
-             -->
             <div>
                 <h3 class="translate">$T[Default zoom level]</h3>
                 <select id="ddlSettingsStartMapZoomLevel" class="refreshSelectAfterDataBind" data-bind="value: settings().startMapZoomLevel, jqmOptions: settings().mapZoomLevels, optionsText: 'name', optionsValue: 'id'"></select>
@@ -486,7 +484,7 @@
         <div class="popupMenuButton translate" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('aboutView'); return false;">
             <img src="Content/images/MenuImages/about.png" />$T[About]
         </div>
-        <div class="popupMenuButton translate" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('debugView'); return false;">$T[Debug log]</div>
+        <div id="mainPopupMenuButtonDebug" class="popupMenuButton hidden translate" onmousedown="$('#mainPopupMenu').hide(); viewController.selectView('debugView'); return false;">$T[Debug log]</div>
         <img src="Content/images/topLogo_white.png" class="popupMenuButton" />
     </div>
     <script>
