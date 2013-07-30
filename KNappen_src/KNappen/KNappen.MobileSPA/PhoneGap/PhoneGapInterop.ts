@@ -56,10 +56,16 @@ module PhoneGap {
 
             document.addEventListener("resume", function () {
                 log.debug("PhoneGapInterop", "Triggering: onResume");
+                try {
+                    phoneGapInterop.wikitudePluginProvider.resumeWikitude();
+                } catch (exception) {}
                 _this.onResume.trigger();
             }, false);
             document.addEventListener("pause", function () {
                 log.debug("PhoneGapInterop", "Triggering: onPause");
+                try {
+                    phoneGapInterop.wikitudePluginProvider.pauseWikitude();
+                } catch (exception) { }
                 _this.onPause.trigger();
             }, false);
         

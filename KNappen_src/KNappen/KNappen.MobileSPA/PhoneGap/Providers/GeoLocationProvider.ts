@@ -19,6 +19,12 @@ module PhoneGap.Providers {
                         + 'Heading: ' + position.coords.heading + ', '
                         + 'Speed: ' + position.coords.speed + ', '
                         + 'Timestamp: ' + new Date(position.timestamp) + '');
+                    
+                    // Set position in Wikitude
+                    try {
+                        phoneGapInterop.wikitudePluginProvider.setWikitudePosition(position);
+                    } catch (exception) { }
+
                     _this.onLocationUpdate.trigger(position);
 
                     phoneGapInterop.wikitudePluginProvider.sendInterop.sendGeoLocationUpdate(position);

@@ -125,25 +125,17 @@ module PhoneGap.Providers {
         public pauseWikitude() {
             // Call the Wikitude SDK that the application did resign active
             cordova.exec(function () { }, function () { }, "WikitudePlugin", "onPause", [""]);
-            // And stop all ongoing location updates
-            // We clear the location update watch which was responsible for updating the location in a specific time interval
-            navigator.geolocation.clearWatch(this.locationWatchID);
-            this.locationWatchID = null;
-
         }
 
         public resumeWikitude() {
             // Call the Wikitude SDK that the application did become active again
             cordova.exec(function () { }, function () { }, "WikitudePlugin", "onResume", [""]);
-
-            this.locationWatchID = navigator.geolocation.watchPosition(this.onReceivedLocation, function () { }, { frequency: phoneGapInterop.config.locationUpdateRateMs });
-
         }
 
-        private onReceivedLocation(position) {
-            
+        public setWikitudePosition(position) {
             // Every time that PhoneGap did received a location update, we pass the location into the Wikitude SDK
             cordova.exec(function () { }, function () { }, "WikitudePlugin", "setLocation", [position.coords.latitude, position.coords.longitude, position.coords.altitude, position.coords.accuracy]);
         }
+
     }
 }
