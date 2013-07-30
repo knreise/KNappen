@@ -151,6 +151,7 @@ module System.Providers {
         }
 
         public callbackGeoLocationUpdate(latitude: number, longitude: number, altitude: number, accuracy: number, altitudeAccuracy: number, heading: number, speed: number, timestamp: Date) {
+            log.debug("PhoneGapProvider", "inside callbackGeoLocationUpdate: " + latitude + ", " + longitude);
             gpsProvider.setPos(latitude, longitude, altitude, accuracy, altitudeAccuracy, heading, speed, timestamp);
         }
 
