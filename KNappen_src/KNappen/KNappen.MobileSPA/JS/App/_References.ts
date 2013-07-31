@@ -1,3 +1,4 @@
+/// <reference path="Providers/EventProvider.ts" />
 /// <reference path="Controllers/WindowSizeController.ts" />
 /// <reference path="Controllers/AudioController.ts" />
 /// <reference path="Controllers/SearchViewController.ts" />

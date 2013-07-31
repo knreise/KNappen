@@ -9,10 +9,6 @@ module App {
       */
     export class Settings {
 
-        public onPreLoad = new System.Utils.Event("Settings.PreLoad");
-        public onPostLoad = new System.Utils.Event("Settings.PostLoad");
-        public onPreSave = new System.Utils.Event("Settings.PreSave");
-        public onPostSave = new System.Utils.Event("Settings.PostSave");
 
         public mapTypes: KnockoutObservableArray;
         public mapZoomLevels: KnockoutObservableArray;
@@ -42,16 +38,16 @@ module App {
         }
 
         public save() {
-            this.onPreSave.trigger('PreSave');
+            eventProvider.settings.onPreSave.trigger();
             serializer.serializeKnockoutObjectToFile("Settings", this);
-            this.onPostSave.trigger('PostSave');
+            eventProvider.settings.onPostSave.trigger();
         }
 
         public load(): bool {
-            this.onPreLoad.trigger('PreLoad');
+            eventProvider.settings.onPreLoad.trigger();
             var ret = serializer.deserializeKnockoutObjectFromFile("Settings", this);
             this.setOverrides();
-            this.onPostLoad.trigger('PostLoad');
+            eventProvider.settings.onPostLoad.trigger();
             return ret;
         }
 

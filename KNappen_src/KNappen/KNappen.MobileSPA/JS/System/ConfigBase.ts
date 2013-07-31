@@ -14,7 +14,7 @@ module System {
           Log level
           @type System.Diagnostics.LogTypeEnum.Debug
           */
-        public logLevel = System.Diagnostics.LogTypeEnum.VerboseDebug;
+        public logLevel = System.Diagnostics.LogTypeEnum.Debug;
         
         /**
           Short name of application

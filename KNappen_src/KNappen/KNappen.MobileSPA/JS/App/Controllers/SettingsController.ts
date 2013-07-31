@@ -40,18 +40,20 @@ module App.Controllers {
             // Save button
             $("#settingsButtonSave").mousedown(function () {
                 settings.save();
+                mapStorageProvider.setEnabled(!settings.disableCaching);
                 log.userPopup(tr.translate('SETTINGS'), tr.translate('SETTINGS_SAVED'));
                 return false;
             });
 
             // Need to update module every time settings changes
             mapStorageProvider.setEnabled(!settings.disableCaching);
-            settings.onPostSave.addHandler(function () {
+            eventProvider.settings.onPostSave.addHandler(function () {
                 mapStorageProvider.setEnabled(!settings.disableCaching);
             }, "SettingsController");
-            settings.onPostLoad.addHandler(function () {
+            eventProvider.settings.onPostLoad.addHandler(function () {
                 mapStorageProvider.setEnabled(!settings.disableCaching);
             }, "SettingsController");
+            mapStorageProvider.setEnabled(!settings.disableCaching);
 
             // Clear cache button
             $("#btnClearCache").mousedown(function () {
@@ -67,6 +69,7 @@ module App.Controllers {
                 _this.adminOpenCounter++;
                 if (_this.adminOpenCounter == 10) {
                     $("#adminSettingsDiv").show();
+                    $("#mainPopupMenuButtonDebug").show();
                     viewController.selectView("settingsView");
                 }
             });

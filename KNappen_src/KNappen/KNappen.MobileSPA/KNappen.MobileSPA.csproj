@@ -218,6 +218,13 @@
     <Content Include="JS\App\Controllers\WindowSizeController.min.js">
       <DependentUpon>WindowSizeController.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="JS\App\Providers\EventProvider.ts" />
+    <Content Include="JS\App\Providers\EventProvider.js">
+      <DependentUpon>EventProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Providers\EventProvider.min.js">
+      <DependentUpon>EventProvider.ts</DependentUpon>
+    </Content>
     <Content Include="JS\System\Providers\MapCacheProvider.js">
       <DependentUpon>MapCacheProvider.ts</DependentUpon>
     </Content>
@@ -681,6 +688,9 @@
     </Content>
     <Content Include="PhoneGap\Providers\GeoLocationProvider.js.map">
       <DependentUpon>GeoLocationProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Providers\EventProvider.js.map">
+      <DependentUpon>EventProvider.ts</DependentUpon>
     </Content>
     <None Include="Scripts\OpenLayers.js_DoNotUse_NotModified" />
     <None Include="Scripts\OpenLayers.light.debug.js_DoNotUse_NotModified" />
