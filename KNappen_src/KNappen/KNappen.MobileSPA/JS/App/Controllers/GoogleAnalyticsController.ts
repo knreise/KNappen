@@ -15,7 +15,7 @@ module App.Controllers {
         constructor() {
         }
 
-        private googleAnalyticsProvider: System.Providers.GoogleAnalyticsProvider = null;
+        /** @ignore **/ private googleAnalyticsProvider: System.Providers.GoogleAnalyticsProvider = null;
 
         /**
             Initialize properties

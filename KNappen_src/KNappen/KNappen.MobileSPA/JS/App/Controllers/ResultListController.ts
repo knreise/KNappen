@@ -6,8 +6,6 @@
     @namespace App.Controllers
 */
 module App.Controllers {
-
-
     export class ResultListController {
         private self: ResultListController = null;
 
@@ -97,21 +95,21 @@ module App.Controllers {
             if (listDiv.hasClass("ui-accordion")) {
                 listDiv.accordion("refresh");
             }
-                //if (routeEditing) {
-                //    listDiv.accordion({
-                //        header: "> div > h3",
-                //        autoHeight: false
-                //    }).sortable({
-                //        axis: "y",
-                //        handle: "h3",
-                //        stop: function (event, ui) {
-                //            // IE doesn't register the blur when sorting
-                //            // so trigger focusout handlers to remove .ui-state-focus
-                //            ui.item.children('h3').triggerHandler('focusout');
-                //        }
+            //if (routeEditing) {
+            //    listDiv.accordion({
+            //        header: "> div > h3",
+            //        autoHeight: false
+            //    }).sortable({
+            //        axis: "y",
+            //        handle: "h3",
+            //        stop: function (event, ui) {
+            //            // IE doesn't register the blur when sorting
+            //            // so trigger focusout handlers to remove .ui-state-focus
+            //            ui.item.children('h3').triggerHandler('focusout');
+            //        }
 
-                //    });
-                //} 
+            //    });
+            //} 
             else {
                 listDiv.accordion({ active: false, collapsible: true });
             }
@@ -137,7 +135,7 @@ module App.Controllers {
                 var pagerText = searchController.searchCriteria.pageNumber() + " av " + pageCount;
 
                 var pager2 = $("<span class='typcn typcn-arrow-right-thick typiconButton'></span>").mousedown(function () {
-                   searchController.searchCriteria.pageNumber(searchController.searchCriteria.pageNumber() + 1);
+                    searchController.searchCriteria.pageNumber(searchController.searchCriteria.pageNumber() + 1);
 
                     if (searchController.searchCriteria.pageNumber() > pageCount)
                         searchController.searchCriteria.pageNumber(pageCount);

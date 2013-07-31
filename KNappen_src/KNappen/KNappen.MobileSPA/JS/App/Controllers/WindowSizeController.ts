@@ -7,17 +7,25 @@
 module App.Controllers {
     export class WindowSizeController {
 
-        private _window: any;
-        private headerSectionSize: any;
-        private headerSection: any;
-        private mainSection: any;
-        private footerSection: any;
-        private map: any;
-        private originalHeaderSectionHeight: number;
-        private originalFooterSectionHeight: number;
-        private originalPageBGColor: string;
-        private originalBodyHeight: any;
-        private originalHTMLHeight: any;
+        /** @ignore **/ private _window: any;
+        /** @ignore **/ private headerSectionSize: any;
+        /** @ignore **/ private headerSection: any;
+        /** @ignore **/ private mainSection: any;
+        /** @ignore **/ private footerSection: any;
+        /** @ignore **/ private map: any;
+        /** @ignore **/ private originalHeaderSectionHeight: number;
+        /** @ignore **/ private originalFooterSectionHeight: number;
+        /** @ignore **/ private originalPageBGColor: string;
+        /** @ignore **/ private originalBodyHeight: any;
+        /** @ignore **/ private originalHTMLHeight: any;
+
+        /**
+            WindowSizeController
+            @class App.Controllers.WindowSizeController
+            @classdesc Screen layout size controller. One stop shop for controlling top, middle and bottom parts of screen. Programatic control of layout.
+        */
+        constructor() {
+        }
 
         public Load() {
             this._window = $(window);
@@ -51,6 +59,11 @@ module App.Controllers {
             this.resize();
         }
 
+        /**
+            Main resize event, will resize content according to screen size and current state.
+            @method App.Controllers.WindowSizeController#resize
+            @public
+        */
         public resize() {
             var windowHeight = this._window.outerHeight();
             var headerHeight = this.headerSection.outerHeight();
@@ -70,6 +83,12 @@ module App.Controllers {
 
         }
 
+        /**
+            Toggle visibility of header section
+            @method App.Controllers.WindowSizeController#ShowHeader
+            @param {bool} visible Visibility
+            @public
+        */
         public ShowHeader(visible: bool) {
             log.debug("WindowSizeController", "showHeader: " + visible);
             if (visible) {
@@ -84,6 +103,12 @@ module App.Controllers {
             this.resize();
         }
 
+        /**
+            Toggle visibility of footer section
+            @method App.Controllers.WindowSizeController#ShowFooter
+            @param {bool} visible Visibility
+            @public
+        */
         public ShowFooter(visible: bool) {
             log.debug("WindowSizeController", "showFooter: " + visible);
             if (visible) {
@@ -96,9 +121,15 @@ module App.Controllers {
             this.resize();
         }
 
+        /**
+            Toggle visibility of whole page (usually used by augmented reality to hide page)
+            @method App.Controllers.WindowSizeController#ShowPage
+            @param {bool} visible Visibility
+            @public
+        */
         public ShowPage(visible: bool) {
             log.debug("WindowSizeController", "showPage: " + visible);
-            
+
             if (visible) {
                 $("body").css('background-color', this.originalPageBGColor);
                 $("html").css('height', this.originalHTMLHeight);
@@ -120,6 +151,15 @@ module App.Controllers {
                 $("body").css('height', '0');
                 $("html").css('height', '0');
             }
+        }
+
+        /**
+            Scroll to top left of page
+            @method App.Controllers.WindowSizeController#scrollToTop
+            @public
+        */
+        public scrollToTop() {
+            window.scrollTo(0, 0);
         }
 
     }

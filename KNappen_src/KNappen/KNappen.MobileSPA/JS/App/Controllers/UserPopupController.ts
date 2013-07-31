@@ -4,8 +4,7 @@
     Controller modules
     @namespace App.Controllers
 */
-module App.Controllers
-{
+module App.Controllers {
 
     // Playing around with use of Enum in this class to see how it works out...
     export enum UserPopupMessageType {
@@ -15,10 +14,9 @@ module App.Controllers
         warning
     }
 
-    export class UserPopupController
-    {
+    export class UserPopupController {
         private toastrOptions = { positionClass: 'toast-top-center' };
-        private toastrLookUp: { [type: string]: any;} = {};
+        private toastrLookUp: { [type: string]: any; } = {};
         private toastrLookUpName: { [type: string]: string; } = {};
 
         /**
@@ -34,8 +32,7 @@ module App.Controllers
             @method App.Controllers.UserPopupController#PreInit
             @public
         */
-        public PreInit()
-        {
+        public PreInit() {
             // Lookup table for methods to execute depending on type
             this.toastrLookUp[App.Controllers.UserPopupMessageType.info.toString()] = toastr.info;
             this.toastrLookUp[App.Controllers.UserPopupMessageType.error.toString()] = toastr.error;
@@ -94,7 +91,7 @@ module App.Controllers
         public sendError(header: string, msg: string) {
             this.send(App.Controllers.UserPopupMessageType.error, header, msg);
         }
-        
+
         /**
             Show a popup as success
             @method App.Controllers.UserPopupController#sendSuccess
