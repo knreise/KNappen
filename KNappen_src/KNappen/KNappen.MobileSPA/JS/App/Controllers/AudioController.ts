@@ -1,10 +1,19 @@
 /// <reference path="../_References.ts" />
+/**
+    Controller modules
+    @namespace App.Controllers
+*/
 module App.Controllers {
     declare var soundManager;
     export class AudioController {
 
         public soundProvider: System.Providers.AudioProvider;
 
+        /**
+            AudioController
+            @class App.Controllers.AudioController
+            @classdesc This class plays audio and shows/hides audio bar.
+        */
         constructor() {
         }
 
@@ -15,6 +24,14 @@ module App.Controllers {
             $("#audioButtonStop").mousedown(function () { _this.stop(); });
         }
 
+
+        /**
+            Play audio file
+            @method App.Controllers.AudioController#play
+            @param {string} title Title to display
+            @param {string} file URL of file to play
+            @public
+        */
         public play(title: string, file: string) {
             var _this = this;
             $("#audioTitle").html(title);
@@ -27,7 +44,7 @@ module App.Controllers {
             var audioButtonPlay = $("#audioButtonPlay");
             this.buttonDisable(audioButtonPlay);
             audioButtonPlay.mousedown(function () { _this.play(title, file); });
-            
+
             this.soundProvider.play(file,
                 function onFinishCallback() {
                     // Done playing
@@ -59,23 +76,33 @@ module App.Controllers {
         private buttonDisable(button: JQuery) {
             button.attr('disabled', 'disabled').css("color", "#cccccc");
         }
-        
+
         private buttonEnable(button: JQuery) {
             button.removeAttr('disabled').css("color", '');
         }
 
+        /**
+            Stop playing audio file
+            @method App.Controllers.AudioController#stop
+            @public
+        */
         public stop() {
-         //   $("#footerSection").hide();
+            //   $("#footerSection").hide();
             var poiAudioBar = $("#poiAudioBar");
             poiAudioBar.hide();
             windowSizeController.ShowFooter(false);
             this.soundProvider.stop();
         }
 
+        /**
+            Toggle pause playing audio file
+            @method App.Controllers.AudioController#stop
+            @public
+        */
         public pause() {
             this.soundProvider.pause();
-        }        
-        
+        }
+    
     }
 }
 var audioController = new App.Controllers.AudioController();

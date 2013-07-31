@@ -67,10 +67,6 @@ module App.Controllers
             this.searchCriteria.rows(settings.startResultAmount());
             this.searchCriteria.category(settings.startSearchCategory());
             //this.searchCriteria.genre(settings.startSearchGenre());
-            //this.searchCriteria.pos(config.mapStartPos); // Startup pos for first search
-
-            //// Databind settings object         
-            //ko.applyBindings(searchCriteria);
 
             //// Refresh all <select /> because of jQuery Mobile madness (no problem, googling this for 2 hours was fun)
             //$("select.refreshSelectAfterDataBind").each(function (index: any, element: Element) {
@@ -99,10 +95,7 @@ module App.Controllers
                 function (errorMessage) {
                     log.debug("SearchController", errorMessage);
                 }
-            );
-            
-            //TODO: Change this..
-            //viewController.selectView(settings.startView());
+            );            
         }
 
         /**

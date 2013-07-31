@@ -47,12 +47,8 @@ module App.Controllers {
 
             // Need to update module every time settings changes
             mapStorageProvider.setEnabled(!settings.disableCaching);
-            eventProvider.settings.onPostSave.addHandler(function () {
-                mapStorageProvider.setEnabled(!settings.disableCaching);
-            }, "SettingsController");
-            eventProvider.settings.onPostLoad.addHandler(function () {
-                mapStorageProvider.setEnabled(!settings.disableCaching);
-            }, "SettingsController");
+            eventProvider.settings.onPostSave.addHandler(function () { mapStorageProvider.setEnabled(!settings.disableCaching); }, "SettingsController");
+            eventProvider.settings.onPostLoad.addHandler(function () { mapStorageProvider.setEnabled(!settings.disableCaching); }, "SettingsController");
             mapStorageProvider.setEnabled(!settings.disableCaching);
 
             // Clear cache button
@@ -80,7 +76,7 @@ module App.Controllers {
                     _this.adminOpenCounter = 0;
             });
 
-        
+
         }
 
         private onViewChanged(event: JQueryEventObject, oldView: System.GUI.ViewControllerItem, newView: System.GUI.ViewControllerItem) {

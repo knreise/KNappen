@@ -1,6 +1,7 @@
 /// <reference path="../_References.ts" />
 module App.Controllers {
     export class SearchViewController {
+
         public Init() {
             var _this = this;
             viewController.addSelectEvent(function (event: JQueryEventObject, oldView: System.GUI.ViewControllerItem, newView: System.GUI.ViewControllerItem) {
@@ -62,6 +63,4 @@ module App.Controllers {
 
 }
 var searchViewController = new App.Controllers.SearchViewController();
-startup.addInit(function () {
-    searchViewController.Init();
-}, "SearchViewController");
+startup.addInit(function () { searchViewController.Init(); }, "SearchViewController");

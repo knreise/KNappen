@@ -18,6 +18,12 @@ module App.Controllers
 
         }
 
+        /**
+            From adress of user
+            @member App.Controllers.FeedbackControllerRequest#fromAddress
+            @public
+            @type {string}
+        */
         public fromAddress: string = null;
         /**
             Subject
@@ -27,7 +33,7 @@ module App.Controllers
         */
         public subject: string = null;
         /**
-            Subject
+            Message content
             @member App.Controllers.FeedbackControllerRequest#message
             @public
             @type {string}

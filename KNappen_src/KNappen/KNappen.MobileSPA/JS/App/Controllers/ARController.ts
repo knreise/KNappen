@@ -75,11 +75,19 @@ module App.Controllers {
         }
 
 
-        private oldBodyBackgroundColor: any;
-        private oldBodyHeight: any;
-        private oldHtmlHeight: any;
-        private oldHeaderSectionHeight: any;
+        /** @ignore **/ private oldBodyBackgroundColor: any;
+        /** @ignore **/ private oldBodyHeight: any;
+        /** @ignore **/ private oldHtmlHeight: any;
+        /** @ignore **/ private oldHeaderSectionHeight: any;
 
+        /**
+            Toggles the html to show camera when changing to or from the AR view
+            @method App.Controllers.ARController#onViewChanged 
+            @param {JQueryEventObject} event
+            @param {System.GUI.ViewControllerItem} oldView
+            @param {System.GUI.ViewControllerItem} newView
+            @private
+        */
         private onViewChangedPre(event: JQueryEventObject, oldView: System.GUI.ViewControllerItem, newView: System.GUI.ViewControllerItem) {
             if (oldView && oldView.name == "arView"
                 && newView && newView.name != "arView") {

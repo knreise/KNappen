@@ -5,7 +5,7 @@
     @namespace App.Controllers
 */
 module App.Controllers {
-    
+
     export class RouteControllerRequest {
 
         /**
@@ -79,10 +79,13 @@ module App.Controllers {
                 _this.cacheRoute(_this.routeProvider.adminRoutes);
             });
 
-            //TODO: Logic for what lists a user can add a POI to, based on adminrights/no adminrights
-
         }
 
+        /**
+            Add route to queue for precaching
+            @method App.Controllers.RouteController#cacheRoute
+            @param {App.Providers.RouteProviderHelper} route Route to precache
+        */
         public cacheRoute(route: App.Providers.RouteProviderHelper) {
             var _this = this;
             $.each(route.getRoutes(), function (k, v: App.Providers.RouteItem) {
@@ -92,9 +95,15 @@ module App.Controllers {
             });
         }
 
+        /**
+            Create route from array of PointOfInterest
+            @method App.Controllers.RouteController#addSearchRoute
+            @param {string} routeName name of route to create
+            @param {App.Models.PointOfInterest[]} pois Array of pois to add to route
+        */
         public addSearchRoute(routeName: string, pois: App.Models.PointOfInterest[]) {
             log.debug("RouteController", "Adding search result to new route: " + routeName);
-            
+
             var routeItem: App.Providers.RouteItem = new App.Providers.RouteItem();
             routeItem.name(routeName);
             routeItem.version(routeItem.version() + 1);
@@ -104,7 +113,6 @@ module App.Controllers {
 
             this.routeProvider.userRoutes.addRoute(routeItem);
             this.routeProvider.userRoutes.saveRoutes();
-            
         }
 
         /**
@@ -125,7 +133,7 @@ module App.Controllers {
             this.renderRouteView();
         }
 
- 
+
         /**
             Renders the routeview
             @method App.Controllers.RouteController#renderRouteView
@@ -149,7 +157,7 @@ module App.Controllers {
                 $editorialRoutes.append('<li class="routeListItem" id="routeListItem_' + v.id() + '"><h2>' + v.name() + '</h2>'
                     + '<input type="button" value="' + tr.translate("Follow route") + '" id="' + routeIdSelect + '"/>'
                     + '<input type="button" value="' + tr.translate("Edit") + '" id="' + routeIdEdit + '"/>'
-                    //+ '<input type="button" value="Avpubliser" id="' + routeIdUnpublish + '"/>'
+                //+ '<input type="button" value="Avpubliser" id="' + routeIdUnpublish + '"/>'
                     + '</li>');
 
                 $("#" + routeIdSelect).mousedown(function () {
@@ -181,8 +189,8 @@ module App.Controllers {
                 $userRoutes.append('<li class="routeListItem" id="routeListItem_' + v.id() + '">' + v.name()
                     + '<br/><input type="button" value="' + tr.translate("Follow route") + '" id="' + routeIdSelect + '"/>'
                     + '<input type="button" value="' + tr.translate("Edit") + '" id="' + routeIdEdit + '"/>'
-                    //+ '<input type="button" value="Publiser" id="' + routeIdPublish + '"/>'
-                    //+ '<div id="' + routeIdPublishPwdBox + '" class="hidden"></br><input type="text" id="' + routeIdPwd + '"/>'
+                //+ '<input type="button" value="Publiser" id="' + routeIdPublish + '"/>'
+                //+ '<div id="' + routeIdPublishPwdBox + '" class="hidden"></br><input type="text" id="' + routeIdPwd + '"/>'
                     + publishButton
                     + '</li>');
 

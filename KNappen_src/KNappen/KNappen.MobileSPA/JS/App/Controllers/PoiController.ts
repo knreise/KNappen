@@ -176,7 +176,7 @@ module App.Controllers {
 
                 userPopupController.sendSuccess("POI added", "POI added to route");
                 addPoiToRouteForm.hide();
-    });
+            });
 
             //return to previous view when closing the dialog, should this be handled some other way,
             //such as placing the poiview on top of current view instead? how?
@@ -279,10 +279,20 @@ module App.Controllers {
             $("#closePreviewBtn").mousedown(function () { _this.hidePoiPreview(); });
         }
 
+        /**
+            Close poi preview
+            @method App.Controllers.PoiController#hidePoiPreview
+            @public     
+        */
         public hidePoiPreview() {
             $("#poiPreview").hide();
         }
 
+        /**
+            Close poi dialog
+            @method App.Controllers.PoiController#hidePoiDialogues
+            @public     
+        */
         public hidePoiDialogues() {
             this.hidePoiPreview();
         }
