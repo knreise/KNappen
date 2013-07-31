@@ -126,8 +126,9 @@ module App.Controllers {
                     text: "<span class='typcn typcn-sort-alphabetically mapTypIconButton'></span>",
                     trigger: function () {
                         var pos = gpsProvider.lastPos;
-                        if (!pos)
+                        if (!pos) {
                             pos = config.mapStartPos;
+                        }
                         _this.openPlaceSearch()
                     }
                 }),
@@ -174,11 +175,12 @@ module App.Controllers {
             var mapResultToRouteDialog = $("#mapResultToRouteDialog");
             var mapResultToRouteDialogD = <any>mapResultToRouteDialog;
             var content = $("<div><b>" + tr.translate("Name of new route") + ":</b><br/>"
-                + "<div class='nobr'><input type='input' id='mapResultToRouteName' /></div></div>");
+                + "<div class='nobr'><input type='input' id='setTimeout(function () { mapSearchInputBox.focus(); }, 500);' /></div></div>");
             var btn = $("<input type='button' value='" + tr.translate("Create") + "' />");
+            var mapResultToRouteName = $("#mapResultToRouteName");
 
             btn.mousedown(function () {
-                var routeName = $("#mapResultToRouteName").val();
+                var routeName = mapResultToRouteName.val();
                 if (routeName) {
                     routeController.addSearchRoute(routeName, searchController.latestSearchResult.items());
                     userPopupController.sendSuccess(tr.translate("Route created"), tr.translate("The route '{0}' was created.", [routeName]));
@@ -198,7 +200,8 @@ module App.Controllers {
                 //                height: '50%',
                 modal: true
             });
-        
+
+            setTimeout(function () { mapResultToRouteName.focus(); }, 500);
         }
 
         private nextMapLayer() {
@@ -255,6 +258,8 @@ module App.Controllers {
                 height: $(window).height() - 50,
                 modal: true
             });
+
+            setTimeout(function () { mapSearchInputBox.focus(); }, 500);
         }
 
         private searchClick(eventObject: JQueryMouseEventObject) {
