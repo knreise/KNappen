@@ -198,7 +198,10 @@ module App.Controllers {
                 maxHeight: '90%',
                 //                width: '70%',
                 //                height: '50%',
-                modal: true
+                modal: true,
+                close: function () {
+                    windowSizeController.scrollToTop();
+                }
             });
 
             setTimeout(function () { mapResultToRouteName.focus(); }, 500);
@@ -256,7 +259,10 @@ module App.Controllers {
                 maxHeight: $(window).height() - 50,
                 width: $(window).width() - 50,
                 height: $(window).height() - 50,
-                modal: true
+                modal: true,
+                close: function () {
+                    windowSizeController.scrollToTop();
+                }
             });
 
             setTimeout(function () { mapSearchInputBox.focus(); }, 500);
