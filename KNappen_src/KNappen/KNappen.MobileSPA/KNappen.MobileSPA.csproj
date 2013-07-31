@@ -52,10 +52,12 @@
     <Content Include="Brukerdokumentasjon\images\feedback.png" />
     <Content Include="Brukerdokumentasjon\images\list.png" />
     <Content Include="Brukerdokumentasjon\images\listExpanded.png" />
+    <Content Include="Brukerdokumentasjon\images\map.png" />
     <Content Include="Brukerdokumentasjon\images\menu.png" />
     <Content Include="Brukerdokumentasjon\images\poiDetail.png" />
     <Content Include="Brukerdokumentasjon\images\poiPreviewMap.png" />
     <Content Include="Brukerdokumentasjon\images\routes.png" />
+    <Content Include="Brukerdokumentasjon\images\routes2.png" />
     <Content Include="Brukerdokumentasjon\images\search.png" />
     <Content Include="Brukerdokumentasjon\images\settings.png" />
     <Content Include="Brukerdokumentasjon\images\startPage.png" />
