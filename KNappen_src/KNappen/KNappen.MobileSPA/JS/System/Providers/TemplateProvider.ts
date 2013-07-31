@@ -13,7 +13,7 @@ module System.Providers {
           * @class System.Providers.TemplateProvider
           * @classdesc Provides (early) download and variable replacement/processing of templates such as HTML/text
           */
-        constructor() {}
+        constructor() { }
 
         /**
           * Queue template for download. None of the callbacks are required, can be set to null.
@@ -28,7 +28,7 @@ module System.Providers {
             var _this = this;
             if (!stringUtils.endsWith(config.TemplateProviderFolder, "/") && !stringUtils.startsWith(name, "/"))
                 name = "/" + name;
-            var fullName = config.TemplateProviderFolder  + name;
+            var fullName = config.TemplateProviderFolder + name;
             var item = new System.Providers.HttpDownloadItem(name,
                 fullName,
                 function _doneCallback(data: string) {

@@ -202,10 +202,10 @@ module System.Providers {
 
                 var radarCircle = new AR.Circle(0.05, { style: { fillColor: '#3eaebe' } });
                 var geoObject = new AR.GeoObject(poiGeoLocation,
-                 {
-                     drawables: { cam: myDrawables, radar: radarCircle } //,
-                     //triggers: { onEnterFieldOfVision: this.enterFOV, onExitFieldOfVision: this.exitFOV }
-                 });
+                    {
+                        drawables: { cam: myDrawables, radar: radarCircle } //,
+                        //triggers: { onEnterFieldOfVision: this.enterFOV, onExitFieldOfVision: this.exitFOV }
+                    });
                 // Hide this so we can access it later
                 var item2 = <any>item;
                 item2.htmlDrawable = htmlDrawable;

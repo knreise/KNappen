@@ -183,7 +183,7 @@ module App.Controllers {
                 var routeIdPwd = "Pwd_" + v.id();
 
                 var publishButton: string = "";
-                if (settings.adminPassword() && settings.adminPassword().substring(0, 3) == "Kul")
+                if (settings.adminPassword())
                     publishButton = '<input type="button" value="Publiser" id="' + routeIdPublishBtn + '"/>';
 
                 $userRoutes.append('<li class="routeListItem" id="routeListItem_' + v.id() + '">' + v.name()
