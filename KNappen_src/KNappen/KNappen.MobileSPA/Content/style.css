@@ -530,4 +530,14 @@ body {
     */
 .mapTypIconButton {
     font-size: 3.3em;
+    background: rgb(239, 246, 247);
+    margin: 2px;
+}
+
+.noListStyle{
+    list-style: none;
+}
+
+.marginSmall{
+    margin: 2px;
 }

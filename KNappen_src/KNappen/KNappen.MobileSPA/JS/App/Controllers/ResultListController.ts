@@ -51,7 +51,6 @@ module App.Controllers {
             var routeEditing = false;
             if (routeName) {
                 routeEditing = true;
-                $("#routeName").html(routeName).show();
             }
 
             var listDiv: any = $("#listView #listAccordion");

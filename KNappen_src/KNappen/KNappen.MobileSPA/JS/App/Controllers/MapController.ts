@@ -97,6 +97,7 @@ module App.Controllers {
                 defaultControl: zb,
                 createControlMarkup: function (control) {
                     var text = $(control.text);
+                    //text.mousedown(function () { control.trigger(); });
                     return text[0];
                     //var button = document.createElement('button');
                     //var iconSpan = document.createElement('span');
