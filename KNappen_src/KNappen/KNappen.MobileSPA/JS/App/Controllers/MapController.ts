@@ -91,7 +91,7 @@ module App.Controllers {
                         pos = config.mapStartPos;
                     _this.mapProvider.setCenter(pos, settings.startMapZoomLevel())
                 }
-            });
+            }); 
             this.panel = new OpenLayers.Control.Panel({
                 vertical: true,
                 defaultControl: zb,
@@ -166,10 +166,10 @@ module App.Controllers {
                 searchController.doSearch();
             });
 
-            this.mapProvider.map.addControl(clickholdCtrl);
+            this.mapProvider.map.addControl(clickholdCtrl); 
 
 
-        }
+        } 
 
         private addResultToCache() {
             var mapResultToRouteDialog = $("#mapResultToRouteDialog");
