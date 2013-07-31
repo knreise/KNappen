@@ -36,12 +36,16 @@ module System.Models {
             Position
             @class System.Models.Position
             @classdesc Creates an instance of a position object
-            @property {number} Latitude.
-            @property {number} Longditude.
-            @property {number} Altitude.
-            @property {number} Accelleration.
+            @property {number} lat Latitude
+            @property {number} lon Longditude
+            @property {number} alt Altitude
+            @property {number} acc Accuracy
+            @property {number} altitudeAccuracy Altitude accuracy
+            @property {number} heading Heading
+            @property {number} speed Speed
+            @property {number} timestamp Timestamp
           */
-        constructor(lat: number, lon: number, alt?: number, acc?: number, altitudeAccuracy?: number, heading?: number, speed?: number, timestamp?: Date) {
+        constructor(lat: number, lon: number, alt?: number, acc?: number, altitudeAccuracy?: number, heading?: number, speed?: number, timestamp?: number) {
             this.lat = ko.observable(lat);
             this.lon = ko.observable(lon);
             this.alt = ko.observable(alt);

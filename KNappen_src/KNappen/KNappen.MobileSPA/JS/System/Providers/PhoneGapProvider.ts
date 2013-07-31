@@ -55,6 +55,13 @@ module System.Providers {
                 });
         }
 
+        /**
+          * Callback used by PhoneGap to set SQL read key.
+          * @method System.Providers.PhoneGapProvider#SqlCallbackSet
+          * @param {string} key Key to set
+          * @param {string} value Value to set
+          * @param {string} metaStr Serialized metaobject to set
+          */
         public SqlCallbackSet(key: string, value: string, metaStr: string) {
             storageProvider.setRaw(key, value);
             storageProvider.setRaw(key + ".meta", serializer.deserializeJSObject(metaStr));
@@ -91,6 +98,12 @@ module System.Providers {
                 });
             }
         }
+
+        /**
+          * Iterate JQuery object, find A href and fix URL for opening 
+          * @method System.Providers.PhoneGapProvider#fixALinks
+          * @param {JQuery} obj JQuery element(s) to scan for links
+          */
         public fixALinks(obj: JQuery) {
             var _this = this;
             $(obj).find('a').each(function () {
@@ -103,10 +116,21 @@ module System.Providers {
             });
         }
 
+        /**
+          * Signal PhoneGap to exit application
+          * @method System.Providers.PhoneGapProvider#sendExit
+          */
         public sendExit() {
             this.sendPhoneGapCommand("system", "exit");
         }
 
+        /**
+          * Send command to PhoneGap
+          * @method System.Providers.PhoneGapProvider#sendPhoneGapCommand
+          * @param {string} target Target module/Command type
+          * @param {string} action Action to perform
+          * @param {array} params Key/value pair of parameters to pass to action
+          */
         public sendPhoneGapCommand(target: string, action: string, params?: { [key: string]: string; }) {
             var url = 'architectsdk://' + target + '?action=' + encodeURIComponent(action);
             if (params) {
@@ -126,10 +150,18 @@ module System.Providers {
         }
 
 
+        /**
+          * Callback from PhoneGap that menu button was clicked
+          * @method System.Providers.PhoneGapProvider#callbackMenuButton
+          */
         public callbackMenuButton() {
             $('#mainPopupMenu').toggle();
         }
 
+        /**
+          * Callback from PhoneGap that back button was clicked
+          * @method System.Providers.PhoneGapProvider#callbackBackButton
+          */
         public callbackBackButton() {
             log.debug("PhoneGapProvider", "Back button pressed. Navigating back.");
             var result = viewController.goBack();
@@ -140,17 +172,39 @@ module System.Providers {
             }
         }
 
+        /**
+          * Callback from PhoneGap that SQL read is done successfully
+          * @method System.Providers.PhoneGapProvider#callbackSqlReadSuccess
+          */
         public callbackSqlReadSuccess() {
             log.debug("PhoneGapProvider", "PhoneGapInterop reports success on SQL read.")
             startup.shortcutLoadTimeout();
         }
 
+        /**
+          * Callback from PhoneGap that SQL read is done with errors
+          * @method System.Providers.PhoneGapProvider#callbackSqlReadError
+          * @param {string} errorCode Error code
+          * @param {string} errorMessage Error message
+          */
         public callbackSqlReadError(errorCode: string, errorMessage: string) {
             log.debug("PhoneGapProvider", "PhoneGapInterop reports error on SQL read: Code: " + errorCode + ", message: " + errorMessage);
             startup.shortcutLoadTimeout();
         }
 
-        public callbackGeoLocationUpdate(latitude: number, longitude: number, altitude: number, accuracy: number, altitudeAccuracy: number, heading: number, speed: number, timestamp: Date) {
+        /**
+          * Callback from PhoneGap with GPS position update
+          * @method System.Providers.PhoneGapProvider#callbackGeoLocationUpdate
+          * @param {number} latitude Latitude
+          * @param {number} longitude Longditude
+          * @param {number} altitude Altitude
+          * @param {number} accuracy Position accuracy
+          * @param {number} altitudeAccuracy Altitude accuracy
+          * @param {number} heading Heading
+          * @param {number} speed Speed
+          * @param {number} timestamp Timestamp of pos
+          */
+        public callbackGeoLocationUpdate(latitude: number, longitude: number, altitude: number, accuracy: number, altitudeAccuracy: number, heading: number, speed: number, timestamp: number) {
             log.debug("PhoneGapProvider", "inside callbackGeoLocationUpdate: " + latitude + ", " + longitude);
             gpsProvider.setPos(latitude, longitude, altitude, accuracy, altitudeAccuracy, heading, speed, timestamp);
         }

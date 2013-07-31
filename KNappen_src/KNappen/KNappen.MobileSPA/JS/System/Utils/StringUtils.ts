@@ -44,6 +44,14 @@ module System.Util {
             });
         }
 
+
+        /**
+          * Highlight any occurences of a word using <span style='background-color: '> tags.
+          * @method System.StringUtils#highlightWord
+          * @param {string} text Text to highlight
+          * @param {string} words Space separated words to replace
+          * @param {string} color Color code to show
+          */
         public highlightWord(text: string, words: string, color: string): string {
             if (!text || !words || !color)
                 return text;
@@ -61,6 +69,11 @@ module System.Util {
             return t;
         }
 
+        /**
+          * Calculate hash of a string.
+          * @method System.StringUtils#hash
+          * @param {string} str String to hash
+          */
         public hash(str: string): number {
             var hash = 0, l, i, char;
             if (str.length == 0) return hash;
@@ -72,17 +85,34 @@ module System.Util {
             return hash;
         }
 
+        /**
+          * Create a shortened version of a string ending it with ... after x bytes.
+          * @method System.StringUtils#shorten
+          * @param {string} str Text to shorten
+          * @param {number} len Length of text
+          */
         public shorten(str: string, len: number) {
             if (str.length < len + 3)
                 return str;
             return str.substring(0, len) + "...";
         }
 
+        /**
+          * Get host portion of a URL
+          * @method System.StringUtils#getHostFromUrl
+          * @param {string} url URL to extract from
+          */
         public getHostFromUrl(url: string): string {
             var ret = url.replace(/^[^:]+:\/+([^\/\?]+).*/, "$1");
             return ret;
         }
 
+        /**
+          * Get parameters from a URL
+          * @method System.StringUtils#getParamsFromUrl
+          * @param {string} url URL to extract from
+          * @returns {array} Key/value dictionary
+          */
         public getParamsFromUrl(url: string): { [key: string]: string; } {
             var ret: { [name: string]: string; } = {};
 

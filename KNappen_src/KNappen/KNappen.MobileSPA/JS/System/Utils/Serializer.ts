@@ -20,7 +20,7 @@ module System.Utils {
           * @classdesc Provides serialization to/from strings and file storage.
           */
         constructor() { }
-        
+
         /**
           * Serialize object to localStorage
           * @method System.Utils.Serializer#serializeJSObjectToFile
@@ -113,7 +113,7 @@ module System.Utils {
 
             return tempObj;
         }
-        
+
         /**
           * Deserialize from JSON into Knockout
           * @method System.Utils.Serializer#deserializeKnockoutObject

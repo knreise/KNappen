@@ -30,8 +30,8 @@ module System.Providers {
             public doneCallback?: { (data: string): void; },
             public failCallback?: { (message: string): void; },
             public alwaysCallback?: { (): void; },
-            public dataType: string = "html")
-            { }
+            public dataType: string = "html") {
+        }
 
     }
 
@@ -106,21 +106,21 @@ module System.Providers {
 
             try {
                 _this.currentDownloadCount++;
-                var jqxhr = $.ajax({ url: item.url, dataType: item.dataType})
-                .done(function (data, textStatus, jqXHR) {
-                    if (item.doneCallback)
-                        item.doneCallback(data);
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    if (item.failCallback)
-                        item.failCallback(textStatus + ": " + errorThrown);
-                })
-                .always(function (a, textStatus, b) {
-                    _this.currentDownloadCount--;
-                    //log.verboseDebug("HttpDownloadProvider", "ExecuteDownload:End: ID: " + (item.id || "<null>") + ", URL: " + item.url);
-                    if (item.alwaysCallback)
-                        item.alwaysCallback();
-                });
+                var jqxhr = $.ajax({ url: item.url, dataType: item.dataType })
+                    .done(function (data, textStatus, jqXHR) {
+                        if (item.doneCallback)
+                            item.doneCallback(data);
+                    })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        if (item.failCallback)
+                            item.failCallback(textStatus + ": " + errorThrown);
+                    })
+                    .always(function (a, textStatus, b) {
+                        _this.currentDownloadCount--;
+                        //log.verboseDebug("HttpDownloadProvider", "ExecuteDownload:End: ID: " + (item.id || "<null>") + ", URL: " + item.url);
+                        if (item.alwaysCallback)
+                            item.alwaysCallback();
+                    });
             } catch (exception) {
                 log.error("HttpDownloadProvider", "Exception starting download of URL \"" + item.url + "\": " + exception);
                 _this.currentDownloadCount--;
@@ -134,7 +134,7 @@ module System.Providers {
 
     export class HttpDownloadQueue {
         /** @ignore */ private queues: { [queuePriority: string]: { [queueName: string]: System.Providers.HttpDownloadItem[]; }; } = {};
-        
+
         /**
           * HttpDownloadQueue
           * @class System.Providers.HttpDownloadQueue

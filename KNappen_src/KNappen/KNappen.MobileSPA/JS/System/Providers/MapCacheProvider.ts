@@ -1,10 +1,26 @@
 /// <reference path="../_References.ts" />
-
+/**
+    System provider modules
+    @namespace System.Providers
+*/
 module System.Providers {
     declare var config;
     declare var OpenLayers;
 
     export class MapCacheProvider {
+
+        /**
+          * MapCacheProvider
+          * @class System.Providers.MapCacheProvider
+          * @classdesc Map caching provider for OpenLayers, implements custom CacheRead and CacheWrite controls
+          */
+        constructor() {}
+        /**
+          * Initialize cache on map.
+          * @method System.Providers.MapCacheProvider#addCacheToMap
+          * @param {string} cachingType Caching type to use (name of this cache)
+          * @param {any} map OpenLayers map
+        */
         public addCacheToMap(cachingType: string, map: any) {
             var cacheRead = new OpenLayers.Control.CacheReadCustom();
             map.addControl(cacheRead)

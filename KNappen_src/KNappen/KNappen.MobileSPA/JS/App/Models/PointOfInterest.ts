@@ -5,8 +5,7 @@
     Model modules
     @namespace App.Models
 */
-module App.Models
-{
+module App.Models {
 
     export interface KnockoutObservablePointOfInterestArray extends KnockoutObservableArray {
         (): App.Models.PointOfInterest[];
@@ -16,7 +15,7 @@ module App.Models
         notifySubscribers(valueToWrite: App.Models.PointOfInterest[], topic?: string);
     }
 
-   
+    
     export class PointOfInterest extends System.Models.PointOfInterestBase {
 
         public name: KnockoutObservableString = ko.observable("");

@@ -9,7 +9,7 @@ module System.Providers {
     declare var config: System.ConfigBase;
     declare var google;
 
-    // TODO: Fix for black tiles: https://github.com/ahocevar/openlayers/commit/6607bcc0bbc2032bc6196e5b4090a16cdfeb8837
+    // Fix for black tiles: https://github.com/ahocevar/openlayers/commit/6607bcc0bbc2032bc6196e5b4090a16cdfeb8837
     // Async fetch for CacheRead: http://osgeo-org.1560.x6.nabble.com/CacheRead-and-CacheWrite-with-Web-SQL-Storage-td4679807.html
 
     /**
@@ -33,7 +33,6 @@ module System.Providers {
           * @classdesc Map provider using OpenLayers.
           */
         constructor() { }
-
 
         /**
           * Initialize the map.

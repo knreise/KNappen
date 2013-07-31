@@ -7,6 +7,11 @@ module System.Utils {
     declare var AR;
     export class CompatibilityInfo {
 
+        /**
+          * CompatibilityInfo
+          * @class System.Utils.CompatibilityInfo
+          * @classdesc Collects compatibility information about runtime environment.
+          */
         constructor() {
             this.checkAR();
             this.checkMobile();

@@ -111,13 +111,13 @@ module App {
             ]);
 
         }
-      
+    
         //this.searchCategories = ko.observableArray([
         //    { id: "mapView", name: "Kart" },
         //    { id: "listView", name: "Søkeresultat" },
         //    { id: "arView", name: "Utvidet virkelighet" }
         //]);
-    
+
     }
 
 }

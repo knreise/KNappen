@@ -1,16 +1,37 @@
 /// <reference path="../_References.ts" />
+/**
+    System provider modules
+    @namespace System.Providers
+*/
 module System.Providers {
     declare var config;
 
     export class MapStorageProvider {
+        /**
+          * MapStorageProvider
+          * @class System.Providers.MapStorageProvider
+          * @classdesc Wrapper for StorageProvider for map.
+          */
+        constructor() {}
 
         private enabled: bool = true;
 
+        /**
+          * Enable/disable this class.
+          * @method System.Providers.MapStorageProvider#setEnabled
+          * @param {bool} enable Enable storage provider.
+         */
         public setEnabled(enabled: bool) {
             log.debug("MapStorageProvider", "Setting enabled state to: " + enabled);
             this.enabled = enabled;
         }
 
+         /**
+          * Get map tile from certain cache type.
+          * @method System.Providers.MapStorageProvider#get
+          * @param {string} cacheType Type of cache to use
+          * @param {string} key Cache key to retrieve
+          */
         public get(cacheType: string, key: string): string {
             if (!this.enabled)
                 return null;
@@ -34,6 +55,13 @@ module System.Providers {
             return value;
         }
 
+         /**
+          * Set map tile for certain cache type.
+          * @method System.Providers.MapStorageProvider#set
+          * @param {string} cacheType Type of cache to use
+          * @param {string} key Cache key to set
+          * @param {string} value Cache value to set
+          */
         public set(cacheType: string, key: string, value: string) {
             if (!this.enabled)
                 return null;
@@ -44,6 +72,11 @@ module System.Providers {
             this.cleanHistory(cacheType);
         }
 
+         /**
+          * Clean up history for certain cache type, using ConfigBase.mapCacheTileLimit[cacheType] as limit.
+          * @method System.Providers.MapStorageProvider#cleanHistory
+          * @param {string} cacheType Type of cache to clean
+          */
         public cleanHistory(cacheType: string) {
             // Get a list of tiles we want
             var startKey = "map:" + cacheType + ":";
@@ -75,6 +108,11 @@ module System.Providers {
 
         }
 
+         /**
+          * Clear cache for certain cacheType.
+          * @method System.Providers.MapStorageProvider#clear
+          * @param {string} cacheType Type of cache to clear
+          */
         public clear(cacheType: string) {
             log.info("MapStorageProvider", "Clearing cache for type: " + cacheType);
 

@@ -1,4 +1,3 @@
-/// <reference path="../_References.ts" />
 /**
     Provider modules
     @namespace System.Utils
@@ -9,8 +8,7 @@ module System.Utils {
         message: string;
     }
 
-    export class ErrorTool
-    {
+    export class ErrorTool {
         private self: ErrorTool = null;
 
         /**
@@ -18,8 +16,7 @@ module System.Utils {
           * @class System.Utils.ErrorTool
           * @classdesc Provides Try-Catch execution of tasks
           */
-        constructor()
-        {
+        constructor() {
             this.self = this;
         }
 
@@ -32,8 +29,7 @@ module System.Utils {
           * @param [functionIfError] Optional function to execute if exception occurs (after log is written).
           * @returns {bool} Successful execution. True=success, False=exception.
           */
-        public executeTryCatchLog(moduleName: string, additionalExceptionMessage: string, functionToExecute: { (): void; }, functionIfError?: { (): void; }): bool
-        {
+        public executeTryCatchLog(moduleName: string, additionalExceptionMessage: string, functionToExecute: { (): void; }, functionIfError?: { (): void; }): bool {
 
             try
             {
@@ -78,8 +74,7 @@ module System.Utils {
           * @param {string} [additionalExceptionMessage] Any additional message to put into log if exception is thrown.
           * @returns {bool} Successful execution. True=success, False=exception.
           */
-        public executeTryCatchUserMessage(headline: string, message: string, functionToExecute: { (): void; }, functionIfError?: { (): void; }, moduleName?: string, additionalExceptionMessage?: string): bool
-        {
+        public executeTryCatchUserMessage(headline: string, message: string, functionToExecute: { (): void; }, functionIfError?: { (): void; }, moduleName?: string, additionalExceptionMessage?: string): bool {
             // Execute
             var result = this.executeTryCatchLog(moduleName, additionalExceptionMessage, functionToExecute, functionIfError);
 
@@ -102,8 +97,7 @@ module System.Utils {
           * @param {string} [additionalExceptionMessage] Any additional message to put into log if exception is thrown.
           * @returns {bool} Successful execution. True=success, False=exception.
           */
-        public delayedExecuteTryCatchUserMessage(headline: string, message: string, functionToExecute: { (): void; }, functionIfError?: { (): void; }, moduleName?: string, additionalExceptionMessage?: string): any
-        {
+        public delayedExecuteTryCatchUserMessage(headline: string, message: string, functionToExecute: { (): void; }, functionIfError?: { (): void; }, moduleName?: string, additionalExceptionMessage?: string): any {
             var _self = this.self;
             return function () {
                 _self.executeTryCatchUserMessage(headline, message, functionToExecute, functionIfError, moduleName, additionalExceptionMessage);

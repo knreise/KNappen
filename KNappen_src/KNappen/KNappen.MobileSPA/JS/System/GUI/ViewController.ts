@@ -38,7 +38,7 @@ module System.GUI {
         /** @ignore */ private oldView: ViewControllerItem;
         /** @ignore */ private knownViews: { [name: string]: System.GUI.ViewControllerItem; } = {};
         /** @ignore */ private _this: JQuery;
-        /** @ignore */ public viewHistory: System.GUI.ViewControllerItem[] = [];
+        public viewHistory: System.GUI.ViewControllerItem[] = [];
 
         /**
             ViewController
@@ -103,7 +103,7 @@ module System.GUI {
             log.debug("ViewController", "goBack: History length: " + this.viewHistory.length);
             if (this.viewHistory.length < 1)
                 return false;
-            
+
             var view = this.viewHistory.pop();
 
             if (view && view.name) {
@@ -111,10 +111,10 @@ module System.GUI {
                 log.debug("ViewController", "goBack: Last page: " + view.name);
                 return true;
             }
-            
+
             log.debug("ViewController", "goBack: No more history items.");
             return false;
-            
+        
         }
 
         /**
@@ -151,7 +151,7 @@ module System.GUI {
             if (this.oldView)
                 this.viewHistory.push(this.oldView);
 
-            while(this.viewHistory.length > config.maxViewControllerBackHistory) {
+            while (this.viewHistory.length > config.maxViewControllerBackHistory) {
                 this.viewHistory.shift();
             }
 

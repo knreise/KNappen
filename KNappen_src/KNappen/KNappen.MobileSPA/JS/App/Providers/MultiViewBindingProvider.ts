@@ -15,7 +15,7 @@ module App.Providers
         /**
             MultiViewBindingProvider
             @class App.Providers.MultiViewBindingProvider
-            @classdesc Binds the settings values with knockout, autobinds search result
+            @classdesc Combines knockout objects for binding multiple KO objects
         */
         constructor() {
         }

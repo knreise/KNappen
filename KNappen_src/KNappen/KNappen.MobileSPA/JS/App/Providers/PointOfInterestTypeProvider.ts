@@ -114,25 +114,12 @@ module App.Providers {
                 log.error("PointOfInterestTypeProvider", "Exception loading PoITypeData: " + exception);
             }
         }
+
         private savePoITypeData() {
             log.debug("PointOfInterestTypeProvider", "savePoITypeData()");
             serializer.serializeJSObjectToFile("poiTypeData", this.poiTypeData);
             //this.updateSettings();
         }
-
-        //private updateSettings() {
-        //    log.debug("PointOfInterestTypeProvider", "Pushing type data to KO observables in Settings");
-        //        try {
-        //            settings.genres.removeAll();
-        //            settings.genres.push(ko.mapping.fromJS(this.getGenres()));
-        //            settings.categories.removeAll();
-        //            settings.categories.push(ko.mapping.fromJS(this.getCategories()));
-        //            settings.mediaTypes.removeAll();
-        //            settings.mediaTypes.push(ko.mapping.fromJS(this.getMediaTypes()));
-        //        } catch (exception) {
-        //            log.error("PointOfInterestTypeProvider", "Exception saving type data to Settings: " + exception);
-        //        }
-        //}
 
         /**
             Get array of mediatypes fetched from the server
@@ -235,7 +222,6 @@ module App.Providers {
             //if (poi.category().length == 0 || poi.category().length > 1)
             //    return this.poiTypeData.categories["*"];
             
-            
             $.each(poi.categories(), function (key1, v1: string) {
                 if (ret == null) {
                     $.each(_this.poiTypeData.categories, function (key2, v2: App.Providers.CategoryItem) {
@@ -250,9 +236,6 @@ module App.Providers {
                 log.info("SearchProvider", "No category found for type: " + poi.categories().toString());
 
             return ret;
-
-            //TODO
-            //return this.poiTypeData.categories[poi.category()];
         }
     }
 }

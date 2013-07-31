@@ -1,10 +1,19 @@
 /// <reference path="../_References.ts" />
+/**
+    System provider modules
+    @namespace System.Providers
+*/
 
 module System.Providers {
     declare var config;
     declare var OpenLayers;
 
     export class MapPreCacheQueueItem {
+        /**
+          * MapPreCacheQueueItem
+          * @class System.Providers.MapPreCacheQueueItem
+          * @classdesc Queue item for map precaching
+          */
         constructor(public mapProvider: System.Providers.MapProvider,
             public pos: System.Models.Position,
             public zoomLevel: number,
@@ -19,6 +28,13 @@ module System.Providers {
         private mapProvider: System.Providers.MapProvider = null;
         private mapLayer: any = null;
         private isProcessing = false;
+
+        /**
+          * MapPreCacheProvider
+          * @class System.Providers.MapPreCacheProvider
+          * @classdesc Map pre caching provider. Downloads and caches map segments.
+          */
+        constructor() { }
 
         public Init() {
             var _this = this;
@@ -73,6 +89,11 @@ module System.Providers {
             this.mapLayer = null;
         }
 
+        /**
+          * Queue map tiles for a position for precaching.
+          * @method System.Providers.MapPreCacheProvider#cachePos
+          * @param {System.Models.Position} cachePos Position to precache.
+        */
         public cachePos(pos: System.Models.Position) {
             var _this = this;
             
@@ -89,7 +110,6 @@ module System.Providers {
                     _this.preCacheQueue.push(mpc);
                 });
         }
-
 
         private doCachePos(item: System.Providers.MapPreCacheQueueItem) {
 

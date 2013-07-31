@@ -78,10 +78,14 @@ module System.Providers {
             @param {number} lat Latitude.
             @param {number} lon Longditude.
             @param {number} alt Altitude.
-            @param {number} acc Accelleration.
+          * @param {number} acc Position accuracy
+          * @param {number} altitudeAccuracy Altitude accuracy
+          * @param {number} heading Heading
+          * @param {number} speed Speed
+          * @param {number} timestamp Timestamp of pos
             @public
           */
-        public setPos(lat: number, lon: number, alt?: number, acc?: number, altitudeAccuracy?: number, heading?: number, speed?: number, timestamp?: Date) {
+        public setPos(lat: number, lon: number, alt?: number, acc?: number, altitudeAccuracy?: number, heading?: number, speed?: number, timestamp?: number) {
             // We have received an update of GPS pos
             //log.debug("GpsProvider", "Location changed: (" + lat + ", " + lon + ", " + alt + ", " + acc + ")");
             log.verboseDebug("GpsProvider", "Received geolocation: "
@@ -98,21 +102,7 @@ module System.Providers {
             var lp = this.lastPos;
 
             this._this.trigger('PosChanged', [lp]);
-
-            // Execute any handlers that want to know of pos change
-            //if (this.PositionChangedHandlers != null && this.PositionChangedHandlers.length > 0) {
-            //    $.each(this.PositionChangedHandlers, function (key, item) {
-            //        //try
-            //        //{
-            //        item(lp);
-            //        //} catch (e) {
-            //        //    log.error("GpsSystem", "Error in one of the onLocationChangedHandlers listeners: " + e.name + " :: " + e.message);
-            //        //}
-            //    });
-            //}
         }
-
-
     }
 
 }

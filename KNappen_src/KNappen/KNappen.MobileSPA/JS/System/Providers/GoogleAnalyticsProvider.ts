@@ -4,11 +4,9 @@
     System provider modules
     @namespace System.Providers
 */
-module System.Providers
-{
+module System.Providers {
     declare var config: System.ConfigBase;
-    export class GoogleAnalyticsProvider
-    {
+    export class GoogleAnalyticsProvider {
         //ga: GoogleAnalytics = null;
         /**
           * GoogleAnalyticsProvider
@@ -28,16 +26,15 @@ module System.Providers
                 s.parentNode.insertBefore(ga, s);
             })();
 
-            
+        
         }
-         
+        
         /**
           * Report a page to Google Analytics
           * @method System.Providers.GoogleAnalyticsProvider#reportPageVisit
           * @param {string} page Page name to report.
           */
-        public reportPageVisit(page: string)
-        {
+        public reportPageVisit(page: string) {
             this.reportEvent("Page", "Open", page);
         }
 

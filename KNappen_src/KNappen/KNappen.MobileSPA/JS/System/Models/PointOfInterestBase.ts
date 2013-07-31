@@ -41,7 +41,7 @@ module System.Models {
             @type {System.Models.KnockoutObservablePosition}
         */
         public pos: System.Models.KnockoutObservablePosition = <System.Models.KnockoutObservablePosition>ko.observable();
-        
+
         /**
             iconURL
             @member System.Models.PointOfInterestBase#iconURL
@@ -65,7 +65,7 @@ module System.Models {
             @type {KnockoutObservableString}
         */
         public iconCategoryURL: KnockoutObservableString = ko.observable("Content/images/Categories/defaultCategory.png");
-        
+
         /**
             iconGenreURL
             @member System.Models.PointOfInterestBase#iconGenreURL
@@ -93,7 +93,7 @@ module System.Models {
             @public
             @type {KnockoutObservableNumber}
         */
-        public lastKnownDistanceMeter: KnockoutObservableNumber = ko.observable(0);        
+        public lastKnownDistanceMeter: KnockoutObservableNumber = ko.observable(0);
         /**
             source
             @member System.Models.PointOfInterestBase#source
@@ -102,10 +102,9 @@ module System.Models {
         */
         public source: KnockoutObservableString = ko.observable('');
         /**
-            sourceType
-            @member System.Models.PointOfInterestBase#sourceType
-            @public
-            @type {KnockoutObservableString}
+            EventProvider_Settings
+            @class App.Providers.EventProvider_Settings
+            @classdesc Provides Settings events
         */
         public sourceType: KnockoutObservableString = ko.observable('');
     }

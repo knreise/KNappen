@@ -54,7 +54,7 @@ module System.Providers {
             log.debug("ARProvider", "Drawing " + count + " PoIs.");
 
             this.wikitudeProvider.resultToWikitudePoI(poi, htmlDrawCallback);
-            
+        
         }
 
         /**
@@ -70,7 +70,7 @@ module System.Providers {
             log.debug("ARProvider", "Setting AR camera state to: " + state);
             this._this.wikitudeProvider.enableAR(state);
         }
-                
+        
         /**
           * Add click handler for POI
           * @method System.Providers.ARProvider#addPoiClickHandler
