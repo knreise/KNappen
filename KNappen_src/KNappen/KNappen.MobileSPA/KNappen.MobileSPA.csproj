@@ -46,6 +46,8 @@
   <ItemGroup>
     <Content Include="Brukerdokumentasjon\images\about.png" />
     <Content Include="Brukerdokumentasjon\images\adminSettings.png" />
+    <Content Include="Brukerdokumentasjon\images\ar.png" />
+    <Content Include="Brukerdokumentasjon\images\arPreview.png" />
     <Content Include="Brukerdokumentasjon\images\editRoute.png" />
     <Content Include="Brukerdokumentasjon\images\feedback.png" />
     <Content Include="Brukerdokumentasjon\images\list.png" />
