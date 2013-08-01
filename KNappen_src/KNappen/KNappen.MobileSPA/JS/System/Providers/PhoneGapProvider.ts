@@ -205,7 +205,6 @@ module System.Providers {
           * @param {number} timestamp Timestamp of pos
           */
         public callbackGeoLocationUpdate(latitude: number, longitude: number, altitude: number, accuracy: number, altitudeAccuracy: number, heading: number, speed: number, timestamp: number) {
-            log.debug("PhoneGapProvider", "inside callbackGeoLocationUpdate: " + latitude + ", " + longitude);
             gpsProvider.setPos(latitude, longitude, altitude, accuracy, altitudeAccuracy, heading, speed, timestamp);
         }
 

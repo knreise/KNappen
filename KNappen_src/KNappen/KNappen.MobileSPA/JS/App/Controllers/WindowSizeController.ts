@@ -77,8 +77,6 @@ module App.Controllers {
 
                 this.mainSection.css('top', headerHeight);
                 //this.map.css('top', headerHeight);
-
-                log.debug("WindowSizeController", "Resizing mainSection to " + mainHeight + "px (windows: " + windowHeight + ", header: " + headerHeight + ", footer: " + footerHeight + ")");
             }
 
         }
