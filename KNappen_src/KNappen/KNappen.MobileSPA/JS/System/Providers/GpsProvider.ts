@@ -7,6 +7,7 @@
 module System.Providers {
 
     declare var AR;
+    declare var config: System.ConfigBase;
     export class GpsProvider {
 
         /** 
@@ -19,7 +20,7 @@ module System.Providers {
 
         private PositionChangedHandlers: { (event: JQueryEventObject, pos: System.Models.Position): void; }[];
 
-        private _this: JQuery;
+        private posEvent: JQuery;
 
         /** 
             Determines if browser supports GPS coordinates
@@ -27,10 +28,11 @@ module System.Providers {
             @classdesc Manages GPS
         */
         constructor() {
-            this._this = $(this);
+            this.posEvent = $(this);
         }
 
         public PostInit() {
+            var _this = this;
             if (!compatibilityInfo.hasAR) {
                 if (navigator.geolocation) {
                     log.debug("GpsProvider", "Runtime environment supports GPS, will use.");
@@ -40,6 +42,16 @@ module System.Providers {
                     log.debug("GpsProvider", "Runtime environment doesn't support GPS.");
                 }
             }
+
+            setInterval(function () {
+                try {
+                    if (_this.lastPos)
+                        _this.posEvent.trigger('PosChanged', [_this.lastPos]);
+                } catch (exception) {
+                    log.error("GpsProvider", "Exception repeating position: " + exception);
+                }
+
+            }, config.locationUpdateRateMs);
         }
 
         /** 
@@ -49,7 +61,7 @@ module System.Providers {
             @public    
         */
         public addPositionChangedHandler(posChangedCallback: { (event: JQueryEventObject, pos: System.Models.Position): void; }) {
-            this._this.on('PosChanged', posChangedCallback);
+            this.posEvent.on('PosChanged', posChangedCallback);
         }
 
 
@@ -101,7 +113,7 @@ module System.Providers {
             this.lastPos = new System.Models.Position(lat, lon, alt, acc);
             var lp = this.lastPos;
 
-            this._this.trigger('PosChanged', [lp]);
+            this.posEvent.trigger('PosChanged', [lp]);
         }
     }
 

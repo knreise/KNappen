@@ -9,16 +9,6 @@ module PhoneGap.Providers {
         public PostInit() {
             var _this = this;
 
-            setInterval(function () {
-                try {
-                    if (_this.lastKnownPosition)
-                        phoneGapInterop.wikitudePluginProvider.sendInterop.sendGeoLocationUpdate(_this.lastKnownPosition);
-                } catch (exception) {
-                    log.error("GeoLocationProvider", "Exception sending position to Wikitude (interop): " + exception);
-                }
-
-            }, phoneGapInterop.config.locationUpdateRateMs);
-
             navigator.geolocation.watchPosition(
                 function (position) {
                     log.verboseDebug("", "Received geolocation: "
@@ -40,6 +30,12 @@ module PhoneGap.Providers {
                         log.error("GeoLocationProvider", "Exception setting Wikitude position: " + exception);
                     }
 
+                    try {
+                        if (_this.lastKnownPosition)
+                            phoneGapInterop.wikitudePluginProvider.sendInterop.sendGeoLocationUpdate(position);
+                    } catch (exception) {
+                        log.error("GeoLocationProvider", "Exception sending position to Wikitude (interop): " + exception);
+                    }
                     
                     _this.onLocationUpdate.trigger(position);
 

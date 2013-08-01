@@ -2,7 +2,7 @@
 module PhoneGap {
     export class Config extends System.ConfigBase {
         public wikitudeSDKKey = "XXX";
-        public locationUpdateRateMs = 3000;
+        
         public wikitudeARMode = "Geo";
         public wikitudeARWorldPath = "assets/world/KNappen/Main.html";
         public phoneGapWorldPath = "../Main.html";

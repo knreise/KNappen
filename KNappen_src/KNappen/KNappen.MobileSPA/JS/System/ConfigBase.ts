@@ -52,6 +52,7 @@ module System {
         public TemplateProviderFolder: string = "Templates/";
 
         public maxViewControllerBackHistory: number = 2;
+        public locationUpdateRateMs = 3000;
 
         /**
          * BaseConfig
