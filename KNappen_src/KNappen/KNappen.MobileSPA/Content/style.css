@@ -421,6 +421,10 @@ body {
     display: block;
 }
 
+.center{
+    margin:auto;
+}
+
 .right{
     float: right;
     padding-left: 3px;
@@ -539,4 +543,8 @@ body {
 
 .marginSmall{
     margin: 2px;
+}
+
+.marginBig{
+    margin:20px;
 }

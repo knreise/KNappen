@@ -168,6 +168,7 @@
     </script>
 
     <script>
+        var oldFocus = null;
         $(document).ready(function () {
             $("#mainSection").hide().delay(100).show();
             $("#routeTabs").tabs();
@@ -191,6 +192,15 @@
             $("#poiPreview").mousedown(function (e) {
                 e.stopPropagation();
             });
+
+            //$('body').focus(function (e) { log.debug("Focus", $(e.target).id); });
+            setInterval(function() {
+                var newFocus = "(parent: " + document.activeElement.parentElement.nodeName + ": " + document.activeElement.parentElement.id + ")" + "(" + document.activeElement.nodeName + ": " + document.activeElement.id + ")";
+                if (newFocus != oldFocus) {
+                    oldFocus = newFocus;
+                    log.debug("Focus", newFocus);
+                }
+            }, 50);
         });
         // Init
         config.appName = "KNappen";
@@ -210,6 +220,8 @@
             viewController.AddView("debugView");
             viewController.AddView("routeView");
             viewController.AddView("poiView");
+            viewController.AddView("placeSearch");
+            viewController.AddView("addResultToCache");
         }, "Main:AddViews");
 
 
@@ -444,6 +456,13 @@
 
         <div id="poiView" class="contentPage">
         </div>
+
+        <div id="placeSearch" class="contentPage">
+        </div>
+
+        <div id="addResultToCache" class="contentPage">
+        </div>
+
     </div>
     <div id="footerSection" class="footerSection">
         <div id="poiAudioBar" class="audioBar hidden">
