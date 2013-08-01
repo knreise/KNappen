@@ -55,6 +55,7 @@ module App.Providers {
             translater.addTranslation("Comment on content", "Kommentar til innhold");
             translater.addTranslation("Your email address", "Din e-post (valgfritt)");
             translater.addTranslation("Send feedback", "Send tilbakemelding");
+            translater.addTranslation("Cancel", "Avbryt");
             translater.addTranslation("Create", "Opprett");
             translater.addTranslation("Create route", "Opprett rute");
             translater.addTranslation("Create route from search", "Opprett rute fra s&oslash;k");
