@@ -171,33 +171,31 @@ module App.Controllers {
         } 
 
         private addResultToCache() {
-            var mapResultToRouteDialog = $("#mapResultToRouteDialog");
-            var mapResultToRouteDialogD = <any>mapResultToRouteDialog;
-            var content = $("<div><b>" + tr.translate("Name of new route") + ":</b><br/>"
-                + "<div class='nobr'><input type='input' id='mapResultToRouteName' /></div></div>");
-            var btn = $("<input type='button' value='" + tr.translate("Create") + "' />");
+            var mapResultToRoute = $("#addResultToCache");
+            var content = $("<div class='center marginBig'><b>" + tr.translate("Name of new route") + ":</b><br/>"
+                + "<div class='nobr'><input type='text' id='mapResultToRouteName' /></div></div>");
+            var btnCreate = $("<input type='button' value='" + tr.translate("Create") + "' />");
+            var btnCancel = $("<input type = 'button' value ='" + tr.translate("Cancel") + "' / >");
 
-            btn.mousedown(function () {
+            btnCreate.mousedown(function () {
                 var routeName = $("#mapResultToRouteName").val();
                 if (routeName) {
                     routeController.addSearchRoute(routeName, searchController.latestSearchResult.items());
                     userPopupController.sendSuccess(tr.translate("Route created"), tr.translate("The route '{0}' was created.", [routeName]));
-                    mapResultToRouteDialogD.dialog("close");
+                    viewController.goBack();
                 }
             });
 
-            content.append(btn);
-            mapResultToRouteDialog.html('');
-            mapResultToRouteDialog.append(content);
-
-            mapResultToRouteDialogD.dialog({
-                autoOpen: true,
-                maxWidth: '90%',
-                maxHeight: '90%',
-                //                width: '70%',
-                //                height: '50%',
-                modal: true
+            btnCancel.mousedown(function () {
+                viewController.goBack();
             });
+
+            content.append(btnCreate);
+            content.append(btnCancel);
+            mapResultToRoute.html('');
+            mapResultToRoute.append(content);
+
+            viewController.selectView("addResultToCache");
         }
 
         private nextMapLayer() {
@@ -231,13 +229,15 @@ module App.Controllers {
        */
         public openPlaceSearch() {
             var _this = this;
-            var mapSearchDialogD: any = $("#mapSearchDialog");
-            var mapSearchDialog = $("#mapSearchDialog");
+            var mapSearch: any = $("#placeSearch");
 
-            var html: string = "<input id='mapSearchInputBox' type='text' /><input id='mapSearchCommit' type='button' value='" + tr.translate("Search") + "' /><br/><div id='mapSearchResult'></div>";
-            mapSearchDialog.html(html);
+            var html: string = "<div class='center marginBig'><input id='mapSearchInputBox' type='text' /><br/><input id='mapSearchCommit' type='button' value='" + tr.translate("Search") + "' />"
+                + "<input id = 'mapSearchCancel' type = 'button' value ='" + tr.translate("Cancel") + "' / >"
+                + "<br/ ><div id = 'mapSearchResult' ></div></div>";
+            mapSearch.html(html);
             var mapSearchCommit = $("#mapSearchCommit");
             var mapSearchInputBox = $("#mapSearchInputBox");
+            var mapSearchCancel = $("#mapSearchCancel");
 
             mapSearchCommit.mousedown(this.searchClick);
             mapSearchInputBox.keypress(function (e) {
@@ -245,15 +245,11 @@ module App.Controllers {
                     _this.searchClick(null)
                 }
             });
-
-            mapSearchDialogD.dialog({
-                autoOpen: true,
-                maxWidth: $(window).width() - 50,
-                maxHeight: $(window).height() - 50,
-                width: $(window).width() - 50,
-                height: $(window).height() - 50,
-                modal: true
+            mapSearchCancel.mousedown(function () {
+                viewController.goBack();
             });
+
+            viewController.selectView("placeSearch");
         }
 
         private searchClick(eventObject: JQueryMouseEventObject) {
@@ -275,7 +271,7 @@ module App.Controllers {
                                 searchController.searchCriteria.pos(v.pos);
                                 searchController.doSearch();
 
-                                mapSearchDialogD.dialog("close");
+                                viewController.goBack();
                             });
                         mapSearchResult.append(newDiv);
                     });
