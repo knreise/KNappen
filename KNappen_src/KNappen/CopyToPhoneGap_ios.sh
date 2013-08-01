@@ -6,5 +6,5 @@ mkdir -p "$DD"
 cp -va ./KNappen.MobileSPA/* "$DD"
 
 pushd "$DD"
-rm -rf *.ts bin obj Properties UnitTests index.html Test.html index.html *.csproj *.user config.xml Web*.config packages.config
+rm -rf Brukerdokumentasjon *.ts bin obj Properties UnitTests index.html Test.html index.html *.csproj *.user config.xml Web*.config packages.config
 popd
