@@ -1,11 +1,13 @@
 ﻿/* http://www.mikedellanoce.com/2012/09/10-tips-for-getting-that-native-ios.html
     http://davidwalsh.name/webkit-css
      */
-html
-{
-    font-family: 'Segoe UI';
-    letter-spacing: -0.09em;
-    font-size: 100%;
+
+
+.activeMarker {
+    border: 1px solid red;
+}
+
+html {
     -webkit-touch-callout: none;
     /* -webkit-user-select: none; */
     -khtml-user-select: none;
@@ -20,87 +22,141 @@ html
         */
 }
 
-html h3{
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    letter-spacing: -0.05em;
     font-weight: normal;
 }
 
-.translate{}
-
-select{
-    font-size: 120%;
-    width: 50%;
+h2 {
+    margin-bottom: 15px;
 }
 
-input[type=button]{
-    border: 1px solid rgb(231, 245, 247);
-    background-color: rgb(231, 245, 247);
-    font-size: 120%;
+p {
+    margin: 10px 0;
 }
 
-input[type=text]{
-    font-size: 120%;
-    width: 50%;
+#loader {
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255,255,255,0.9);
+    z-index: 999998;
 }
 
-.padding{
-    padding:5px;
+    #loader.active {
+        display: block;
+    }
+
+    #loader .spinner {
+        width: 150px;
+        padding-top: 120px;
+        margin: 100px auto;
+        text-align: center;
+        background: url('../img/spinner.gif') top center no-repeat;
+    }
+
+.translate {
+}
+
+
+input[type=button] {
+    border: none;
+    background-color: #3eaebe;
+    color: white;
+    font-size: 0.85em;
+    padding: 8px 10px;
+    margin: 10px 5px 10px 0;
+    -webkit-appearance: none;
+    border-radius: 0;
+}
+
+    input[type=button]:disabled {
+        background-color: #3eaebe;
+        opacity: 0.6;
+    }
+
+input[type=text], select, textarea {
+    font-size: 16px;
+    width: 100%;
+    padding: 5px;
+    margin: 5px 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.padding {
+    padding: 80px 10px 15px 10px;
 }
 
 /*Menu*/
-#menu
-{
-    background-color: #b1e5ec;
+#menu {
+    background-color: white;
     position: fixed !important;
 }
 
-#toolbarHeader
-{
+#toolbarHeader {
     position: fixed !important;
     background-color: white;
 }
 /*end Menu*/
 
-.logoFrame{
-    margin-top: 7px;
-    width: 100%;
+.logoFrame {
+    margin: 11px 10px 0 10px;
 }
+
+    .logoFrame img {
+        width: 180px;
+    }
+
+.searchIcon {
+    margin: 14px 0 0 0;
+}
+
+    .searchIcon img {
+        width: 35px;
+        margin-top: 0;
+    }
 
 /*Listview*/
-.listItemPreview
-{
-    height: auto!important;
+.listItemPreview {
+    height: auto !important;
 }
 
-.listItemCat{
+.listItemCat {
     width: 30px;
-    margin-right: 3px;
+    margin: 0;
 }
 
-.listItemHeader{
+.listItemHeader {
     vertical-align: middle;
 }
 /*end ListView*/
 
-#searchPanel
-{
+#searchPanel {
     border: 1px solid black;
 }
 
-    #searchPanel #searchToolbar
-    {
+    #searchPanel #searchToolbar {
         display: none;
     }
 
-    #searchPanel #currentSearchText
-    {
+    #searchPanel #currentSearchText {
         text-align: center;
     }
 
 
 /* JQUERY UI - CSS */
 
-.ui-content
-{
+.ui-content {
     width: 100%;
     height: 100%;
 }
@@ -108,27 +164,23 @@ input[type=text]{
 /* END JQUERY UI - CSS */
 
 
-*
-{
+* {
     margin: 0;
 }
 
-.wrapper
-{
+.wrapper {
     min-height: 100%;
     height: auto !important;
     height: 100%;
     margin: 0 auto -142px; /* the bottom margin is the negative value of the footer's height */
 }
 
-.footer, .push
-{
+.footer, .push {
     height: 42px; /* .push must be the same height as .footer */
 }
 
 
-[data-role=footer]
-{
+[data-role=footer] {
     bottom: 0;
     position: fixed !important;
     top: auto !important;
@@ -143,19 +195,23 @@ input[type=text]{
     }
 }*/
 
-.poi{
+.poi {
     border: 2px solid #3eaebe;
 }
 
-.map
-{
-    width: 100%;
-    position: relative;
-    height: 10px;
+#poiImage .centered {
+    text-align: center;
+    font-size: smaller;
+    margin-bottom: 15px;
 }
 
-.olControlAttribution
-{
+.map {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.olControlAttribution {
     position: absolute;
     font-size: 10px;
     bottom: 0 !important;
@@ -167,26 +223,54 @@ input[type=text]{
 }
 
 /*POI Preview*/
-#poiPreview
-{
+#poiPreview {
     display: none;
     background-color: white !important;
-    z-index: 999999;
-    width: 100%;
+    z-index: 999997;
     border-bottom: 1px solid #3eaebe;
     position: absolute;
     bottom: 0;
-    max-height: 95px;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
-#poiPreview h2{
-    font-weight: normal;
+    #poiPreview .right {
+        width: 60px;
+    }
+
+        #poiPreview .right img {
+            margin-bottom: 3px;
+        }
+
+    #poiPreview h2, #poiViewHeader h2 {
+        font-weight: normal;
+        margin-bottom: 8px;
+        font-size: 1.1em;
+    }
+
+.previewName {
+    /*height: 95px;*/
 }
 
-.poiPreviewActiveDetail{
-    top: 0px!important;
+.blockelement {
+    padding-bottom: 6px;
+    font-size: 1.1em;
+}
+
+    .blockelement input {
+        margin: 0;
+    }
+
+#listAccordion {
+    margin: 0 10px;
+}
+
+.poiPreviewActiveDetail {
+    top: 0px !important;
     /*bottom: auto!important;*/
-    border: 1px thin rgb(231, 245, 247)!important;
+    border: 1px thin rgb(231, 245, 247) !important;
     border-bottom: none;
 }
 
@@ -199,24 +283,36 @@ input[type=text]{
 /*end POI Preview*/
 
 /*POI Detail*/
-#lnkDetail
-{
+
+#poiViewHeader {
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    position: relative;
+}
+
+    #poiViewHeader .right {
+        position: absolute;
+        bottom: 5px;
+        right: 10px;
+        height: 33px;
+        width: 60px;
+    }
+
+#lnkDetail {
     display: none;
 }
 
-.ui-dialog{
-    z-index: 999999;
+.ui-dialog {
+    z-index: 999997;
     background-color: white !important;
 }
 
-.poiDetailContent
-{
+.poiDetailContent {
     overflow-y: auto;
     overflow-x: hidden;
 }
 
-.poiDetail
-{
+.poiDetail {
     background-color: white;
     /*overflow-y: scroll; 
     top: 0px;
@@ -225,133 +321,177 @@ input[type=text]{
     font-size: 1.2em;
     padding: 5px;
     letter-spacing: -0.03em;*/
-    width: 100%;
+    padding: 10px 10px 110px 10px;
 }
 
-/*#poiImage{
-    width: 95%;
-}*/
+#addPoiToRouteForm {
+    padding: 10px;
+    background: rgb(231, 245, 247);
+}
+
+#poiImage {
+    margin-bottom: 10px;
+}
 
 .poiDetailImage {
-    max-width:98%;
+    max-width: 100%;
 }
 
-.poiDetailHeader
-{
+.poiDetailHeader {
     height: 40px !important;
 }
 
-.poiDetailLicense
-{
+.poiDetailLicense {
     font-size: smaller;
     font-style: italic;
 }
 
-.poiDetailTags
-{
+.poiDetailTags {
     font-size: small;
     background-color: lightgray;
 }
 
-#detailAccordion div
-{
+#poiDescription {
+    line-height: 1.3em;
+}
+
+#detailAccordion div {
+    /*height: auto !important;
+    border: 1px solid rgb(231, 245, 247)!important;*/
+}
+
+#detailAccordion h3, #detailAccordion p {
+    margin: 15px 0;
+}
+
+#poiAboutData {
+    -ms-word-wrap: break-word;
+    word-wrap: break-word;
+    font-size: 0.85em;
+    line-height: 1.4em;
+}
+
+#detailAccordion .separator {
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+}
+
+.showMoreAccordion {
+    background-image: url(/content/images/AppIcons/moreInfo.png) !important;
+    width: 25px;
+}
+
+.showLessAccordion {
+    background-image: url(/content/images/AppIcons/lessInfo.png) !important;
+    width: 25px;
+}
+
+video {
+    width: 100% !important;
+    max-width: 500px !important;
     height: auto !important;
-    border: 1px solid rgb(231, 245, 247)!important;
+    margin: 0 auto;
+    display: block;
 }
 
-.showMoreAccordion{
-    background-image: url(/content/images/AppIcons/moreInfo.png)!important;
-    width: 25px;
-}
-
-.showLessAccordion{
-    background-image: url(/content/images/AppIcons/lessInfo.png)!important;
-    width: 25px;
-}
 /*end POI Detail*/
 
-.popupMenu
-{
+.popupMenu {
     position: absolute;
-    top: 0px;
+    top: 60px;
     left: 0px;
+    bottom: 0px;
+    width: 100%;
+    padding: 15px 0;
     z-index: 99999999 !important;
     background-color: #3d4249 !important;
     -webkit-transform: translate3d(0, 0, 0);
+    overflow-x: auto;
+    display: none;
 }
 
-.popupMenuOpenButton
-{
+.popupMenuOpenButton {
     background-color: white;
     outline: 2px;
     outline-color: black;
     font-size: x-large;
     float: left;
     max-width: 20%;
-    padding-top: 7px;
+    margin: 13px 10px 0 10px;
 }
 
-.popupMenuButton
-{
-    font-size: x-large;
+.popupMenuButton {
+    font-size: 1.2em;
     color: white;
-    padding: 4px;
-    vertical-align: middle;
+    padding: 10px 20px;
 }
 
-.popupMenuButton img
-{
-    width: 30px;
-    vertical-align: bottom;
-    margin: 2px;
-}
+    .popupMenuButton img {
+        width: 30px;
+        margin-right: 9px;
+        margin-left: 10px;
+        vertical-align: middle;
+    }
 
-.contentPage
-{
-/*    width: 100%; */
+        .popupMenuButton img:first-child {
+            width: 40px;
+            margin-right: 9px;
+            margin-left: 0;
+        }
+
+    .popupMenuButton:hover {
+        cursor: pointer;
+    }
+
+.contentPage {
+    /*    width: 100%; */
     height: 100%;
     overflow-y: auto;
-/*    float: right;*/
-/*    padding: 0; */
-    padding-left: 3px;
-    padding-right: 3px;
+    /* -webkit-overflow-scrolling: touch; */
+    /*    float: right;*/
+    /*  padding-left: 3px;
+    padding-right: 3px;*/
     display: none;
 }
 
-.noPadding
-{
+#listView, #routeView, #settingsView, #searchView, #feedbackView, #aboutView, #debugView, #poiView, #placeSearch, #addResultToCache {
+    -webkit-overflow-scrolling: touch;
+}
+
+.noPadding {
     padding: 0;
 }
 
-.headerSection
-{
+.headerSection {
     width: 100%;
-    height: 55px;
+    height: 60px;
     background-color: white !important;
     position: fixed;
     top: 0px;
     left: 0px;
     z-index: 99999 !important;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
-.mainSection
-{
+.mainSection {
+    height: 100%;
     width: 100%;
     background-color: white !important;
-    overflow-y: auto;
+    overflow: auto;
+    position: absolute;
+    top: 0;
 }
 
-.footerSection
-{
+.footerSection {
     width: 100%;
     height: 40px;
     background-color: white !important;
 }
 
-html, body
-{
+html, body {
     height: 100%;
 }
+
 body {
     background-color: white;
     overflow: hidden;
@@ -359,105 +499,109 @@ body {
 }
 
 
-#routeView .ui-widget-header{
+#routeView .ui-widget-header {
     background: none;
     border: none;
-    border-bottom: 1px solid #AAAAAA;
+    border-bottom: 1px solid #ccc;
 }
 
-#routeView .ui-widget-content{
+#routeView .ui-widget-content {
     border: none;
 }
 
-#editorialRoutes{
-    width: 90%;
-    padding: 5px;
+#editorialRoutes {
+    width: 100%;
+    padding: 10px 0;
 }
 
-#userRoutes{
-    width: 90%;
-    padding: 5px;
+#userRoutes {
+    width: 100%;
+    padding: 10px 0;
 }
 
-.routeListItem{
-    padding: 10px;
-    border: solid 1px rgb(231, 245, 247);
+.grey {
+    color: #888;
 }
 
-#routeName{
+.routeListItem {
+    padding: 0;
+    margin-bottom: 10px;
+    border-bottom: solid 1px rgb(231, 245, 247);
+}
+
+    .routeListItem h3 {
+        font-size: 1.1em;
+    }
+
+#routeName {
     display: none;
 }
 
-.routeName{
+.routeName {
     list-style: none;
     border: 1px solid lightgray;
-    width:40%;
-    margin:2px;
+    width: 40%;
+    margin: 2px;
 }
 
-.hidden{
+#routeTabs {
+    margin: 10px;
+}
+
+.hidden {
     display: none;
 }
 
-.left{
+.left {
     float: left;
-    padding-left: 3px;
-    padding-right: 3px;
 }
 
-.leftPreview{
-    width: 15%;
-    max-width: 80px;
-    min-width: 30px;
+.leftPreview {
+    width: 65px;
+    margin-right: 10px;
 }
 
-.middle{
+.middle {
     /*margin:auto;
     padding-left: 3px;
     padding-right: 3px;*/
-    text-align: center;
+    /*text-align: center;*/
     margin-left: auto;
     margin-right: auto;
     display: block;
 }
 
-.center{
-    margin:auto;
+.center {
+    margin: auto;
 }
 
-.right{
+.right {
     float: right;
-    padding-left: 3px;
-    padding-right: 3px;
 }
 
-.categoryImage{
+.categoryImage {
     width: 100%;
 }
 
-.mediaImage{
-    width:30px;
+.mediaImage {
+    width: 30px;
+    height: 30px;
     bottom: 2px;
     /*position:absolute;*/
-    float:left;
+    float: left;
 }
 
-.previewBtn{
-    width: 100%;
-    max-width: 80px;
-    min-width: 60px;
+.previewBtn {
+    width: 60px;
 }
 
-.appImage{
+.appImage {
     margin-top: 5px;
     float: right;
+    width: 60px:;
 }
 
-.previewName{
-    height: 95px;
-}
-
-.middle .previewName h2{
+.middle .previewName h2 {
     margin: auto;
     margin-top: 1px;
 }
@@ -467,11 +611,9 @@ body {
     overflow: scroll;
 }
 
-.resultListCentered
-{
+.resultListCentered {
     text-align: center;
-    width: 100%;
-    font-size: larger;
+    padding: 5px;
 }
 
 .audioBar {
@@ -480,6 +622,7 @@ body {
     font-size: large;
     padding-bottom: 5px;
 }
+
 .typiconButton {
     font-size: xx-large;
 }
@@ -488,28 +631,54 @@ body {
     height: 4em;
 }*/
 
-/* Accordion */
 
-.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active
-{
-    background: url("images/ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 50% rgb(239, 246, 247);
-    color: black;
-    border: solid 1px rgb(231, 245, 247);
+.listHeaderBox {
+    margin: 10px 10px 5px 10px;
 }
 
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default
-{
+    .listHeaderBox input {
+        margin: 0;
+    }
+
+/* Accordion */
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
     background: url("images/ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 50% rgb(239, 246, 247);
     color: black;
-    border: solid 1px rgb(231, 245, 247);
+    border: none;
+    font-size: 1em;
+}
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+    background: url("images/ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 50% rgb(239, 246, 247);
+    color: black;
+    border: none;
+    font-size: 1em;
+}
+
+#routeTabs .ui-state-active {
+    background: #3eaebe /*url("images/ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 50% rgb(239, 246, 247)*/;
+    border: none;
+    color: white;
+}
+
+.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {
+    color: white;
+}
+
+.ui-widget-content {
+    border: 1px solid #eee;
 }
 
 /* End Accordion*/
 
 
 /* Video */
-.video-js .vjs-default-skin{
+.video-js .vjs-default-skin {
     width: 100%;
+}
+
+.video-js {
+    margin: auto;
 }
 
 /* End Video */
@@ -533,18 +702,140 @@ body {
 }
     */
 .mapTypIconButton {
-    font-size: 3.3em;
-    background: rgb(239, 246, 247);
+    /*font-size: 2.3em;
+	margin: 15px 5px;
+	color: #3eaebe;
+	border: 1px solid red;*/
+    /*background: rgb(239, 246, 247); */
 }
 
-.noListStyle{
+#mapSearchResult div {
+    border-top: 1px solid #eee;
+    padding: 10px 0;
+    font-size: 1em;
+}
+
+#mapSearchResult h3 {
+    margin-bottom: 5px;
+}
+
+.noListStyle {
     list-style: none;
 }
 
-.marginSmall{
+.marginSmall {
     margin: 2px;
 }
 
-.marginBig{
-    margin:20px;
+.marginBig {
+    margin: 10px;
+}
+
+/* OL */
+
+.olControlPanel {
+    width: 100%;
+    padding: 1px;
+    background: white;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.typcn {
+    font-size: 1.5em;
+    padding: 5px;
+    border-radius: 1em;
+    margin: 8px;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    background: #3eaebe;
+    color: white;
+    line-height: 0.85;
+    cursor: pointer;
+}
+
+
+/* END OL */
+
+/*Embedded Video Player*/
+div.embedded-player {
+    margin: auto;
+    padding: 0;
+    position: relative;
+    width: 300px;
+}
+
+/*JPlayer*/
+div.jp-audio {
+    margin: auto;
+    padding: 0;
+    position: relative;
+}
+
+div.jp-video {
+    margin: auto;
+    padding: 0;
+    position: relative;
+}
+
+div.jp-video-custom {
+    width: 290px !important;
+}
+
+div.jp-audio-custom {
+    width: 290px !important;
+}
+
+div.jp-video-custom div.jp-video-play {
+    margin-top: -225px;
+    height: 225px;
+}
+
+div.jp-audio ul.jp-controls {
+    width: 240px !important;
+}
+
+div.jp-audio div.jp-progress {
+    width: 150px !important;
+}
+
+div.jp-audio div.jp-time-holder {
+    width: 150px !important;
+}
+
+div.jp-video div.jp-controls-holder {
+    top: 0px !important;
+}
+
+div.jp-video ul.jp-controls {
+    margin-left: 20px !important;
+}
+
+#poiVideo,
+#poiAudio {
+    overflow-x: hidden;
+}
+
+/* Clearfix stuff */
+
+.clearfix:before,
+.clearfix:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+/*
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+
+.clearfix {
+    *zoom: 1;
 }

@@ -26,13 +26,15 @@ module App.Models
             @type {KnocoutObservableNumber}
         */
         public numFound: KnockoutObservableNumber = ko.observable(0);
+
         /**
-            Max number of rows found in a single searchprovider
-            @member App.Models.SearchResult#singleMaxNum
+            Number of total pages
+            @member App.Models.SearchResult#numFound
             @public
-            @type {KnocoutObservableNumber}
+            @type {KnockoutObservableNumber}
         */
-        public singleMaxNum: KnockoutObservableNumber = ko.observable(0);
+        public numPages: KnockoutObservableNumber = ko.observable(0);
+
         /**
             Observable array of Points of Interest
             @member App.Models.SearchResult#items

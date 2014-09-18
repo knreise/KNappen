@@ -16,12 +16,11 @@ module App.Controllers {
             var _this = this;
 
             var ddlGenre = $("#ddlSearchGenre");
-            var ddlCategory = $("#ddlSearchCategory");
             var ddlMediaType = $("#ddlSearchMediaType");
 
-            // Genre dropdown
+            // Genre dropdown 
             var genreVal = ddlGenre.val();
-            ddlGenre.html('<option value="*"></option>');
+            ddlGenre.html('<option value="*">Alle sjangre</option>');
             $.each(pointOfInterestTypeProvider.getGenres(),
                 function (k, v: App.Providers.GenreItem) {
                     log.debug("SearchViewController", "Genre: text: " + v.text + ", type: " + v.type);
@@ -32,22 +31,9 @@ module App.Controllers {
                         ddlGenre.append('<option value=' + v.type + ' ' + sel + '>' + v.text + '</option>');
                 });
 
-            // Category dropdown
-            var catVal = ddlCategory.val();
-            ddlCategory.html('<option value="*"></option>');
-            $.each(pointOfInterestTypeProvider.getCategories(),
-                function (k, v: App.Providers.CategoryItem) {
-                    log.debug("SearchViewController", "Category: text: " + v.text + ", type: " + v.category);
-                    var sel = "";
-                    if (catVal == v.category)
-                        sel = "SELECTED";
-                    if (v.category != "*")
-                        ddlCategory.append('<option value=' + v.category + ' ' + sel + '>' + v.text + '</option>');
-                });
-
-            // Category dropdown
+            // Mediatype dropdown
             var mediaVal = ddlMediaType.val();
-            ddlMediaType.html('<option value="*"></option>');
+            ddlMediaType.html('<option value="*">Alle medietyper</option>');
             $.each(pointOfInterestTypeProvider.getMediaTypes(),
                 function (k, v: App.Providers.MediaTypeItem) {
                     log.debug("SearchViewController", "MediaType: text: " + v.text + ", type: " + v.type);

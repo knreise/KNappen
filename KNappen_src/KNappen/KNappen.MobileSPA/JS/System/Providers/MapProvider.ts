@@ -18,14 +18,11 @@ module System.Providers {
       */
     export class MapProvider {
         public map: any = null;
-        /** @ignore */ private cacheRead: any = null;
-        /** @ignore */ private cacheWrite: any = null;
-        /** @ignore */ private cacheReadHits: any = 0;
-        /** @ignore */ private cacheWrites: number = 0;
-        /** @ignore */ private cacheFull: bool = false;
+        public mapType: string;
+
         /** @ignore */ private layerMarkers: any = null;
         /** @ignore */ private layerWMS: any = null;
-        public mapType: string;
+        /** @ignore */ private centerMarker: any = null;
 
         /**
           * MapProvider
@@ -40,7 +37,7 @@ module System.Providers {
           * @param {string} targetSurface
           * @param {string} mapType Layer name for initial map
           */
-        public Init(isPrecacheMap: bool, targetSurface: string, mapType: string) {
+        public Init(isPrecacheMap: boolean, targetSurface: string, mapType: string) {
 
             log.debug("MapProvider", "Init");
             // initialize map when page ready
@@ -97,6 +94,16 @@ module System.Providers {
                     (zoomLevel <= config.mapMaxZoomLevel));
                 if (!valid && _this.map.getZoom() == 0) {
                     _this.map.zoomTo(config.mapMaxZoomLevel - (config.mapMaxZoomLevel - config.mapMinZoomLevel) / 2);
+                }
+                if (!networkHelper.isConnected() && !_this.isValidCacheZoomLevel(zoomLevel)) {
+                    log.debug("MapProvider", "In offline mode and zoom level " + zoomLevel + " is not a valid zoom level");
+                    valid = false;
+
+                    var currentZoomLevel = _this.map.getZoom();
+                    if (!_this.isValidCacheZoomLevel(currentZoomLevel)) {
+                        log.debug("MapProvider", "In offline mode and current zoom level " + currentZoomLevel + " is not a valid zoom level");
+                        _this.map.zoomTo(config.mapCacheValidZoomLevels[0]);
+                    }
                 }
                 return valid;
             }
@@ -207,10 +214,10 @@ module System.Providers {
                         buffer: buffer,
                         isBaseLayer: true,
                         transitionEffect: 'resize',
-                        eventListeners: { tileloaded: this.updateHits }
                     },
-                    { strategies: strategies }
-                    );
+                    {
+                        strategies: strategies
+                    });
             }
             if (mapType == "WMTS") {
                 return new OpenLayers.Layer.WMS("OpenLayers WMTS",
@@ -222,39 +229,11 @@ module System.Providers {
                     {
                         buffer: buffer,
                         isBaseLayer: true,
-                        transitionEffect: 'resize',
-                        eventListeners: { tileloaded: this.updateHits }
-                    }
-                    );
+                        transitionEffect: 'resize'
+                    });
             }
 
             log.error("MapProvider", "Unknown map type: " + mapType);
-        }
-
-        /** @ignore */
-        private updateStatus(event: JQueryEventObject) {
-            //this.cacheWrites = localStorage.length
-            //var statusWrite = document.getElementById("mapCacheWriteStatus");
-            //if (window.localStorage) {
-            //    statusWrite.innerHTML = localStorage.length + " entries written to cache.";
-            //} else {
-            //    statusWrite.innerHTML = "Local storage not supported. Try a different browser.";
-            //}
-        }
-
-
-        // update the number of cached tiles and detect local storage support
-
-        /** @ignore */
-        private updateHits(evt) {
-            //this.cacheReadHits += evt.tile.url.substr(0, 5) === "data:";
-
-            //var statusRead = document.getElementById("mapCacheReadStatus");
-            //if (window.localStorage) {
-            //    statusRead.innerHTML = this.readHits + " cache read hits.";
-            //} else {
-            //    statusRead.innerHTML = "Local storage not supported. Try a different browser.";
-            //}
         }
 
         /** 
@@ -262,9 +241,9 @@ module System.Providers {
           * @method System.Providers.MapProvider#addMarker
           * @param {System.Models.PointOfInterestBase} poi Point of interest to draw on map.
           * @param clickCallback A parameterless callback function for onclick event on marker.
-          * @type Marker Marker reference
+          * @returns {Marker} Marker reference
           */
-        public addMarker(poi: System.Models.PointOfInterestBase, clickCallback: { (): void; }): any {
+        public addMarker(poi: System.Models.PointOfInterestBase, clickCallback: { (): void; }, activeMarkerCssClass: string): any {
             log.verboseDebug("MapProvider", "PoI: " + poi.id() + " at " + poi.pos().toString());
             var size = new OpenLayers.Size(poi.iconWidth(), poi.iconHeight());
             var offset = new OpenLayers.Pixel(-(size.w / 2), -size.h);
@@ -277,31 +256,47 @@ module System.Providers {
             return marker;
         }
 
-        ///** 
-        // * Convert coordinates
-        // * @method System.Providers.MapProvider#convertCoordinatesToPos
-        // * @param {string} projection Old format
-        // * @param {number} lon
-        // * @param {number} lat
-        // */
-        //public convertCoordinatesToPos(projection: string, lon: number, lat: number): System.Models.Position {
-        //    var newPos = (new OpenLayers.LonLat(lon, lat)).transform(new OpenLayers.Projection(projection), new OpenLayers.Projection("EPSG:4326"));
-        //    return new System.Models.Position(newPos.lat, newPos.lon);
-        //}
 
-        /**
-            *
-            *
-        */
-        //TODO: accept a function to bind to the event
+        public addCenterMarker(img: string, pos: System.Models.Position): any {
+            var size = new OpenLayers.Size(40, 40);
+            var offset = new OpenLayers.Pixel(-(size.w / 2), -size.h);
+            var icon = new OpenLayers.Icon(img, size, offset);
+            var oLonLat = (new OpenLayers.LonLat(pos.lon(), pos.lat())).transform(new OpenLayers.Projection("EPSG:4326"), this.map.getProjectionObject());
+            var marker = new OpenLayers.Marker(oLonLat, icon);
+            this.layerMarkers.addMarker(marker);
 
-        public addMapClickEvent(clickCallback: { (e): void; }) {
-            log.debug("MapProvider", "addClickEvent");
-            //this.map.events.register('click', this.map, clickCallback);
-            //this.map.events.register('touchstart', this.map, clickCallback);
-            //this.clickControl.events.register('clickhold', this.map, clickCallback);
+            this.centerMarker = marker;
+
+            return marker;
         }
 
+        public addLocationMarker(img: string, pos: System.Models.Position): any {
+            var size = new OpenLayers.Size(40, 40);
+            var offset = new OpenLayers.Pixel(-(size.w / 2), -size.h);
+            var icon = new OpenLayers.Icon(img, size, offset);
+            var oLonLat = (new OpenLayers.LonLat(pos.lon(), pos.lat())).transform(new OpenLayers.Projection("EPSG:4326"), this.map.getProjectionObject());
+            var marker = new OpenLayers.Marker(oLonLat, icon);
+            this.layerMarkers.addMarker(marker);
+            return marker;
+        }
+
+        public updateCenterMarker(img: string, pos: System.Models.Position) {
+            if (this.centerMarker != null) {
+                this.layerMarkers.removeMarker(this.centerMarker);
+            }
+            this.addCenterMarker(img, pos);
+        }
+
+
+        public createPopup(pos: System.Models.Position, height, width, title: string, content: string) {
+            var popup = new OpenLayers.Popup(title,
+                new OpenLayers.LonLat(pos.lon(), pos.lat()),
+                new OpenLayers.Size(width, height),
+                content,
+                null, true);
+            
+            this.map.addPopup(popup);
+        }
 
         /** 
           * Get GPS pos from xy coordinates on map.
@@ -340,12 +335,15 @@ module System.Providers {
         public setCenter(pos: System.Models.Position, zoomLevel?: number) {
             log.debug("MapProvider", "setCenter: Zoomlevel: " + zoomLevel);
             var oLonLat = (new OpenLayers.LonLat(pos.lon(), pos.lat())).transform(new OpenLayers.Projection("EPSG:4326"), this.map.getProjectionObject());
+
             if (zoomLevel)
                 this.map.setCenter(oLonLat, zoomLevel);
             else
                 this.map.setCenter(oLonLat);
         }
+
+        private isValidCacheZoomLevel(zoomLevel: number) {
+            return config.mapCacheValidZoomLevels.indexOf(zoomLevel) != -1;
+        }
     }
-
-
 }

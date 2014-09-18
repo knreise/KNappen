@@ -15,7 +15,7 @@ module App.Controllers {
     }
 
     export class UserPopupController {
-        private toastrOptions = { positionClass: 'toast-top-center' };
+        private toastrOptions = { positionClass: 'toast-top-full-width' };
         private toastrLookUp: { [type: string]: any; } = {};
         private toastrLookUpName: { [type: string]: string; } = {};
 
@@ -44,12 +44,7 @@ module App.Controllers {
             this.toastrLookUpName[App.Controllers.UserPopupMessageType.success.toString()] = "Success";
             this.toastrLookUpName[App.Controllers.UserPopupMessageType.warning.toString()] = "Warning";
 
-            // Hook up Toastr to log channel "userPopup"
-            log.addLogHandler(function (event, logType, sender, msg) {
-                if (logType.toLowerCase() == "userpopup") {
-                    toastr.error(msg, sender, this.toastrOptions);
-                }
-            });
+            startup.finishedPreInit("UserPopupController");
         }
 
         /**
@@ -67,7 +62,7 @@ module App.Controllers {
 
             var f: any = this.toastrLookUp[messageType.toString()];
             if (f)
-                f(translater.translate(msg), translater.translate(header), this.toastrOptions);
+                f(msg, header, this.toastrOptions);
             else
                 log.error("UserPopupController", "Unknown message type '" + messageType + "', unable to show popup: Header: '" + header + "', Message: '" + msg + "'");
         }

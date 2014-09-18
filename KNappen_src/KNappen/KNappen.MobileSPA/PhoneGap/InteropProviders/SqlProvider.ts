@@ -3,109 +3,83 @@
 module PhoneGap.InteropProviders {
     export class SqlProvider {
         public db: Database;
-        public dbVersion = "1";
+        public dbVersion = "2";
 
-        public Load() {
-            log.debug("SqlProvider", "Load()");
-            log.debug("SQL", "Opening database KNAppenDB");
-            this.db = window.openDatabase("KNAppenDB", "", "KNAppenDB", 20 * 1000 * 1024);
+        public load() {
+            log.verboseDebug("SqlProvider", "Load");
 
-            this.updateDb();
-
-        }
-
-        public Init() {
-            log.debug("SqlProvider", "Init()");
-            var _this = this;
-            phoneGapInterop.onInteropCommand.addHandler(function (target: string, action: string, params: any[]) {
-                _this.processInteropCommand(target, action, params);
-            }, "SqlProvider");
-        }
-
-        private processInteropCommand(target: string, action: string, params: any[]) {
-            log.debug("SqlProvider", "processInteropCommand: target: " + target + ", action: " + action);
-            if (params)
-            $.each(params, function (k, v) {
-                log.debug("SqlProvider", "processInteropCommand: param: " + k + ", value: " + v);
-            });
-            if (target.toLowerCase() === "sql")
-            {
-                var table = params['table'];
-                var key = params['key'];
-                var value = params['value'];
-                var meta = params['meta'];
-
-                if (action === "set")
-                    this.sqlSettingsSet(table, key, value, meta);
-
-                if (action === "remove")
-                    this.sqlSettingsRemove(table, key);
-
-                if (action === "read")
-                    this.sqlSettingsRead(table);
+            if (compatibilityInfo.isMobile) {
+                log.info("SqlProvider", "Opening database KNAppenDB");
+                this.db = window.openDatabase("KNAppenDB", "", "KNAppenDB", 30 * 1000 * 1024);
+                this.updateDb();
+            }
+            else {
+                startup.finishedLoad("SqlProvider");
             }
         }
 
-        private updateDb() {
-            var _this = this;
-            console.log("Current DB version: " + _this.db.version);
-            if (_this.db.version != _this.dbVersion) // or whatever version you want to update to
-            {
-                var sql = "";
-                if (!_this.db.version || _this.db.version == "")
-                {
-                    // Table doesn't exist - create full table
-                    console.log("SQLite Table doesn't exist, creating.");
-                    _this.db.transaction(
-                        function (tx: SQLTransaction) {
-                            sql = 'CREATE TABLE IF NOT EXISTS settings (key TEXT NOT NULL PRIMARY KEY, value TEXT, meta TEXT)';
-                            log.debug("SqlProvider", "SQL: " + sql);
-                            tx.executeSql(sql);
-                        },
-                        function (error) { console.log("SQL CREATE: \"" + sql + "\": Error: " + error.code + ": " + error.message); },
-                        function () { console.log("SQL CREATE Success: " + sql); });
-                    _this.db.changeVersion(_this.db.version, _this.dbVersion);
-                }
+        private updateDb(): void {
+            log.info("SqlProvider", "Current Database version: '" + this.db.version + "'");
 
-                if (_this.db.version == "1.0") {
-                    // Upgrade from 1.0 databases (beta-testers)
-                    console.log("SQLite Table upgrade from 1.0 (beta-testers)");
-                    _this.db.transaction(
-                        function (tx: SQLTransaction) {
-                            sql = 'ALTER TABLE settings ADD COLUMN meta TEXT';
-                            log.debug("SqlProvider", "SQL: " + sql);
-                            tx.executeSql(sql);
-                        },
-                        function (error) { console.log("SQL ALTER: \"" + sql + "\": Error: " + error.code + ": " + error.message); },
-                        function () { console.log("SQL ALTER Success: " + sql); });
-                    _this.db.changeVersion(_this.db.version, "1");
-                }
-                //
+            // Bug fix - change version does not work with database above 20MB
+            //if (true) {
+            //    this.db.transaction(this.bugFixAlwaysTryToUpdate, this.loadCompleteWithError, this.loadComplete);
+            //}
 
-                //_this.db.transaction(
-                //    function (tx: SQLTransaction) {
-                //        sql = 'DROP TABLE IF EXISTS settings';
-                //        console.log("SQL: " + sql);
-                //        tx.executeSql(sql);
-                //    },
-                //    function (error) { console.log("SQL DROP: \"" + sql + "\": Error: " + error.code + ": " + error.message); },
-                //    function () { console.log("SQL DROP Success: " + sql); });
-                if (_this.db.version != _this.dbVersion) {
-                    log.debug("SqlProvider", "ERROR: Unsuccessful upgrade of SQLite tables. Current: " + _this.db.version + ", expected: " + _this.dbVersion);
-                } else {
-                    log.debug("SqlProvider", "SUCCESS: Successful upgrade of SQLite tables. Current: " + _this.db.version + ", expected: " + _this.dbVersion);
-                }
-
+            if (!this.db.version || this.db.version == "") {
+                this.db.transaction(this.updateFromEmpty, this.loadCompleteWithError, this.loadComplete);
             }
+            else if (this.db.version == "1") {
+                this.db.transaction(this.updateFromVersion1, this.loadCompleteWithError, this.loadComplete);
+            }
+            else {
+                log.info("SqlProvider", "Database already at latest version");
+                startup.finishedLoad("SqlProvider");
+            }
+        }
+
+        private bugFixAlwaysTryToUpdate(tx: SQLTransaction): void {
+            log.info("SqlProvider", "BugFix - Attempting to update database if not already up to date");
+            tx.executeSql('CREATE TABLE IF NOT EXISTS settings (key TEXT NOT NULL PRIMARY KEY, value TEXT, meta TEXT)');
+            tx.executeSql('CREATE TABLE IF NOT EXISTS mapcache (key TEXT NOT NULL PRIMARY KEY, value BLOB, meta TEXT)');
+
+            tx.executeSql('CREATE TABLE IF NOT EXISTS routes (id TEXT NOT NULL PRIMARY KEY, type TEXT, name TEXT, pois BLOB, version TEXT, mapCached TEXT)');
+        }
+
+        private updateFromEmpty(tx: SQLTransaction): void {
+            log.info("SqlProvider", "Updating database from 'no previous version installed'");
+            tx.executeSql('CREATE TABLE IF NOT EXISTS settings (key TEXT NOT NULL PRIMARY KEY, value TEXT, meta TEXT)');
+            tx.executeSql('CREATE TABLE IF NOT EXISTS mapcache (key TEXT NOT NULL PRIMARY KEY, value BLOB, meta TEXT)');
+
+            tx.executeSql('CREATE TABLE IF NOT EXISTS routes (id TEXT NOT NULL PRIMARY KEY, type TEXT, name TEXT, pois BLOB, version TEXT, mapCached TEXT)');
+        }
+
+        private updateFromVersion1(tx: SQLTransaction): void {
+            log.info("SqlProvider", "Updating database from 'version 1'");
+            tx.executeSql('CREATE TABLE IF NOT EXISTS mapcache (key TEXT NOT NULL PRIMARY KEY, value BLOB, meta TEXT)');
+
+            tx.executeSql('CREATE TABLE IF NOT EXISTS routes (id TEXT NOT NULL PRIMARY KEY, type TEXT, name TEXT, pois BLOB, version TEXT, mapCached TEXT)');
+        }
+
+        private loadComplete(): void {
+            log.info("SqlProvider", "Update finished");
+
+            // Bug fix - change version does not work with database above 20MB
+            sqlProvider.db.changeVersion(sqlProvider.db.version, sqlProvider.dbVersion);
+
+            startup.finishedLoad("SqlProvider");
+        }
+
+        private loadCompleteWithError(error: any): void {
+            log.error("SqlProvider", "Update finished with errors: " + error.code + " - " + error.message);
+            startup.finishedLoad("SqlProvider");
         }
 
         public sqlDo(name: string, callbackSuccess: { (tx: SQLTransaction, results: SQLResultSet): void }, callbackError: { (error: SQLError): void }, callbackTransactionSuccess: { (): void }, sql: string, keys: any) {
             var _this = this;
-     
+
             this.db.transaction(
                 function (tx: SQLTransaction) {
-                    log.debug("SqlProvider", "[" + name + "] SQL executing: " + sql);
-                    log.debug("SqlProvider", "[" + name + "] Keys: " + keys);
                     var result: SQLResultSet = tx.executeSql(sql, keys,
                         function querySuccess(tx: SQLTransaction, results: SQLResultSet) {
                             var rowsAffected = "NA";
@@ -118,32 +92,25 @@ module PhoneGap.InteropProviders {
                                 }
                             } catch (exception) { }
 
-                            log.debug("SqlProvider", "[" + name + "] SQL Rows affected: " + rowsAffected + ", rows returned: " + rowCount);
-
-                            // Callback if any
                             if (callbackSuccess)
                                 callbackSuccess(tx, results);
                         });
 
                 },
                 function (error: SQLError) {
-                    log.debug("SqlProvider", "[" + name + "] SQL error: \"" + sql + "\": Error: " + error.code + ": " + error.message);
-                    //console.log("[" + name + "] SQL error: \"" + sql + "\": Error: " + error.code + ": " + error.message);
-                    // Callback if any
+                    log.error("SqlProvider", "[" + name + "] SQL error: \"" + sql + "\": Error: " + error.code + ": " + error.message);
                     if (callbackError)
                         callbackError(error);
                 },
                 function () {
-                    log.debug("SqlProvider", "[" + name + "] SQL Success: " + sql);
-                    // Callback if any
                     if (callbackTransactionSuccess)
                         callbackTransactionSuccess();
                 });
         }
 
         public sqlDoSimple(name: string, sql: string, keys: any) {
-            // Simple SQL-command, not interested in any callbacks
             this.sqlDo(name, null, null, null, sql, keys);
+            return true;
         }
 
         public sqlSettingsRemove(table: string, key: string) {
@@ -158,45 +125,56 @@ module PhoneGap.InteropProviders {
             this.sqlDoSimple('SettingsSet', 'INSERT OR IGNORE INTO ' + table + ' (key, value, meta) VALUES (?, ?, ?)', [key, value, meta]);
         }
 
-        public sqlSettingsRead(table: string) {
+        public sqlSettingsRead(table: string, finishedCallback?: () => void ) {
             var _this = this;
             var sql = 'SELECT * FROM ' + table;
 
             this.sqlDo('SettingsRead',
                 function callbackSuccess(tx: SQLTransaction, results: SQLResultSet) {
                     if (!results || !results.rows) {
-                        log.debug("SqlProvider", "sqlSettingsRead: Empty table: " + table)
-								return;
+                        log.debug("SqlProvider", "sqlSettingsRead: Empty table: " + table);
+                        return true;
                     }
 
-                    var len = results.rows.length;
-                    log.debug("SqlProvider", "sqlSettingsRead: " + table + " table: " + len + " rows found.");
-                    for (var i = 0; i < len; i++) {
-                        var rKey = results.rows.item(i).key;
-                        var rValue = results.rows.item(i).value;
-                        var rMeta = results.rows.item(i).meta;
-                        log.debug("SqlProvider", "SQL Row: " + i + " key: " + rKey + ", value:  " + rValue.length + " bytes, meta: " + rMeta);
-                        phoneGapInterop.wikitudePluginProvider.sendInterop.callJavaScript("phoneGapProvider.SqlCallbackSet('" + rKey + "', '" + rValue + "', '" + rMeta + "')");
+                    try {
+                        var len = results.rows.length;
+                        log.debug("SqlProvider", "sqlSettingsRead: " + table + " table: " + len + " rows found.");
+                        for (var i = 0; i < len; i++) {
+                            var rKey = results.rows.item(i).key;
+                            var rValue = results.rows.item(i).value;
+                            var rMeta = results.rows.item(i).meta;
+                            log.debug("SqlProvider", "sqlSettingsRead: SQL Row: " + i + " key: " + rKey);
+
+                            tx.executeSql('CREATE TABLE IF NOT EXISTS routes (id TEXT NOT NULL PRIMARY KEY, type TEXT, name TEXT, pois BLOB)');
+
+
+                            phoneGapProvider.SqlCallbackSet(rKey, rValue, rMeta);
+                        }
+                    } catch (exception) {
+                        log.error("SqlProvider", "sqlSettingsRead: exception was thorwn in callbackSuccess:" + exception);
+                        throw exception;
                     }
                 },
+
                 function (error: SQLError) {
                     if (error) {
-                        log.debug("SqlProvider", "sqlSettingsRead: Reporting error to app: SQL: \"" + sql + "\": Error: " + error.code + ": " + error.message);
-                        phoneGapInterop.wikitudePluginProvider.sendInterop.callJavaScript("phoneGapProvider.callbackSqlReadError('" + error.code + "', '" + error.message + "')");
-                    } else {
-                        phoneGapInterop.wikitudePluginProvider.sendInterop.callJavaScript("phoneGapProvider.callbackSqlReadError('', '')");
+                        log.error("SqlProvider", "sqlSettingsRead: Reporting error to app: SQL: \"" + sql + "\": Error: " + error.code + ": " + error.message);
+                    }
+                    if (finishedCallback != null) {
+                        finishedCallback();
                     }
                 },
+
                 function () {
                     log.debug("SqlProvider", "sqlSettingsRead: Reporting success to app.");
-                    phoneGapInterop.wikitudePluginProvider.sendInterop.callJavaScript("phoneGapProvider.callbackSqlReadSuccess();");
+                    if (finishedCallback != null) {
+                        finishedCallback();
+                    }
                 },
                 sql, []);
         }
-
     }
 }
 
 var sqlProvider = new PhoneGap.InteropProviders.SqlProvider();
-startup.addLoad(function () { sqlProvider.Load(); }, "SqlProvider");
-startup.addLoad(function () { sqlProvider.Init(); }, "SqlProvider");
+startup.addLoad(function () { sqlProvider.load(); }, "SqlProvider");

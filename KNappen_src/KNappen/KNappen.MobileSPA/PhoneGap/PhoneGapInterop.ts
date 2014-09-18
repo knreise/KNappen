@@ -1,12 +1,9 @@
 /// <reference path="_References.ts" />
 
 module PhoneGap {
-    declare var navigator;
-
     // Class
     export class PhoneGapInterop {
-        public config = new PhoneGap.Config();
-        public wikitudePluginProvider = new PhoneGap.Providers.WikitudePluginProvider();
+        public config = new System.ConfigBase();
 
         public onInteropCommand = new System.Utils.Event("onInteropCommand");
         public onDeviceReady = new System.Utils.Event("onDeviceReady");
@@ -17,17 +14,17 @@ module PhoneGap {
         public onPause = new System.Utils.Event("onPause");
 
         constructor() {
-            var _this = this;
-            // Don't trigger startup until we are ready.
-            startup.autoStartup = false;
+            if (compatibilityInfo.isMobile) {
+                // Don't trigger startup until we are ready.
+                startup.autoStartup = false;
 
-            this.bindEvents();
+                this.bindEvents();
 
-            this.onDeviceReady.addHandler(function () {
-                log.info("PhoneGapInterop", "onDeviceReady: Executing startup...");
-                startup.executeStartup();
-            });
-
+                this.onDeviceReady.addHandler(function () {
+                    log.info("PhoneGapInterop", "onDeviceReady: Executing startup...");
+                    startup.executeStartup();
+                });
+            }
         }
 
         private bindEvents() {
@@ -56,54 +53,19 @@ module PhoneGap {
 
             document.addEventListener("resume", function () {
                 log.debug("PhoneGapInterop", "Triggering: onResume");
-                try {
-                    phoneGapInterop.wikitudePluginProvider.resumeWikitude();
-                } catch (exception) {}
                 _this.onResume.trigger();
             }, false);
             document.addEventListener("pause", function () {
                 log.debug("PhoneGapInterop", "Triggering: onPause");
-                try {
-                    phoneGapInterop.wikitudePluginProvider.pauseWikitude();
-                } catch (exception) { }
                 _this.onPause.trigger();
             }, false);
-        
-        }
-
-        
-
-        public PreInit() {
-            log.debug("PhoneGapInterop", "PreInit()");
-            var _this = this;
-
-            
-            this.wikitudePluginProvider.Startup();
-            
-            // To be able to respond on events inside the ARchitect World, we set a onURLInvoke callback
-            this.wikitudePluginProvider.onUrlInvoke.addHandler(function (url: string) {
-                phoneGapInterop.onClickInARchitectWorld(url);
-            });
-        }
-
-        private onClickInARchitectWorld(url: string) {
-            log.debug("PhoneGapInterop", "Processing interop URL: " + url);
-            var target = stringUtils.getHostFromUrl(url);
-            var params = stringUtils.getParamsFromUrl(url);
-            var action = params["action"];
-
-            this.onInteropCommand.trigger(target, action, params);
         }
 
         public onExitApp() {
             log.info("PhoneGapInterop", "Application exiting...");
             navigator.app.exitApp();
         }
-
-
-
     }
-
 }
 
 ///**
@@ -126,4 +88,3 @@ module PhoneGap {
 
 // Local variables
 var phoneGapInterop = new PhoneGap.PhoneGapInterop();
-startup.addPreInit(function () { phoneGapInterop.PreInit(); }, "PhoneGapInterop");

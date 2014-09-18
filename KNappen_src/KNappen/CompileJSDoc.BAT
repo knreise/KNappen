@@ -4,11 +4,11 @@ REM echo { _: [ '' >> JSDoc.conf
 REM pushd KNappen.MobileSPA\JS\
 REM for /r %%i in (*.ts) do @call :CompileTS "%%i"
 REM popd
-REM echo ], a: true, A:true, p: false, D: {generatedBy: "Tedd Hansen"}, d: "docs", t: "/tools/jsdoc-toolkit/templates/jsdoc" } >> JSDoc.conf
-REM java -jar \tools\jsdoc-toolkit\jsrun.jar \tools\jsdoc-toolkit\app\run.js -c=JSDoc.conf
+REM echo ], a: true, A:true, p: false, D: {generatedBy: "Tedd Hansen"}, d: "docs", t: "C:\Users\ingmoe\Downloads\jsdoc_toolkit-2.4.0\jsdoc_toolkit-2.4.0/jsdoc-toolkit/templates/jsdoc" } >> JSDoc.conf
+REM java -jar C:\Users\ingmoe\Downloads\jsdoc_toolkit-2.4.0\jsdoc_toolkit-2.4.0\jsdoc-toolkit\jsrun.jar C:\Users\ingmoe\Downloads\jsdoc_toolkit-2.4.0\jsdoc_toolkit-2.4.0\jsdoc-toolkit\app\run.js -c=JSDoc.conf
 
 
-c:\tools\jsdoc\jsdoc.cmd "KNappen.MobileSPA\JS" -c JSDocConf.json -d docs --recurse --lenient --verbose
+\tools\jsdoc\jsdoc.cmd "KNappen.MobileSPA\JS" -c JSDocConf.json -d docs --recurse --lenient --verbose
 goto EOF
 
 

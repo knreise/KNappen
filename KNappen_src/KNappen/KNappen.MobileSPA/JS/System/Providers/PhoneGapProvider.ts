@@ -22,14 +22,9 @@ module System.Providers {
           * @param {string} value Value to store.
           */
         public SqlSetKey(table: string, key: string, value: string, meta: string) {
-            this.sendPhoneGapCommand("sql", "set",
-                {
-                    "table": table,
-                    "key": key,
-                    "value": value,
-                    "meta": meta
-                });
+            sqlProvider.sqlSettingsSet(table, key, value, meta);
         }
+
         /**
           * Remove a key-value pair.
           * @method System.Providers.PhoneGapProvider#remove
@@ -37,22 +32,16 @@ module System.Providers {
           * @param {string} key Key to remove.
           */
         public SqlRemoveKey(table: string, key: string) {
-            this.sendPhoneGapCommand("sql", "set",
-                {
-                    "table": table,
-                    "key": key
-                });
+            sqlProvider.sqlSettingsRemove(table, key);
         }
+
         /**
           * Signal PhoneGap to read SQL table and set keys into storageProvider.
           * @method System.Providers.PhoneGapProvider#read
           * @param {string} table Name of SQL table.
           */
-        public SqlRead(table: string) {
-            this.sendPhoneGapCommand("sql", "read",
-                {
-                    "table": table
-                });
+        public SqlRead(table: string, finishedCallback?: () => void) {
+            sqlProvider.sqlSettingsRead(table, finishedCallback);
         }
 
         /**
@@ -63,8 +52,15 @@ module System.Providers {
           * @param {string} metaStr Serialized metaobject to set
           */
         public SqlCallbackSet(key: string, value: string, metaStr: string) {
-            storageProvider.setRaw(key, value);
-            storageProvider.setRaw(key + ".meta", serializer.deserializeJSObject(metaStr));
+            try {
+                log.debug("PhoneGapProvider", "SqlCallbackSet: Key: " + key);
+                storageProvider.setRaw(key, value);
+
+                var deserializedObject = serializer.deserializeJSObject(metaStr);
+                storageProvider.setRaw(key + ".meta", deserializedObject);
+            } catch (exception) {
+                log.error("PhoneGapProvider", "SqlCallbackSet: an exception was thrown: " + exception);
+            }
         }
 
         /**
@@ -73,46 +69,13 @@ module System.Providers {
           * @param {string} url URL to open
           */
         public openUrl(url: string) {
-            var d: any = document;
-            d.location = this.fixUrl(url);
-        }
-
-        /**
-          * Fix URL for opening 
-          * @method System.Providers.PhoneGapProvider#openUrl
-          * @param {string} url URL to open
-          */
-        public fixUrl(url: string): string {
-            return 'architectsdk://system?action=openUrl&url=' + encodeURIComponent(url);
+            window.open(url, '_system');
         }
 
         // TODO: Move somewhere else?
         public fixALinksIfPhoneGap(obj: JQuery) {
-            var _this = this;
-            if (compatibilityInfo.isPhoneGap) {
-                this.fixALinks(obj);
-            }
-            else {
-                $(obj).find('a').each(function () {
-                    $(this).attr('target', "_blank");
-                });
-            }
-        }
-
-        /**
-          * Iterate JQuery object, find A href and fix URL for opening 
-          * @method System.Providers.PhoneGapProvider#fixALinks
-          * @param {JQuery} obj JQuery element(s) to scan for links
-          */
-        public fixALinks(obj: JQuery) {
-            var _this = this;
             $(obj).find('a').each(function () {
-
-                var href = $(this).attr('href');
-                if (!stringUtils.startsWith(href, "architectsdk")) {
-                    $(this).attr('href', _this.fixUrl(href));
-                    //.removeAttr('href');
-                }
+                $(this).attr('target', "_blank");
             });
         }
 
@@ -121,41 +84,20 @@ module System.Providers {
           * @method System.Providers.PhoneGapProvider#sendExit
           */
         public sendExit() {
-            this.sendPhoneGapCommand("system", "exit");
+            try {
+                phoneGapInterop.onExitApp();
+            } catch (exception) { }
+            try {
+                navigator.app.exitApp();
+            } catch (exception) { }
         }
-
-        /**
-          * Send command to PhoneGap
-          * @method System.Providers.PhoneGapProvider#sendPhoneGapCommand
-          * @param {string} target Target module/Command type
-          * @param {string} action Action to perform
-          * @param {array} params Key/value pair of parameters to pass to action
-          */
-        public sendPhoneGapCommand(target: string, action: string, params?: { [key: string]: string; }) {
-            var url = 'architectsdk://' + target + '?action=' + encodeURIComponent(action);
-            if (params) {
-                $.each(params, function (k, v) {
-                    if (k) {
-                        url += "&" + encodeURIComponent(k)
-                    if (v)
-                            url += "=" + encodeURIComponent(v);
-                    }
-                });
-            }
-
-            log.debug("PhoneGapProvider", "Sending command type \"" + target + "\" action \"" + action + "\" to PhoneGap: " + url);
-
-            var d: any = document;
-            d.location = url;
-        }
-
 
         /**
           * Callback from PhoneGap that menu button was clicked
           * @method System.Providers.PhoneGapProvider#callbackMenuButton
           */
         public callbackMenuButton() {
-            $('#mainPopupMenu').toggle();
+            viewController.selectView("mainMenu");
         }
 
         /**
@@ -170,26 +112,6 @@ module System.Providers {
                 log.debug("PhoneGapProvider", "No more navigation history - exiting app.");
                 this.sendExit();
             }
-        }
-
-        /**
-          * Callback from PhoneGap that SQL read is done successfully
-          * @method System.Providers.PhoneGapProvider#callbackSqlReadSuccess
-          */
-        public callbackSqlReadSuccess() {
-            log.debug("PhoneGapProvider", "PhoneGapInterop reports success on SQL read.")
-            startup.shortcutLoadTimeout();
-        }
-
-        /**
-          * Callback from PhoneGap that SQL read is done with errors
-          * @method System.Providers.PhoneGapProvider#callbackSqlReadError
-          * @param {string} errorCode Error code
-          * @param {string} errorMessage Error message
-          */
-        public callbackSqlReadError(errorCode: string, errorMessage: string) {
-            log.debug("PhoneGapProvider", "PhoneGapInterop reports error on SQL read: Code: " + errorCode + ", message: " + errorMessage);
-            startup.shortcutLoadTimeout();
         }
 
         /**
@@ -208,6 +130,9 @@ module System.Providers {
             gpsProvider.setPos(latitude, longitude, altitude, accuracy, altitudeAccuracy, heading, speed, timestamp);
         }
 
+        public playVideo(url: string) {
+            window.plugins.videoPlayer.play(url);
+        }
 
     }
 }

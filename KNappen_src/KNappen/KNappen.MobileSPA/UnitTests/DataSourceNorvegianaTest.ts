@@ -7,22 +7,22 @@ module UnitTests
         
         public runTest(resultwindow: JQuery)
         {
-            var dataSource = new App.SearchProviders.DataSourceNorvegiana();
-            var searchCriteria = new App.Models.SearchCriteria();
+            //var dataSource = new App.SearchProviders.DataSourceNorvegiana();
+            //var searchCriteria = new App.Models.SearchCriteria();
 
-            dataSource.search(searchCriteria,
-                function (searchResult: App.Models.SearchResult)
-                {
-                    if (searchResult.numFound() > 4000000)
-                        resultwindow.append("<div style='color:green'>DataSourceNorvegiana items: " + searchResult.numFound() + "</div>\r\n");
-                    else
-                        resultwindow.append("<div style='color:red'>DataSourceNorvegiana items: " + searchResult.numFound() + "</div>\r\n");
-                },
-                function (errorMessage: string)
-                {
-                    resultwindow.append("<div style='color:red'>DataSourceNorvegiana items: " + errorMessage + "</div>\r\n");
-                }
-            );
+            //dataSource.search(searchCriteria,
+            //    function (searchResult: App.Models.SearchResult)
+            //    {
+            //        if (searchResult.numFound() > 4000000)
+            //            resultwindow.append("<div style='color:green'>DataSourceNorvegiana items: " + searchResult.numFound() + "</div>\r\n");
+            //        else
+            //            resultwindow.append("<div style='color:red'>DataSourceNorvegiana items: " + searchResult.numFound() + "</div>\r\n");
+            //    },
+            //    function (errorMessage: string)
+            //    {
+            //        resultwindow.append("<div style='color:red'>DataSourceNorvegiana items: " + errorMessage + "</div>\r\n");
+            //    }
+            //);
         }
     }
 }

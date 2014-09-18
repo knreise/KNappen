@@ -105,6 +105,11 @@
         <plugin
             name="WikitudePlugin"
             value="com.wikitude.phonegap.WikitudePlugin" />
+        
+        <plugin 
+            name="VideoPlayer" 
+            value="com.phonegap.plugins.video.VideoPlayer"/>
+
     </plugins>
 
 </cordova>

@@ -66,15 +66,49 @@
     <Content Include="Brukerdokumentasjon\UserDocumentation.html" />
     <Content Include="config.xml" />
     <Content Include="Content\font\vjs.svg" />
+    <Content Include="Content\images\AppIcons\mapMarker_active.png" />
+    <Content Include="Content\images\AppIcons\video_Play.png" />
+    <Content Include="Content\images\Categories\arkeologi.png.active.png" />
+    <Content Include="Content\images\Categories\arkitektur.png.active.png" />
+    <Content Include="Content\images\Categories\az.png" />
+    <Content Include="Content\images\Categories\az.png.active.png" />
+    <Content Include="Content\images\Categories\defaultCategory.png.active.png" />
+    <Content Include="Content\images\Categories\dyr.png.active.png" />
+    <Content Include="Content\images\Categories\folketelling.png.active.png" />
+    <Content Include="Content\images\Categories\fugler.png.active.png" />
+    <Content Include="Content\images\Categories\globe.png" />
+    <Content Include="Content\images\Categories\globe.png.active.png" />
+    <Content Include="Content\images\Categories\historieogsamfunn.png.active.png" />
+    <Content Include="Content\images\Categories\kulturminne.png.active.png" />
+    <Content Include="Content\images\Categories\kunst.png.active.png" />
+    <Content Include="Content\images\Categories\planter.png.active.png" />
+    <Content Include="Content\images\Categories\stedsnavn.png.active.png" />
+    <Content Include="Content\images\Categories\verneomrader.png.active.png" />
+    <Content Include="Content\images\Categories\wikipedia.png.active.png" />
+    <Content Include="Content\images\MenuImages\az.png" />
+    <Content Include="Content\images\MenuImages\globe.png" />
+    <Content Include="Content\images\MenuImages\sted.png" />
+    <Content Include="Content\img\icons.svg" />
     <Content Include="Content\images\AppIcons\defaultPoiIcon.png" />
+    <Content Include="Content\images\AppIcons\mapMarker.png" />
     <Content Include="Content\images\Categories\defaultCategory.png" />
+    <Content Include="Content\images\Categories\folketelling.png" />
     <Content Include="Content\images\Categories\wikipedia.png" />
     <Content Include="Content\images\MenuImages\feedback.png" />
     <Content Include="Content\images\topLogo_white.png" />
+    <Content Include="Content\img\icons.png" />
+    <Content Include="Content\img\loader.gif" />
+    <Content Include="Content\Jplayer.swf" />
+    <Content Include="Content\jplayer\jplayer.blue.monday.css" />
+    <Content Include="Content\jplayer\jplayer.blue.monday.jpg" />
+    <Content Include="Content\jplayer\jplayer.blue.monday.seeking.gif" />
+    <Content Include="Content\jplayer\jplayer.blue.monday.video.play.png" />
+    <Content Include="Content\olStyle.css" />
     <Content Include="Content\swf\soundmanager2.swf" />
     <Content Include="Content\swf\soundmanager2_debug.swf" />
     <Content Include="Content\swf\soundmanager2_flash9.swf" />
     <Content Include="Content\swf\soundmanager2_flash9_debug.swf" />
+    <Content Include="Content\swipebox.css" />
     <Content Include="Content\TypIcons\typicons.css" />
     <Content Include="Content\TypIcons\typicons.min.css" />
     <Content Include="Content\TypIcons\typicons.svg" />
@@ -181,7 +215,9 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
-    <Content Include="Content\toastr.css" />
+    <Content Include="Content\toastr.css">
+      <DependentUpon>toastr.less</DependentUpon>
+    </Content>
     <Content Include="Content\toastr.min.css" />
     <Content Include="Content\video-js.css" />
     <Content Include="Content\video-js.min.css" />
@@ -204,6 +240,7 @@
     <Content Include="img\panning-hand-off.png" />
     <Content Include="img\panning-hand-on.png" />
     <Content Include="img\poiv1.png" />
+    <Content Include="img\skilt-icon.png" />
     <Content Include="img\slider.png" />
     <Content Include="img\south-mini.png" />
     <Content Include="img\west-mini.png" />
@@ -211,11 +248,20 @@
     <Content Include="img\zoom-plus-mini.png" />
     <Content Include="img\zoom-world-mini.png" />
     <Content Include="img\zoombar.png" />
+    <TypeScriptCompile Include="JS\App\SearchProviders\DataSource.ts" />
+    <TypeScriptCompile Include="JS\System\Utils\WorkHelper.ts" />
     <TypeScriptCompile Include="PhoneGap\PhoneGapInterop.ts" />
     <TypeScriptCompile Include="JS\System\Providers\MapStorageProvider.ts" />
     <TypeScriptCompile Include="JS\System\Providers\MapPreCacheProvider.ts" />
     <TypeScriptCompile Include="JS\System\Providers\MapCacheProvider.ts" />
     <TypeScriptCompile Include="JS\App\Controllers\WindowSizeController.ts" />
+    <TypeScriptCompile Include="JS\App\Controllers\LoadingScreenController.ts" />
+    <Content Include="JS\App\Controllers\LoadingScreenController.js">
+      <DependentUpon>LoadingScreenController.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\LoadingScreenController.min.js">
+      <DependentUpon>LoadingScreenController.ts</DependentUpon>
+    </Content>
     <Content Include="JS\App\Controllers\WindowSizeController.js">
       <DependentUpon>WindowSizeController.ts</DependentUpon>
     </Content>
@@ -228,6 +274,17 @@
     </Content>
     <Content Include="JS\App\Providers\EventProvider.min.js">
       <DependentUpon>EventProvider.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="JS\App\Providers\SqlRouteProvider.ts" />
+    <Content Include="JS\App\Providers\RouteProvider.js">
+      <DependentUpon>RouteProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Providers\RouteProvider.ts" />
+    <Content Include="JS\App\Providers\SqlRouteProvider.js">
+      <DependentUpon>SqlRouteProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\SearchProviders\DataSource.js">
+      <DependentUpon>DataSource.ts</DependentUpon>
     </Content>
     <Content Include="JS\System\Providers\MapCacheProvider.js">
       <DependentUpon>MapCacheProvider.ts</DependentUpon>
@@ -255,6 +312,10 @@
       <DependentUpon>TemplateProvider.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="JS\System\Utils\CompatibilityInfo.ts" />
+    <TypeScriptCompile Include="JS\System\Utils\ClickHelper.ts" />
+    <Content Include="JS\System\Utils\ClickHelper.js">
+      <DependentUpon>ClickHelper.ts</DependentUpon>
+    </Content>
     <Content Include="JS\System\Utils\CompatibilityInfo.js">
       <DependentUpon>CompatibilityInfo.ts</DependentUpon>
     </Content>
@@ -262,32 +323,28 @@
     <Content Include="JS\System\Utils\CompatibilityInfo.min.js">
       <DependentUpon>CompatibilityInfo.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="JS\System\Utils\DistanceTool.ts" />
+    <Content Include="JS\System\Utils\DistanceTool.js">
+      <DependentUpon>DistanceTool.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Utils\DistanceTool.min.js">
+      <DependentUpon>DistanceTool.ts</DependentUpon>
+    </Content>
     <Content Include="JS\System\Utils\Event.js">
       <DependentUpon>Event.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="PhoneGap\AppLoader.ts" />
     <Content Include="JS\System\Utils\Event.min.js">
       <DependentUpon>Event.ts</DependentUpon>
     </Content>
-    <Content Include="PhoneGap\AppLoader.js">
-      <DependentUpon>AppLoader.ts</DependentUpon>
-    </Content>
-    <Content Include="PhoneGap\AppLoader.min.js">
-      <DependentUpon>AppLoader.ts</DependentUpon>
-    </Content>
-    <TypeScriptCompile Include="PhoneGap\Config.ts" />
-    <Content Include="PhoneGap\Config.js">
-      <DependentUpon>Config.ts</DependentUpon>
-    </Content>
-    <Content Include="PhoneGap\Config.min.js">
-      <DependentUpon>Config.ts</DependentUpon>
+    <TypeScriptCompile Include="JS\System\Utils\Network.ts" />
+    <Content Include="JS\System\Utils\Network.js">
+      <DependentUpon>Network.ts</DependentUpon>
     </Content>
     <Content Include="PhoneGap\cordova_ios.js" />
     <Content Include="PhoneGap\cordova_android.js" />
     <Content Include="PhoneGap\index.html" />
     <TypeScriptCompile Include="PhoneGap\InteropProviders\SqlProvider.ts" />
     <TypeScriptCompile Include="PhoneGap\InteropProviders\ButtonProvider.ts" />
-    <TypeScriptCompile Include="PhoneGap\InteropProviders\SystemCommandProvider.ts" />
     <Content Include="PhoneGap\InteropProviders\ButtonProvider.js">
       <DependentUpon>ButtonProvider.ts</DependentUpon>
     </Content>
@@ -307,12 +364,6 @@
     <Content Include="PhoneGap\InteropProviders\SqlProvider.min.js">
       <DependentUpon>SqlProvider.ts</DependentUpon>
     </Content>
-    <Content Include="PhoneGap\InteropProviders\SystemCommandProvider.js">
-      <DependentUpon>SystemCommandProvider.ts</DependentUpon>
-    </Content>
-    <Content Include="PhoneGap\InteropProviders\SystemCommandProvider.min.js">
-      <DependentUpon>SystemCommandProvider.ts</DependentUpon>
-    </Content>
     <Content Include="PhoneGap\PhoneGapInterop.js">
       <DependentUpon>PhoneGapInterop.ts</DependentUpon>
     </Content>
@@ -320,39 +371,30 @@
       <DependentUpon>PhoneGapInterop.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="PhoneGap\_References.ts" />
-    <TypeScriptCompile Include="PhoneGap\Providers\WikitudePluginProvider.ts" />
-    <Content Include="PhoneGap\Providers\WikitudePluginProvider.js">
-      <DependentUpon>WikitudePluginProvider.ts</DependentUpon>
-    </Content>
-    <Content Include="PhoneGap\Providers\WikitudePluginProvider.min.js">
-      <DependentUpon>WikitudePluginProvider.ts</DependentUpon>
-    </Content>
-    <Content Include="PhoneGap\WikitudePlugin.js" />
+    <Content Include="PhoneGap\video.js" />
+    <Content Include="PhoneGap\webintent.js" />
     <Content Include="PhoneGap\_References.js">
       <DependentUpon>_References.ts</DependentUpon>
     </Content>
     <Content Include="PhoneGap\_References.min.js">
       <DependentUpon>_References.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\soundmanager2-jsmin.js" />
+    <Content Include="Scripts\jquery.jplayer.js" />
+    <Content Include="Scripts\jquery.swipebox.min.js" />
+    <Content Include="Scripts\knockout-2.3.0.js" />
+    <Content Include="Scripts\OpenLayers.light.debug.js" />
+    <Content Include="Scripts\OpenLayers.mobile.debug.js" />
+    <Content Include="Scripts\OpenLayers.mobile.js" />
+    <Content Include="Scripts\purl.js" />
     <Content Include="Scripts\typings\videojs\videojs.d.ts" />
     <Content Include="Scripts\video.js" />
-    <Content Include="Templates\POIAR.html" />
     <Content Include="Templates\POIPreview.html" />
-    <Content Include="Templates\Views\About.html" />
     <Content Include="Templates\Views\POIDetails.html" />
     <Content Include="UnitTests\IUnitTest.js.map">
       <DependentUpon>IUnitTest.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="JS\App\Providers\PointOfInterestTypeProvider.ts" />
     <TypeScriptCompile Include="JS\App\Controllers\FeedbackController.ts" />
-    <TypeScriptCompile Include="JS\App\Controllers\AudioController.ts" />
-    <Content Include="JS\App\Controllers\AudioController.js">
-      <DependentUpon>AudioController.ts</DependentUpon>
-    </Content>
-    <Content Include="JS\App\Controllers\AudioController.min.js">
-      <DependentUpon>AudioController.ts</DependentUpon>
-    </Content>
     <Content Include="JS\App\Controllers\FeedbackController.js">
       <DependentUpon>FeedbackController.ts</DependentUpon>
     </Content>
@@ -379,12 +421,6 @@
     <Content Include="JS\App\Providers\PointOfInterestTypeProvider.min.js">
       <DependentUpon>PointOfInterestTypeProvider.ts</DependentUpon>
     </Content>
-    <Content Include="JS\App\Providers\RouteProvider.js">
-      <DependentUpon>RouteProvider.ts</DependentUpon>
-    </Content>
-    <Content Include="JS\App\Providers\RouteProvider.min.js">
-      <DependentUpon>RouteProvider.ts</DependentUpon>
-    </Content>
     <TypeScriptCompile Include="JS\App\SearchProviders\DataSourceWikiLocation.ts" />
     <Content Include="JS\App\SearchProviders\DataSourceWikiLocation.js">
       <DependentUpon>DataSourceWikiLocation.ts</DependentUpon>
@@ -400,13 +436,6 @@
     </Content>
     <Content Include="JS\App\SearchProviders\SSRSearch.ts" />
     <TypeScriptCompile Include="JS\System\Providers\PhoneGapProvider.ts" />
-    <TypeScriptCompile Include="JS\System\Providers\AudioProvider.ts" />
-    <Content Include="JS\System\Providers\AudioProvider.js">
-      <DependentUpon>AudioProvider.ts</DependentUpon>
-    </Content>
-    <Content Include="JS\System\Providers\AudioProvider.min.js">
-      <DependentUpon>AudioProvider.ts</DependentUpon>
-    </Content>
     <Content Include="JS\System\Providers\PhoneGapProvider.js">
       <DependentUpon>PhoneGapProvider.ts</DependentUpon>
     </Content>
@@ -429,7 +458,6 @@
     <Content Include="JS\App\Controllers\RouteController.min.js">
       <DependentUpon>RouteController.ts</DependentUpon>
     </Content>
-    <Content Include="JS\App\Providers\RouteProvider.ts" />
     <Content Include="Scripts\knockout.mapping-latest.debug.js" />
     <Content Include="Scripts\knockout.mapping-latest.js" />
     <Content Include="Scripts\LatLon.js" />
@@ -454,13 +482,6 @@
     </Content>
     <TypeScriptCompile Include="JS\App\Settings.ts" />
     <TypeScriptCompile Include="JS\App\Controllers\MapController.ts" />
-    <TypeScriptCompile Include="JS\App\Controllers\ARController.ts" />
-    <Content Include="JS\App\Controllers\ARController.js">
-      <DependentUpon>ARController.ts</DependentUpon>
-    </Content>
-    <Content Include="JS\App\Controllers\ARController.min.js">
-      <DependentUpon>ARController.ts</DependentUpon>
-    </Content>
     <Content Include="JS\App\Controllers\MapController.js">
       <DependentUpon>MapController.ts</DependentUpon>
     </Content>
@@ -502,13 +523,6 @@
     <Content Include="JS\App\Controllers\UserPopupController.min.js">
       <DependentUpon>UserPopupController.ts</DependentUpon>
     </Content>
-    <Content Include="JS\App\GUI\PoiDialog.js">
-      <DependentUpon>PoiDialog.ts</DependentUpon>
-    </Content>
-    <Content Include="JS\App\GUI\PoiDialog.min.js">
-      <DependentUpon>PoiDialog.ts</DependentUpon>
-    </Content>
-    <Content Include="JS\App\GUI\PoiDialog.ts" />
     <TypeScriptCompile Include="JS\App\Models\SettingsEnums.ts" />
     <TypeScriptCompile Include="JS\App\Models\SearchCriteriaEnums.ts" />
     <Content Include="JS\App\Models\SearchCriteriaEnums.js">
@@ -555,13 +569,6 @@
     </Content>
     <Content Include="JS\System\ConfigBase.min.js">
       <DependentUpon>ConfigBase.ts</DependentUpon>
-    </Content>
-    <TypeScriptCompile Include="JS\System\Providers\ARProvider.ts" />
-    <Content Include="JS\System\Providers\ARProvider.js">
-      <DependentUpon>ARProvider.ts</DependentUpon>
-    </Content>
-    <Content Include="JS\System\Providers\ARProvider.min.js">
-      <DependentUpon>ARProvider.ts</DependentUpon>
     </Content>
     <Content Include="JS\System\Providers\GoogleAnalyticsProvider.js">
       <DependentUpon>GoogleAnalyticsProvider.ts</DependentUpon>
@@ -617,20 +624,6 @@
     <Content Include="JS\System\Utils\Serializer.min.js">
       <DependentUpon>Serializer.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="JS\System\Providers\WikitudeProvider.ts" />
-    <Content Include="JS\System\Providers\WikitudeProvider.js">
-      <DependentUpon>WikitudeProvider.ts</DependentUpon>
-    </Content>
-    <Content Include="JS\System\Providers\WikitudeProvider.min.js">
-      <DependentUpon>WikitudeProvider.ts</DependentUpon>
-    </Content>
-    <TypeScriptCompile Include="JS\System\Utils\ErrorTool.ts" />
-    <Content Include="JS\System\Utils\ErrorTool.js">
-      <DependentUpon>ErrorTool.ts</DependentUpon>
-    </Content>
-    <Content Include="JS\System\Utils\ErrorTool.min.js">
-      <DependentUpon>ErrorTool.ts</DependentUpon>
-    </Content>
     <TypeScriptCompile Include="JS\System\Utils\Translater.ts" />
     <TypeScriptCompile Include="JS\System\Utils\StringUtils.ts" />
     <Content Include="JS\System\Utils\StringUtils.js">
@@ -651,7 +644,6 @@
     <Content Include="JS\System\_References.min.js">
       <DependentUpon>_References.ts</DependentUpon>
     </Content>
-    <Content Include="Main.html" />
     <Content Include="Scripts\json2.min.js" />
     <Content Include="Scripts\OpenLayers.debug.js" />
     <Content Include="JS\System\Providers\TemplateProvider.js.map">
@@ -672,29 +664,35 @@
     <Content Include="PhoneGap\_References.js.map">
       <DependentUpon>_References.ts</DependentUpon>
     </Content>
-    <Content Include="PhoneGap\InteropProviders\SystemCommandProvider.js.map">
-      <DependentUpon>SystemCommandProvider.ts</DependentUpon>
-    </Content>
-    <Content Include="PhoneGap\AppLoader.js.map">
-      <DependentUpon>AppLoader.ts</DependentUpon>
-    </Content>
     <Content Include="PhoneGap\InteropProviders\ButtonProvider.js.map">
       <DependentUpon>ButtonProvider.ts</DependentUpon>
     </Content>
     <Content Include="PhoneGap\InteropProviders\SqlProvider.js.map">
       <DependentUpon>SqlProvider.ts</DependentUpon>
     </Content>
-    <Content Include="PhoneGap\Providers\WikitudePluginProvider.js.map">
-      <DependentUpon>WikitudePluginProvider.ts</DependentUpon>
-    </Content>
-    <Content Include="PhoneGap\Config.js.map">
-      <DependentUpon>Config.ts</DependentUpon>
-    </Content>
     <Content Include="PhoneGap\Providers\GeoLocationProvider.js.map">
       <DependentUpon>GeoLocationProvider.ts</DependentUpon>
     </Content>
     <Content Include="JS\App\Providers\EventProvider.js.map">
       <DependentUpon>EventProvider.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\System\Utils\DistanceTool.js.map">
+      <DependentUpon>DistanceTool.ts</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\MapController.min.js.map">
+      <DependentUpon>MapController.js</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Controllers\LoadingScreenController.js.map">
+      <DependentUpon>LoadingScreenController.ts</DependentUpon>
+    </Content>
+    <Content Include="PhoneGap\video.min.js.map">
+      <DependentUpon>video.js</DependentUpon>
+    </Content>
+    <Content Include="JS\App\Providers\RouteProvider.js.map">
+      <DependentUpon>RouteProvider.js</DependentUpon>
+    </Content>
+    <Content Include="JS\App\SearchProviders\DataSource.js.map">
+      <DependentUpon>DataSource.js</DependentUpon>
     </Content>
     <None Include="Scripts\OpenLayers.js_DoNotUse_NotModified" />
     <None Include="Scripts\OpenLayers.light.debug.js_DoNotUse_NotModified" />
@@ -797,26 +795,8 @@
     <Content Include="JS\App\Models\SettingsEnums.js.map">
       <DependentUpon>SettingsEnums.ts</DependentUpon>
     </Content>
-    <Content Include="JS\System\Providers\WikitudeProvider.js.map">
-      <DependentUpon>WikitudeProvider.ts</DependentUpon>
-    </Content>
     <Content Include="JS\App\Models\SearchCriteriaEnums.js.map">
       <DependentUpon>SearchCriteriaEnums.ts</DependentUpon>
-    </Content>
-    <Content Include="JS\App\GUI\PoiDialog.js.map">
-      <DependentUpon>PoiDialog.ts</DependentUpon>
-    </Content>
-    <Content Include="JS\App\Controllers\ARController.js.map">
-      <DependentUpon>ARController.ts</DependentUpon>
-    </Content>
-    <Content Include="JS\System\Providers\ARProvider.js.map">
-      <DependentUpon>ARProvider.ts</DependentUpon>
-    </Content>
-    <Content Include="JS\System\Providers\ARProvider.min.js.map">
-      <DependentUpon>ARProvider.js</DependentUpon>
-    </Content>
-    <Content Include="JS\System\Utils\ErrorTool.js.map">
-      <DependentUpon>ErrorTool.ts</DependentUpon>
     </Content>
     <Content Include="JS\App\Controllers\UserPopupController.js.map">
       <DependentUpon>UserPopupController.ts</DependentUpon>
@@ -845,9 +825,6 @@
     <Content Include="JS\App\Controllers\RouteController.js.map">
       <DependentUpon>RouteController.ts</DependentUpon>
     </Content>
-    <Content Include="JS\App\Providers\RouteProvider.js.map">
-      <DependentUpon>RouteProvider.ts</DependentUpon>
-    </Content>
     <Content Include="JS\App\Providers\PointOfInterestTypeProvider.js.map">
       <DependentUpon>PointOfInterestTypeProvider.ts</DependentUpon>
     </Content>
@@ -860,7 +837,6 @@
     <Content Include="JS\App\SearchProviders\DataSourceWikiLocation.js.map">
       <DependentUpon>DataSourceWikiLocation.ts</DependentUpon>
     </Content>
-    <Content Include="Content\TypIcons\.DS_Store" />
     <Content Include="Content\TypIcons\typicons.eot" />
     <Content Include="Content\TypIcons\typicons.ttf" />
     <Content Include="Content\TypIcons\typicons.woff" />
@@ -878,12 +854,6 @@
     </Content>
     <Content Include="JS\App\Controllers\SearchViewController.js.map">
       <DependentUpon>SearchViewController.ts</DependentUpon>
-    </Content>
-    <Content Include="JS\App\Controllers\AudioController.js.map">
-      <DependentUpon>AudioController.ts</DependentUpon>
-    </Content>
-    <Content Include="JS\System\Providers\AudioProvider.js.map">
-      <DependentUpon>AudioProvider.ts</DependentUpon>
     </Content>
     <Content Include="JS\App\Models\SettingsEnums.min.js.map">
       <DependentUpon>SettingsEnums.js</DependentUpon>
@@ -1035,10 +1005,7 @@
     <Content Include="JS\System\Startup.min.js">
       <DependentUpon>Startup.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\knockout-2.2.1.debug.js" />
-    <Content Include="Scripts\knockout-2.2.1.js" />
     <Content Include="Scripts\moment.min.js" />
-    <Content Include="Scripts\typings\durandal\durandal.d.ts" />
     <Content Include="Scripts\typings\jquery\jquery.d.ts" />
     <Content Include="Scripts\typings\moment\moment.d.ts" />
     <TypeScriptCompile Include="UnitTests\DataSourceNorvegianaTest.ts" />
@@ -1108,6 +1075,18 @@
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
+  <!-- TypeScript Stuff -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptTarget>ES3</TypeScriptTarget>
+    <TypeScriptIncludeComments>true</TypeScriptIncludeComments>
+    <TypeScriptSourceMap>true</TypeScriptSourceMap>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <TypeScriptTarget>ES3</TypeScriptTarget>
+    <TypeScriptIncludeComments>false</TypeScriptIncludeComments>
+    <TypeScriptSourceMap>false</TypeScriptSourceMap>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.                                                                                      
        Other similar extension points exist, see Microsoft.Common.targets.                                                                                                                
   <Target Name="BeforeBuild">                                                                                                                                                             

@@ -4,11 +4,9 @@
     Controller modules
     @namespace App.Controllers
 */
-module App.Controllers
-{
+module App.Controllers {
 
-    export class SearchController
-    {
+    export class SearchController {
         /** Somewhere to keep events
           *  @ignore 
           */
@@ -17,15 +15,14 @@ module App.Controllers
         public latestSearchResult: App.Models.SearchResult = null;
         private searchProvider: App.Providers.SearchProvider = null;
 
-        private searched: bool = false;
+        private firstSearch: boolean = true;
 
         /**
             SearchController
             @class App.Controllers.SearchController
             @classdesc This class assembles and perform searches
         */
-        constructor()
-        {
+        constructor() {
             this._event = $(this);
         }
 
@@ -34,8 +31,7 @@ module App.Controllers
             @method App.Controllers.SearchController#addSearchResultCallback
             @public
         */
-        public addSearchResultCallback(searchResultCallback: { (event: JQueryEventObject, searchResult: App.Models.SearchResult): void; })
-        {
+        public addSearchResultCallback(searchResultCallback: { (event: JQueryEventObject, searchResult: App.Models.SearchResult, inRoute: boolean): void; }) {
             this._event.on('SearchResult', searchResultCallback);
         }
 
@@ -44,35 +40,52 @@ module App.Controllers
             @method App.Controllers.SearchController#Init
             @public
         */
-        public Init()
-        {
-            log.debug("SearchController", "Init()");
-
-            var _that = this;
+        public postInit() {
+            log.debug("SearchController", "postInit()");
             var searchCriteria = this.searchCriteria;
-            gpsProvider.addPositionChangedHandler(
-                function (event: JQueryEventObject, pos: System.Models.Position) {
-                    if (!_that.searched && mapController.mapProvider.map) {
-                        log.debug("SearchController", "Doing first search by userpos");
-                        searchController.searched = true;
-                        searchCriteria.pos(pos);
-                        searchController.doSearch();
-                        mapController.mapProvider.setCenter(pos, settings.startMapZoomLevel());
-                    }
-                } 
-            );
+            gpsProvider.addPositionChangedHandler((event: JQueryEventObject, pos: System.Models.Position) => {
+                if (this.firstSearch) {
+                    log.debug("SearchController", "Doing first search by users positions");
+                    searchController.firstSearch = false;
+                    searchCriteria.pos(pos);
+                    searchController.doNewSearch();
+                }
+            });
 
-            // Set default values
             this.searchCriteria.radius(settings.startSearchDistance());
             this.searchCriteria.rows(settings.startResultAmount());
             this.searchCriteria.category(settings.startSearchCategory());
-            //this.searchCriteria.genre(settings.startSearchGenre());
+        }
 
-            //// Refresh all <select /> because of jQuery Mobile madness (no problem, googling this for 2 hours was fun)
-            //$("select.refreshSelectAfterDataBind").each(function (index: any, element: Element) {
-            //    $(element).selectmenu('refresh', true);
-            //});
+        /**
+            Performs a new search, by resetting the page count, and adds the searchresult to searchResultCallback
+            @method App.Controllers.SearchController#doNewSearch
+            @public
+        */
+        public doNewSearch() {
 
+            if (!this.searchCriteria.pos()) {
+                this.searchCriteria.pos(config.mapStartPos);
+            }
+            
+            this.searchCriteria.pageNumber(1);
+
+            // Create a new searchProvider, disable old if any
+            if (this.searchProvider) {
+                this.searchProvider.haltSearch();
+            }
+
+            this.searchProvider = new App.Providers.SearchProvider(this.searchCriteria, (searchResult: App.Models.SearchResult) => {
+                this.searchResultCallback(this, searchResult);
+            });
+
+            // Perform search
+            if (networkHelper.isConnected()) {
+                loadingScreenController.showLoadingScreen("");
+                this.searchProvider.search(this.searchCriteria.pageNumber());
+            } else {
+                networkHelper.displayNetworkError();
+            }
         }
 
         /**
@@ -80,35 +93,22 @@ module App.Controllers
             @method App.Controllers.SearchController#doSearch
             @public
         */
-        public doSearch()
-        {
-            // Create a new searchProvider, disable old if any
-            if (this.searchProvider)
-                this.searchProvider.haltSearch();
-            this.searchProvider = new App.Providers.SearchProvider();
-
-            // Perform search
-            var srcb = this.searchResultCallback;
-            var _t = this;
-            this.searchProvider.search(this.searchCriteria,
-                function (searchResult: App.Models.SearchResult) { srcb(_t, searchResult); },
-                function (errorMessage) {
-                    log.debug("SearchController", errorMessage);
-                }
-            );            
+        public doSearch() {
+            loadingScreenController.showLoadingScreen("");
+            setTimeout(() => this.searchProvider.search(this.searchCriteria.pageNumber()), 25);
         }
 
         /**
             Trigger event for renderer listeners
             @method App.Controllers.SearchController#searchResultCallback
         */
-        public searchResultCallback(_this: SearchController, searchResult: App.Models.SearchResult)
-        {
+        public searchResultCallback(that: SearchController, searchResult: App.Models.SearchResult, inRoute: boolean = false) {
             log.debug("SearchController", "Triggering callback events");
-            _this.latestSearchResult = searchResult;
-            _this._event.trigger('SearchResult', searchResult);
+            that.latestSearchResult = searchResult;
+            that._event.trigger('SearchResult', [searchResult, inRoute]);
+            loadingScreenController.hideLoadingScreen();
         }
     }
 }
 var searchController = new App.Controllers.SearchController();
-startup.addPreInit(function () { searchController.Init(); }, "SearchController");
+startup.addPostInit(() => { searchController.postInit(); }, "SearchController");

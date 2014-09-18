@@ -15,7 +15,7 @@ interface KnockoutSubscribableFunctions {
 
 interface KnockoutComputedFunctions extends KnockoutSubscribableFunctions {
     getDependenciesCount(): number;
-    hasWriteFunction(): bool;
+    hasWriteFunction(): boolean;
 }
 
 interface KnockoutObservableFunctions extends KnockoutSubscribableFunctions {
@@ -95,13 +95,13 @@ interface KnockoutObservableStatic {
     (value: string): KnockoutObservableString;
     (value: Date): KnockoutObservableDate;
     (value: number): KnockoutObservableNumber;
-    (value: bool): KnockoutObservableBool;
+    (value: boolean): KnockoutObservableBool;
     (value?: any): KnockoutObservableAny;
 
     new(value: string): KnockoutObservableString;
     new(value: Date): KnockoutObservableDate;
     new(value: number): KnockoutObservableNumber;
-    new(value: bool): KnockoutObservableBool;
+    new(value: boolean): KnockoutObservableBool;
     new(value?: any): KnockoutObservableAny;
 }
 
@@ -147,11 +147,11 @@ interface KnockoutObservableNumber extends KnockoutObservableBase {
 }
 
 interface KnockoutObservableBool extends KnockoutObservableBase {
-    (): bool;
-    (value: bool): void;
+    (): boolean;
+    (value: boolean): void;
 
-    subscribe(callback: (newValue: bool) => void, target?:any, topic?: string): KnockoutSubscription;
-    notifySubscribers(valueToWrite: bool, topic?: string);
+    subscribe(callback: (newValue: boolean) => void, target?:any, topic?: string): KnockoutSubscription;
+    notifySubscribers(valueToWrite: boolean, topic?: string);
 }
 
 interface KnockoutObservableDate extends KnockoutObservableBase {
@@ -227,7 +227,7 @@ interface KnockoutMemoization {
 interface KnockoutVirtualElement {}
 
 interface KnockoutVirtualElements {
-	allowedBindings: { [bindingName: string]: bool; };
+	allowedBindings: { [bindingName: string]: boolean; };
 	emptyNode( e: KnockoutVirtualElement );
 	firstChild( e: KnockoutVirtualElement );
 	insertAfter( container: KnockoutVirtualElement, nodeToInsert: HTMLElement, insertAfter: HTMLElement );
@@ -267,7 +267,7 @@ interface KnockoutUtils {
 
         set (node: Element, key: string, value: any);
 
-        getAll(node: Element, createIfNotFound: bool);
+        getAll(node: Element, createIfNotFound: boolean);
 
         clear(node: Element);
     };
@@ -296,7 +296,7 @@ interface KnockoutUtils {
 
     arrayIndexOf(array: any[], item: any): number;
 
-    arrayFirst(array: any[], predicate: (item) => bool, predicateOwner?: any): any;
+    arrayFirst(array: any[], predicate: (item) => boolean, predicateOwner?: any): any;
 
     arrayRemoveItem(array: any[], itemToRemove: any): void;
 
@@ -304,7 +304,7 @@ interface KnockoutUtils {
 
     arrayMap(array: any[], mapping: (item) => any): any[];
 
-    arrayFilter(array: any[], predicate: (item) => bool): any[];
+    arrayFilter(array: any[], predicate: (item) => boolean): any[];
 
     arrayPushAll(array: any[], valuesToPush: any[]): any[];
 
@@ -314,13 +314,13 @@ interface KnockoutUtils {
 
     moveCleanedNodesToContainerElement(nodes: any[]): HTMLElement;
 
-    cloneNodes(nodesArray: any[], shouldCleanNodes: bool): any[];
+    cloneNodes(nodesArray: any[], shouldCleanNodes: boolean): any[];
 
     setDomNodeChildren(domNode: any, childNodes: any[]): void;
 
     replaceDomNodes(nodeToReplaceOrNodeArray: any, newNodesArray: any[]): void;
 
-    setOptionNodeSelectionState(optionNode: any, isSelected: bool): void;
+    setOptionNodeSelectionState(optionNode: any, isSelected: boolean): void;
 
     stringTrim(str: string): string;
 
@@ -328,9 +328,9 @@ interface KnockoutUtils {
 
     stringStartsWith(str: string, startsWith: string): string;
 
-    domNodeIsContainedBy(node: any, containedByNode: any): bool;
+    domNodeIsContainedBy(node: any, containedByNode: any): boolean;
 
-    domNodeIsAttachedToDocument(node: any): bool;
+    domNodeIsAttachedToDocument(node: any): boolean;
 
     tagNameLower(element: any): string;
 
@@ -340,13 +340,13 @@ interface KnockoutUtils {
 
     unwrapObservable(value: any): any;
 
-    toggleDomNodeCssClass(node: any, className: string, shouldHaveClass: bool): void;
+    toggleDomNodeCssClass(node: any, className: string, shouldHaveClass: boolean): void;
 
     //setTextContent(element: any, textContent: string): void; // NOT PART OF THE MINIFIED API SURFACE (ONLY IN knockout-{version}.debug.js) https://github.com/SteveSanderson/knockout/issues/670
 
     setElementName(element: any, name: string): void;
 
-    ensureSelectElementIsRenderedCorrectly(selectElement);
+    //ensureSelectElementIsRenderedCorrectly(selectElement);
 
     forceRefresh(node: any): void;
 
@@ -366,9 +366,9 @@ interface KnockoutUtils {
 
     ieVersion: number;
 
-    isIe6: bool;
+    isIe6: boolean;
 
-    isIe7: bool;
+    isIe7: boolean;
 }
 
 //////////////////////////////////
@@ -416,7 +416,7 @@ interface KnockoutTemplateEngine extends KnockoutNativeTemplateEngine {
 
     renderTemplate(template, bindingContext, options, templateDocument);
 
-    isTemplateRewritten(template, templateDocument): bool;
+    isTemplateRewritten(template, templateDocument): boolean;
 
     rewriteTemplate(template, rewriterCallback, templateDocument);
 }
@@ -440,11 +440,11 @@ interface KnockoutStatic {
     observableArray: KnockoutObservableArrayStatic;
 
     contextFor(node: any): any;
-    isSubscribable(instance: any): bool;
+    isSubscribable(instance: any): boolean;
     toJSON(viewModel: any, replacer?: Function, space?: any): string;
     toJS(viewModel: any): any;
-    isObservable(instance: any): bool;
-    isComputed(instance: any): bool;
+    isObservable(instance: any): boolean;
+    isComputed(instance: any): boolean;
     dataFor(node: any): any;
     removeNode(node: Element);
     cleanNode(node: Element);

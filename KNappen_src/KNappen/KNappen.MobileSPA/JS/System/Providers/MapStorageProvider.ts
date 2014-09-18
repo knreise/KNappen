@@ -4,125 +4,138 @@
     @namespace System.Providers
 */
 module System.Providers {
-    declare var config;
+
+    declare var cache;
+    declare var arrayStore;
 
     export class MapStorageProvider {
+
+        private static tableMapCache: string = "mapcache";
+
+        private mapCache: any;
+        private cacheLoaded: boolean;
+        private hasDatabase: boolean;
+
         /**
           * MapStorageProvider
           * @class System.Providers.MapStorageProvider
           * @classdesc Wrapper for StorageProvider for map.
           */
-        constructor() {}
-
-        private enabled: bool = true;
+        constructor() {
+            this.mapCache = new cache();
+            this.mapCache.setStore(arrayStore);
+            this.cacheLoaded = false;
+            this.hasDatabase = compatibilityInfo.isMobile;
+        }
 
         /**
-          * Enable/disable this class.
-          * @method System.Providers.MapStorageProvider#setEnabled
-          * @param {bool} enable Enable storage provider.
-         */
-        public setEnabled(enabled: bool) {
-            log.debug("MapStorageProvider", "Setting enabled state to: " + enabled);
-            this.enabled = enabled;
-        }
-
-         /**
-          * Get map tile from certain cache type.
-          * @method System.Providers.MapStorageProvider#get
-          * @param {string} cacheType Type of cache to use
-          * @param {string} key Cache key to retrieve
+          * Load cached tiles from database.
+          * @method System.Providers.MapStorageProvider#loadCache
           */
-        public get(cacheType: string, key: string): string {
-            if (!this.enabled)
-                return null;
-
-            var value = null;
-            // Get from standard cache
-            if (cacheType === "standard")
-                value = storageProvider.get("map:standard:" + stringUtils.hash(key));
-            // Get from precache
-            if (value) {
-                log.debug("MapStorageProvider", "Getting tile from standard cache: " + key);
+        public loadStoredCache(): void {
+            if (this.hasDatabase && !this.cacheLoaded) {
+                log.debug("MapStorageProvider", "Loading tiles from database");
+                var sql = "SELECT * FROM " + MapStorageProvider.tableMapCache;
+                sqlProvider.sqlDo("LoadTiles", (tx, results) => this.loadCacheSuccessCallback(tx, results), (error) => this.loadCacheErrorCallback(error), null, sql, null);
             }
-            else {
-                value = storageProvider.get("map:precache:" + stringUtils.hash(key));
-                if (value)
-                    log.debug("MapStorageProvider", "Getting tile from precache: " + key);
-            }
-            if (!value)
-                log.debug("MapStorageProvider", "Getting tile from cache failed: " + key);
-
-            return value;
         }
-
-         /**
-          * Set map tile for certain cache type.
-          * @method System.Providers.MapStorageProvider#set
-          * @param {string} cacheType Type of cache to use
-          * @param {string} key Cache key to set
-          * @param {string} value Cache value to set
+        
+        /**
+          * Check if a tile is cached.
+          * @method System.Providers.MapStorageProvider#hasTile
           */
-        public set(cacheType: string, key: string, value: string) {
-            if (!this.enabled)
-                return null;
-            log.debug("MapStorageProvider", "Adding tile to cache: " + key);
-
-            var fullKey = "map:" + cacheType + ":" + stringUtils.hash(key);
-            storageProvider.set(fullKey, value);
-            this.cleanHistory(cacheType);
+        public hasTile(url: string): void {
+            this.mapCache.has(url);
         }
-
-         /**
-          * Clean up history for certain cache type, using ConfigBase.mapCacheTileLimit[cacheType] as limit.
-          * @method System.Providers.MapStorageProvider#cleanHistory
-          * @param {string} cacheType Type of cache to clean
+        
+        /**
+          * Try fetch a cached tile.
+          * @method System.Providers.MapStorageProvider#fetchTile
           */
-        public cleanHistory(cacheType: string) {
-            // Get a list of tiles we want
-            var startKey = "map:" + cacheType + ":";
-            var sortedList: any[] = [];
-            $.each(storageProvider.getAll(), function (k, v) {
-                if (stringUtils.startsWith(k, startKey) && !stringUtils.endsWith(k, ".meta")) {
-                    sortedList.push({ key: k, value: v, meta: storageProvider.getMeta(k) });
-                }
-            });
-
-            // Sort by date
-            sortedList.sort(function (a: any, b: any): number {
-                return (a.meta.changed - b.meta.changed);
-            });
-
-            // Make sure missing definition in config doesn't lead to immediate deletion of cache
-            var tileLimit = config.mapCacheTileLimit[cacheType];
-            if (tileLimit < 1)
-                tileLimit = 10000;
-
-            // Remove old tiles
-            var amountToRemove: number = sortedList.length - tileLimit;
-            if (amountToRemove > 0) {
-                for (var i: number = 0; i < amountToRemove; i++) {
-                    log.debug("MapStorageProvider", "Removing cache overflow:" + sortedList[i].meta.changed + ": " + sortedList[i].key);
-                    storageProvider.remove(sortedList[i].key);
-                }
-            }
-
+        public fetchTile(url: string): any {
+            return this.mapCache.get(url);
+        }
+        
+        /**
+          * Save tile to cache.
+          * @method System.Providers.MapStorageProvider#cacheTile
+          */
+        public cacheTile(url: string, tile: any): void {
+            this.mapCache.set(url, tile);
         }
 
-         /**
+        /**
+          * Save tile to database.
+          * @method System.Providers.MapStorageProvider#storeTile
+          * @param {string} url Cache key to set
+          * @param {string} tile Cache value to set
+          */
+        public storeTile(url: string, tile: any): void {
+            if (this.hasDatabase) {
+                log.debug("MapStorageProvider", "Adding tile to cache: " + url);
+                var sql = "INSERT OR IGNORE INTO " + MapStorageProvider.tableMapCache + " (key, value) VALUES (?, ?)";
+                sqlProvider.sqlDo("StoreTile", (tx, results) => this.storeTileSuccessCallback(tx, results), (error) => this.storeTileErrorCallback(error), null, sql, [url, tile]);
+            }
+        }
+
+        /**
           * Clear cache for certain cacheType.
-          * @method System.Providers.MapStorageProvider#clear
+          * @method System.Providers.MapStorageProvider#clearCache
           * @param {string} cacheType Type of cache to clear
           */
-        public clear(cacheType: string) {
-            log.info("MapStorageProvider", "Clearing cache for type: " + cacheType);
+        public clearCache() {
+            delete this.mapCache;
+            this.mapCache = new cache();
+            this.mapCache.setStore(arrayStore);
 
-            var startKey = "map:" + cacheType + ":";
-            $.each(storageProvider.getAll(), function (k, v) {
-                if (stringUtils.startsWith(k, startKey) && !stringUtils.endsWith(k, ".meta")) {
-                    storageProvider.remove(k);
+            if (this.hasDatabase) {
+                log.info("MapStorageProvider", "Clearing saved cache");
+                var sql = "DELETE FROM " + MapStorageProvider.tableMapCache;
+                sqlProvider.sqlDo("ClearTiles", (tx, results) => this.clearCacheSuccessCallback(tx, results), (error) => this.clearCacheErrorCallback(error), null, sql, null);
+            }
+        }
+
+        private loadCacheSuccessCallback(tx: SQLTransaction, results: SQLResultSet): void {
+            log.debug("MapStorageProvider", "Map cache loaded from database");
+            log.debug("MapStorageProvider", "Number of tiles cached: " + results.rows.length);
+
+            var len = results.rows.length;
+
+            try {
+                for (var i = 0; i < len; i++) {
+                    var rKey = results.rows.item(i).key;
+                    var rValue = results.rows.item(i).value;
+
+                    this.cacheTile(rKey, rValue);
                 }
-            });
+                log.debug("MapStorageProvider", "Done loading Map cache");
+            } catch (e) {
+                log.error("MapStorageProvider", "Error loading tiles to cache from sqlresultset: " + e.toString());
+            }
+
+            this.cacheLoaded;
+        }
+
+        private loadCacheErrorCallback(error: SQLError): void {
+            log.error("MapStorageProvider", "Error loading map cache from database: " + error.code + " - " + error.message);
+        }
+
+        private storeTileSuccessCallback(tx: SQLTransaction, results: SQLResultSet): void {
+            log.debug("MapStorageProvider", "Saved tile to database");
+        }
+
+        private storeTileErrorCallback(error: SQLError): void {
+            log.error("MapStorageProvider", "Error saving tile to database: " + error.code + " - " + error.message);
+        }
+
+        private clearCacheSuccessCallback(tx: SQLTransaction, results: SQLResultSet): void {
+            log.debug("MapStorageProvider", "Map cache cleared from database");
+        }
+
+        private clearCacheErrorCallback(error: SQLError): void {
+            log.error("MapStorageProvider", "Error clearing map cache from database: " + error.code + " - " + error.message);
         }
     }
 }
 var mapStorageProvider = new System.Providers.MapStorageProvider();
+startup.addPostInit(() => mapStorageProvider.loadStoredCache(), "MapStorageProvider");

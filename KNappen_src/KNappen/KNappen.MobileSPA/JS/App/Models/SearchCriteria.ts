@@ -85,13 +85,6 @@ module App.Models
             @type {App.Models.SearchCriteriaSortingEnum}
         */
         public sort: App.Models.SearchCriteriaSortingEnum = App.Models.SearchCriteriaSortingEnum.Distance;
-        /**
-            Norvegiana Query Fields
-            @member App.Models.SearchCriteria#norvegiana_qf
-            @public
-            @type {KnockoutObservableArray}
-        */
-        public norvegiana_qf: KnockoutObservableArray = ko.observableArray();
     }
 
 }

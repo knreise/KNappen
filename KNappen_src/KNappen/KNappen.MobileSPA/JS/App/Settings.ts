@@ -13,6 +13,7 @@ module App {
         public mapTypes: KnockoutObservableArray;
         public mapZoomLevels: KnockoutObservableArray;
         public searchDistances: KnockoutObservableArray;
+        public searchCategories: KnockoutObservableArray;
         public resultAmounts: KnockoutObservableArray;
         public views: KnockoutObservableArray;
 
@@ -25,13 +26,13 @@ module App {
         public startView: KnockoutObservableString = ko.observable('mapView');
 
         public adminPassword: KnockoutObservableString = ko.observable('');
-        public disableCaching: KnockoutObservableBool = ko.observable(false);
+        public disableCaching: KnockoutObservableBool = ko.observable(true);
 
         constructor() {
         }
 
-        public PreInit() {
-            log.debug("Settings", "PreInit()");
+        public init() {
+            log.debug("Settings", "init()");
 
             // Load settings if we have any
             this.load();
@@ -43,7 +44,7 @@ module App {
             eventProvider.settings.onPostSave.trigger();
         }
 
-        public load(): bool {
+        public load(): boolean {
             eventProvider.settings.onPreLoad.trigger();
             var ret = serializer.deserializeKnockoutObjectFromFile("Settings", this);
             this.setOverrides();
@@ -52,13 +53,31 @@ module App {
         }
 
         private setOverrides() {
-            this.mapTypes = ko.observableArray([
-                { id: "WMS:std0:norges_grunnkart", name: "Norges grunnkart" },
-                { id: "WMS:std0:topo2", name: "Topologisk" },
-                //{ id: "nib0:NiB", name: "Flyfoto" },
-                //{ id: "WMTS:nib0:NiB", name: "Flyfoto" },
-            ]);
 
+            if (!this.searchCategories) {
+                this.searchCategories = ko.observableArray([
+                    { "text": "Alle kategorier", "category": "*" },
+                    { "text": "Arkeologi", "category": "Arkeologi" },
+                    { "text": "Arkitektur", "category": "Arkitektur" },
+                    { "text": "Dyr", "category": "Dyr" },
+                    { "text": "Folketelling", "category": "Folketelling" },
+                    { "text": "Fugler", "category": "Fugler" },
+                    { "text": "Historie og samfunn", "category": "Historie og samfunn" },
+                    { "text": "Kulturminner", "category": "Kulturminner" },
+                    { "text": "Kunst", "category": "Kunst" },
+                    { "text": "Planter", "category": "Planter" },
+                    { "text": "Stedsnavn", "category": "Stedsnavn" },
+                    { "text": "Verneområder", "category": "Verneområder" },
+                    { "text": "Wikipedia", "category": "Wikipedia" }
+                ]);
+            }
+
+            
+
+            this.mapTypes = ko.observableArray([
+                { id: "WMS:std0:norges_grunnkart", name: "Forenklet" },
+                { id: "WMS:std0:topo2", name: "Detaljer" }
+            ]);
 
             this.mapZoomLevels = ko.observableArray(
                 [
@@ -71,9 +90,9 @@ module App {
                     { id: 13, name: "13 (by)" },
                     { id: 14, name: "14" },
                     { id: 15, name: "15 (bydel)" },
-                    { id: 15, name: "16" },
-                    { id: 15, name: "17" },
-                    { id: 15, name: "18 (gate)" }
+                    { id: 16, name: "16" },
+                    { id: 17, name: "17" },
+                    { id: 18, name: "18 (gate)" }
                 ]);
 
             this.searchDistances = ko.observableArray([
@@ -91,8 +110,7 @@ module App {
                 { id: 10, name: "1 mil" },
                 { id: 20, name: "2 mil" },
                 { id: 50, name: "5 mil" },
-                { id: 100, name: "10 mil" },
-                //{ id: 0, name: "Alt" }
+                { id: 100, name: "10 mil" }
             ]);
 
             this.resultAmounts = ko.observableArray([
@@ -103,23 +121,14 @@ module App {
                 { id: 100, name: "100" },
             ]);
 
-            //Removed this because of a bug we didn't have time to fix
-            //{ id: "arView", name: "Utvidet virkelighet" }
             this.views = ko.observableArray([
                 { id: "mapView", name: "Kart" },
-                { id: "listView", name: "Søkeresultat" },
+                { id: "listView", name: "Liste" },
             ]);
-
         }
-    
-        //this.searchCategories = ko.observableArray([
-        //    { id: "mapView", name: "Kart" },
-        //    { id: "listView", name: "Søkeresultat" },
-        //    { id: "arView", name: "Utvidet virkelighet" }
-        //]);
 
     }
 
 }
 var settings = new App.Settings();
-startup.addPreInit(function () { settings.PreInit(); });
+startup.addInit(function () { settings.init(); });

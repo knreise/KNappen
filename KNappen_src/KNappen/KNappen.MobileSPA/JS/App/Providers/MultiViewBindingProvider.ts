@@ -28,21 +28,25 @@ module App.Providers
         public PostInit() {
             log.debug("MultiViewBindingProvider", "PostInit()");
 
+            this.RefreshBindings();
+           // this.refresh();
+
+            // Sign up to autobind search result
+            var _this = this;
+            searchController.addSearchResultCallback(
+                function (event: JQueryEventObject, searchResult: App.Models.SearchResult, inRoute: boolean) {
+                _this.searchResult(searchResult);
+            });
+
+        }
+
+        public RefreshBindings() {
             // Grab some objects that are ready already
             this.searchCriteria(searchController.searchCriteria);
             this.settings(settings);
 
             // Databind settings object         
             ko.applyBindings(multiViewBindingProvider);
-           // this.refresh();
-
-            // Sign up to autobind search result
-            var _this = this;
-            searchController.addSearchResultCallback(
-                function (event: JQueryEventObject, searchResult: App.Models.SearchResult) {
-                _this.searchResult(searchResult);
-            });
-
         }
 
         //public refresh() {

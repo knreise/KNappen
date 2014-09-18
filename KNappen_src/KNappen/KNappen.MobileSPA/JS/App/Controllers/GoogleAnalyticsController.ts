@@ -24,6 +24,7 @@ module App.Controllers {
         */
         public PreInit() {
             this.googleAnalyticsProvider = new System.Providers.GoogleAnalyticsProvider();
+            startup.finishedPreInit("GoogleAnalyticsController");
         }
 
         /**
@@ -40,5 +41,5 @@ module App.Controllers {
     }
 }
 var googleAnalyticsController = new App.Controllers.GoogleAnalyticsController();
-startup.addInit(function () { googleAnalyticsController.Init(); }, "GoogleAnalyticsController");
 startup.addPreInit(function () { googleAnalyticsController.PreInit(); }, "GoogleAnalyticsController");
+startup.addInit(function () { googleAnalyticsController.Init(); }, "GoogleAnalyticsController");

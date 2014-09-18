@@ -1,9 +1,11 @@
 ﻿using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Security;
 using KNappen.KNappenService.Models;
 using ServiceStack.ServiceInterface;
 using ServiceStack.ServiceInterface.Cors;
+using System;
 
 namespace KNappen.KNappenService.api
 {
@@ -32,16 +34,21 @@ namespace KNappen.KNappenService.api
             if (!Utils.isFilenameSafe(route.id))
                 throw new SecurityException("Invalid character in id.");
 
-
             var test = route.adminPwd != ConfigurationManager.AppSettings["AdminPwd"].ToString() ? false : true;
             if (!test)
                 throw new SecurityException("Invalid admin password.");
 
-            var fileName = Utils.GetRoutePath(route.id).ToString();
+            var fileName = Utils.GetRoutePath(route.id + "-" + Guid.NewGuid()).ToString();
 
-            // Remove existing if any
-            if (File.Exists(fileName))
-                File.Delete(fileName);
+            Utils.EnsureRouteFolderExists();
+
+            foreach (var oldFile in Directory.GetFiles(Utils.GetRoutePath()).Where(f => f.Contains(route.id)).ToList())
+            {
+                if (File.Exists(oldFile))
+                {
+                    File.Delete(oldFile);
+                }
+            }
 
             // If we have data, write new (if not, assume delete)
             if (!string.IsNullOrEmpty(route.data))

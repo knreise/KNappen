@@ -14,7 +14,7 @@ module System {
           Log level
           @type System.Diagnostics.LogTypeEnum.Debug
           */
-        public logLevel = System.Diagnostics.LogTypeEnum.Debug;
+        public logLevel = System.Diagnostics.LogTypeEnum.Error;
         
         /**
           Short name of application
@@ -34,8 +34,6 @@ module System {
 
         public mapBingAPIKey: string = "XXX";
 
-        public wikitudeAddPoiDelayMs: number = 500;
-
         public openLayersMapUrl: { [key: string]: string; } = {};
 
         public httpDownloadMaxSimultaneousDownloads: number = 10;
@@ -43,16 +41,19 @@ module System {
         public mapMinZoomLevel: number = 5;
         public mapMaxZoomLevel: number = 18;
 
+        public mapCacheValidZoomLevels: Array<number> = [14];
+
         public mapCacheTileLimit: { [cacheType: string]: number; } = {};
         public mapCacheLevelDetail: { [level: number]: System.MapCacheLevelItem; } = {};
         public mapCacheMapType: string = "WMS:std0:norges_grunnkart"; 
+        public mapCenterMarker: string = "";
 
         public mapUseCache = true;
 
-        public TemplateProviderFolder: string = "Templates/";
+        public TemplateProviderFolder: string = "./../Templates/";
 
         public maxViewControllerBackHistory: number = 2;
-        public locationUpdateRateMs = 3000;
+        public locationUpdateRateMs = 10000;
 
         /**
          * BaseConfig
@@ -60,11 +61,10 @@ module System {
          * @classdesc Contains base config (available to System namespace). Inherited by App.Config.
          */
         constructor() {            
-            this.TemplateProviderFolder = this.fixLocalFileRef(this.TemplateProviderFolder);
             log.setLogLevel(this.logLevel);
 
             this.openLayersMapUrl["std0"] = "http://opencache.statkart.no/gatekeeper/gk/gk.open?SERVICE=WMS&";
-            //this.openLayersMapUrl["std0"] = "http://knappen.konge.net/KNappenService.Prod/WebProxy.aspx?url=http%3A%2F%2Fopencache.statkart.no%2Fgatekeeper%2Fgk%2Fgk.open%3FSERVICE%3DWMS%26";
+            //this.openLayersMapUrl["std0"] = "http://knappen.kodeogdemo.no:8081/knappenservice/WebProxy.aspx?url=http%3A%2F%2Fopencache.statkart.no%2Fgatekeeper%2Fgk%2Fgk.open%3FSERVICE%3DWMS%26";
             //this.openLayersMapUrl["std0"] = "http://localhost:44000/WebProxy.aspx?url=http%3A%2F%2Fopencache.statkart.no%2Fgatekeeper%2Fgk%2Fgk.open%3FSERVICE%3DWMS%26";
             //this.openLayersMapUrl["nib0"] = "http://gatekeeper2.geonorge.no/BaatGatekeeper/gk/gk.nibcache?SERVICE=WMS&VERSION=1.1.1&GKT=1E9156534710F9F931B5EEC69FF377B9F6BC6A323696A5EEDFFC660CE39D323580D78D097EF1DB60446FA6981469D4101AC9B95040AF2D3AAB579AAE6F8C5E79";
             this.openLayersMapUrl["nib0"] = "http://wms.geonorge.no/skwms1/wms.kartdata_nib/TI_BK3GBKL3";
@@ -85,7 +85,7 @@ module System {
         }
 
         public fixLocalFileRef(file: string): string {
-            if (compatibilityInfo.isPhoneGap && compatibilityInfo.isAndroid) {
+            if (compatibilityInfo.isAndroid) {
                 return "file:///" + ("android_asset/world/KNappen/" + file).replace(/\/\//, "/");
             } else {
                 return file;

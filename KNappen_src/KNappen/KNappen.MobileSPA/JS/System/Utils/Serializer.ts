@@ -39,12 +39,12 @@ module System.Utils {
           */
         public deserializeJSObjectFromFile(fileName: string, instanceToUse: any): any {
             var json = storageProvider.get("FileStore:" + fileName);
-            //if (json) {
-            var tempObj = this.deserializeJSObject(json);
+            if (json) {
+                var tempObj = this.deserializeJSObject(json);
 
-            if (instanceToUse)
-                $.extend(instanceToUse, tempObj);
-            //}
+                if (instanceToUse)
+                    $.extend(instanceToUse, tempObj);
+            }
 
             return instanceToUse;
         }
@@ -69,8 +69,9 @@ module System.Utils {
           * @param {string} fileName Name of place in localstorage
           * @param {any} instanceToUse Object to serialize localstorage data into
           */
-        public deserializeKnockoutObjectFromFile(fileName: string, instanceToUse: any): bool {
+        public deserializeKnockoutObjectFromFile(fileName: string, instanceToUse: any): boolean {
             var jsonStr = storageProvider.get("FileStore:" + fileName);
+
             if (!jsonStr)
                 return false;
 
@@ -124,7 +125,9 @@ module System.Utils {
             if (!jsonString)
                 return null;
 
-            var tempObj: any = ko.mapping.fromJS(JSON.parse(jsonString));
+            try {
+                var tempObj: any = ko.mapping.fromJS(JSON.parse(jsonString));
+            } catch (error) { }
 
             // Copy variables and make them Knockout observable
             $.extend(instanceToUse, tempObj);

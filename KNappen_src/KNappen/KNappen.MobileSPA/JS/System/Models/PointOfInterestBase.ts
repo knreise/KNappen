@@ -48,7 +48,7 @@ module System.Models {
             @public
             @type {KnockoutObservableString}
         */
-        public iconURL: KnockoutObservableString = ko.observable("Content/images/AppIcons/defaultPoiIcon.png");
+        public iconURL: KnockoutObservableString = ko.observable("./../Content/images/AppIcons/defaultPoiIcon.png");
 
         /**
             iconMediaTypeURL
@@ -56,7 +56,7 @@ module System.Models {
             @public
             @type {KnockoutObservableString}
         */
-        public iconMediaTypeURL: KnockoutObservableString = ko.observable("Content/images/MediaTypes/text.png");
+        public iconMediaTypeURL: KnockoutObservableArray = ko.observableArray([]);
 
         /**
             iconCategoryURL
@@ -64,7 +64,23 @@ module System.Models {
             @public
             @type {KnockoutObservableString}
         */
-        public iconCategoryURL: KnockoutObservableString = ko.observable("Content/images/Categories/defaultCategory.png");
+        public iconCategoryURL: KnockoutObservableString = ko.observable("./../Content/images/Categories/defaultCategory.png");
+
+        /**
+            iconInactiveCategoryURL
+            @member System.Models.PointOfInterestBase#iconInactiveCategoryURL
+            @public
+            @type {KnockoutObservableString}
+        */
+        public iconInactiveCategoryURL: KnockoutObservableString = ko.observable("./../Content/images/Categories/defaultCategory.png");
+
+        /**
+            iconActiveCategoryURL
+            @member System.Models.PointOfInterestBase#iconActiveCategoryURL
+            @public
+            @type {KnockoutObservableString}
+        */
+        public iconActiveCategoryURL: KnockoutObservableString = ko.observable("./../Content/images/Categories/defaultCategory.png.Active.png");
 
         /**
             iconGenreURL
@@ -72,7 +88,7 @@ module System.Models {
             @public
             @type {KnockoutObservableString}
         */
-        public iconGenreURL: KnockoutObservableString = ko.observable("Content/images/AppIcons/defaultPoiIcon.png");
+        public iconGenreURL: KnockoutObservableString = ko.observable("./../Content/images/AppIcons/defaultPoiIcon.png");
         /**
             iconWidth
             @member System.Models.PointOfInterestBase#iconWidth
@@ -88,13 +104,6 @@ module System.Models {
         */
         public iconHeight: KnockoutObservableNumber = ko.observable(40);
         /**
-            lastKnockDistanceMeter
-            @member System.Models.PointOfInterestBase#lastKnownDistanceMeter
-            @public
-            @type {KnockoutObservableNumber}
-        */
-        public lastKnownDistanceMeter: KnockoutObservableNumber = ko.observable(0);
-        /**
             source
             @member System.Models.PointOfInterestBase#source
             @public
@@ -102,10 +111,25 @@ module System.Models {
         */
         public source: KnockoutObservableString = ko.observable('');
         /**
-            EventProvider_Settings
-            @class App.Providers.EventProvider_Settings
-            @classdesc Provides Settings events
+            sourceType
+            @member System.Models.PointOfInterestBase#sourceType
+            @public
+            @type {KnockoutObservableString}
         */
         public sourceType: KnockoutObservableString = ko.observable('');
+        /**
+            distanceInKm
+            @member System.Models.PointOfInterestBase#distanceInKm
+            @public
+            @type {KnockoutObservableString}
+        */
+        public distanceInKm: KnockoutObservableString = ko.observable('-');
+        /**
+            distance
+            @member System.Models.PointOfInterestBase#distance
+            @public
+            @type {KnockoutObservableNumber}
+        */
+        public distance: KnockoutObservableNumber = ko.observable(0);
     }
 }

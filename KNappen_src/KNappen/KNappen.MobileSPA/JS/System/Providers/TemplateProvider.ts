@@ -29,6 +29,11 @@ module System.Providers {
             if (!stringUtils.endsWith(config.TemplateProviderFolder, "/") && !stringUtils.startsWith(name, "/"))
                 name = "/" + name;
             var fullName = config.TemplateProviderFolder + name;
+
+            if (compatibilityInfo.isAndroid) {
+                fullName = "file:///" + ("android_asset/world/KNappen/Templates/" + name);
+            }
+
             var item = new System.Providers.HttpDownloadItem(name,
                 fullName,
                 function _doneCallback(data: string) {
@@ -134,12 +139,3 @@ module System.Providers {
     }
 }
 var templateProvider = new System.Providers.TemplateProvider();
-startup.addPostInit(function () {
-    //templateProvider.queueTemplateDownload("TestTemplate.html");
-    //var keys: { [name: string]: string; } = {};
-    //keys["Key1"] = "ReplacementKey1";
-    //keys["Key2"] = "ReplacementKey2";
-    //setTimeout(function () {
-    //    var str = templateProvider.getTemplate("TestTemplate.html", keys);
-    //}, 5000);
-});

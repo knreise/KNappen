@@ -2,14 +2,167 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>KNappen</title>
+
     <meta charset="utf-8" />
     <meta name="format-detection" content="telephone=no" />
-    <meta name="viewport" content="width=320, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    
-    <!-- Third party -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="HandheldFriendly" content="true" />
+
+    <!-- Stylesheets -->
+    <link href="../Content/themes/base/jquery-ui.css" rel="stylesheet" />
+    <link href="../Content/toastr.css" rel="stylesheet" />
+    <link href="../Content/themes/base/jquery.ui.dialog.css" rel="stylesheet" />
+    <link href="../Content/TypIcons/typicons.min.css" rel="stylesheet" />
+    <link href="../Content/style.css" rel="stylesheet" />
+    <link href="../Content/video-js.css" rel="stylesheet" />
+    <link href="../Content/jplayer/jplayer.blue.monday.css" rel="stylesheet" />
+    <link href="../Content/swipebox.css" rel="stylesheet" />
+
+    <!-- Third-party -->
     <script src="../Scripts/jquery-1.9.1.min.js"></script>
-    
-    <!-- PhoneGap and Wikitude -->
+    <script src="../Scripts/jquery-ui-1.10.2.min.js"></script>
+    <script src="../Scripts/jquery.ui.touch-punch.min.js"></script>
+    <script src="../Scripts/knockout-2.3.0.js"></script>
+    <script src="../Scripts/knockout.mapping-latest.js"></script>
+    <script src="../Scripts/moment.min.js"></script>
+    <script src="../Scripts/OpenLayers.debug.js"></script>
+    <script src="../Scripts/OpenLayers.Control.ClickHold.js"></script>
+    <script src="../Scripts/toastr.js"></script>
+    <script src="../Scripts/json2.min.js"></script>
+    <script src="../Scripts/LatLon.js"></script>
+    <script src="../Scripts/cache.js"></script>
+    <script src="../Scripts/stores.js"></script>
+    <script src="../Scripts/proj4.js"></script>
+    <script src="../Scripts/jquery.swipebox.min.js"></script>
+    <script src="../Scripts/jquery.jplayer.js"></script>
+    <script src="../Scripts/purl.js"></script>
+
+    <!-- Base -->
+    <script src="../JS/System/Diagnostics/Log.js"></script>
+    <script src="../JS/System/Startup.js"></script>
+    <script src="../JS/System/Utils/Event.js"></script>
+    <script src="../JS/System/Providers/TemplateProvider.js"></script>
+    <script src="../JS/System/Utils/CompatibilityInfo.js"></script>
+    <script src="../JS/System/Utils/WorkHelper.js"></script>
+
+    <!-- Models -->
+    <script src="../JS/System/Models/Position.js"></script>
+    <script src="../JS/System/Models/PointOfInterestBase.js"></script>
+    <script src="../JS/App/Models/SearchCriteriaEnums.js"></script>
+    <script src="../JS/App/Models/SearchCriteria.js"></script>
+    <script src="../JS/App/Models/SearchResult.js"></script>
+    <script src="../JS/App/Models/PointOfInterest.js"></script>
+
+    <!-- Config -->
+    <script src="../JS/System/ConfigBase.js"></script>
+    <script src="../JS/App/Config.js"></script>
+    <script src="../JS/App/Settings.js"></script>
+
+    <!-- Base -->
+    <script src="../JS/System/Providers/PhoneGapProvider.js"></script>
+    <script src="../JS/System/Utils/Network.js"></script>
+    <script src="../JS/System/Utils/ClickHelper.js"></script>
+    <script src="../JS/System/Utils/StringUtils.js"></script>
+    <script src="../JS/System/Utils/Translater.js"></script>
+    <script src="../JS/System/Utils/DistanceTool.js"></script>
+    <script src="../JS/System/Utils/Serializer.js"></script>
+    <script src="../JS/App/Providers/TranslationProviderNB.js"></script>
+
+    <!-- Providers -->
+    <script src="../JS/System/Providers/StorageProvider.js"></script>
+    <script src="../JS/System/Providers/GoogleAnalyticsProvider.js"></script>
+    <script src="../JS/System/Providers/GpsProvider.js"></script>
+    <script src="../JS/System/Providers/MapCacheProvider.js"></script>
+    <script src="../JS/System/Providers/MapStorageProvider.js"></script>
+    <script src="../JS/System/Providers/MapProvider.js"></script>
+    <script src="../JS/System/Providers/MapPreCacheProvider.js"></script>
+    <script src="../JS/System/Providers/HttpDownloadProvider.js"></script>
+    <script src="../JS/App/Providers/SearchProvider.js"></script>
+    <script src="../JS/App/Providers/MultiViewBindingProvider.js"></script>
+    <script src="../JS/App/Providers/SqlRouteProvider.js"></script>
+    <script src="../JS/App/Providers/RouteProvider.js"></script>
+    <script src="../JS/App/Providers/PointOfInterestTypeProvider.js"></script>
+    <script src="../JS/App/SearchProviders/DataSource.js"></script>
+    <script src="../JS/App/SearchProviders/DataSourceNorvegiana.js"></script>
+    <script src="../JS/App/SearchProviders/DataSourceDigitalarkivetProperty.js"></script>
+    <script src="../JS/App/SearchProviders/DataSourceWikiLocation.js"></script>
+    <script src="../JS/App/SearchProviders/SSRSearch.js"></script>
+    <script src="../JS/App/Providers/EventProvider.js"></script>
+
+    <!-- Controllers -->
+    <script src="../JS/System/GUI/ViewController.js"></script>
+    <script src="../JS/App/Controllers/SettingsController.js"></script>
+    <script src="../JS/App/Controllers/WindowSizeController.js"></script>
+    <script src="../JS/App/Controllers/PoiController.js"></script>
+    <script src="../JS/App/Controllers/SearchController.js"></script>
+    <script src="../JS/App/Controllers/MapController.js"></script>
+    <script src="../JS/App/Controllers/ResultListController.js"></script>
+    <script src="../JS/App/Controllers/UserPopupController.js"></script>
+    <script src="../JS/App/Controllers/RouteController.js"></script>
+    <script src="../JS/App/Controllers/FeedbackController.js"></script>
+    <script src="../JS/App/Controllers/GoogleAnalyticsController.js"></script>
+    <script src="../JS/App/Controllers/SearchViewController.js"></script>
+    <script src="../JS/App/Controllers/LoadingScreenController.js"></script>
+
+    <script>
+        // If mobile we turn off all jQuery animation effects
+        if (compatibilityInfo.isMobile) {
+            $.fx.off = true;
+        }
+    </script>
+
+    <script>
+        var oldFocus = null;
+
+        $(".olAlphaImg").on("mousedown", function () {
+            $(this).css("border", "1px solid red");
+        });
+
+        $(document).ready(function () {
+            $("#mainSection").hide().delay(100).show();
+            $("#routeTabs").tabs();
+
+            $("#sortableEditorialRoutes").sortable();
+            $("#sortableEditorialRoutes").disableSelection();
+
+
+            // Enables links to be opened in a browser instead of in the app.
+            $(document).on("click", "a.external", function (e) {
+                e.preventDefault();
+                var link = $(this).attr("href");
+                window.open(link, "_system");
+            });
+        });
+
+        // Init
+        config.appName = "KNappen";
+        config.appFullName = "Kultur- og Naturreise";
+        config.debug = true;
+
+        // Add all known views to ViewController.
+        startup.addPreInit(function () {
+            viewController.AddView("listView");
+            viewController.AddView("mapView");
+            viewController.AddView("feedbackView");
+            viewController.AddView("settingsView");
+            viewController.AddView("searchView");
+            viewController.AddView("aboutView");
+            viewController.AddView("debugView");
+            viewController.AddView("routeView");
+            viewController.AddView("poiView");
+            viewController.AddView("placeSearch");
+            viewController.AddView("addResultToCache");
+            viewController.AddView("mainMenu");
+            startup.finishedPreInit("Main:AddViews");
+        }, "Main:AddViews");
+        
+        startup.addPostInit(function () {
+            if (!viewController.processUrl())
+                viewController.selectView(settings.startView());
+        }, "Main:SelectView");
+    </script>
+
+    <!-- PhoneGap -->
     <script>
         function loadScript(scriptName) {
             var js = document.createElement("script");
@@ -20,38 +173,249 @@
             var head = document.getElementsByTagName('head')[0];
             head.appendChild(js);
         }
-        
-        if (/Android|webOS/i.test(navigator.userAgent))
+
+        if (/Android|webOS/i.test(navigator.userAgent)) {
             loadScript("cordova_android.js");
+            loadScript("video.js");
+        }
         if (/iPhone|iPad|iPod/i.test(navigator.userAgent))
             loadScript("cordova_ios.js");
     </script>
 
-<!--    <script type="text/javascript" src="cordova.js"></script>-->
-<!--    <script type="text/javascript" src="WikitudePlugin.js"></script>-->
-    
-    <!-- Base -->
-    <script src="../JS/System/Diagnostics/Log.js"></script>
-    <script src="../JS/System/ConfigBase.js"></script>
-    <script src="Config.js"></script>
-    <script src="../JS/System/Utils/StringUtils.js"></script>
-    <script src="../JS/System/Utils/Event.js"></script>
-    <script src="../JS/System/Startup.js"></script>
-    <script src="../JS/System/Utils/CompatibilityInfo.js"></script>
 
     <!-- Providers -->
-    <script src="Providers/WikitudePluginProvider.js"></script>
     <script src="InteropProviders/SqlProvider.js"></script>
     <script src="InteropProviders/ButtonProvider.js"></script>
-    <script src="InteropProviders/SystemCommandProvider.js"></script>
     <script src="Providers/GeoLocationProvider.js"></script>
 
     <!-- Interop -->
     <script src="PhoneGapInterop.js"></script>
-    
-    <!-- App loader -->
-    <script src="AppLoader.js"></script>
+
 </head>
 <body>
+    <div id="headerSection" class="headerSection">
+        <div id="logoFrame" class="logoFrame left" onmousedown="viewController.selectView(settings.startView());">
+            <img src="./../Content/images/topLogo.png" class="middle" />
+        </div>
+        <div class="popupMenuOpenButton right" id="headerMenuBtn" onmousedown="viewController.selectView('mainMenu')">
+            <img src="./../Content/images/MenuImages/menu_Active.png" />
+        </div>
+        <div class="right searchIcon">
+            <img src="./../Content/images/AppIcons/search_Active.png" class="appImage" onmousedown="viewController.selectView('searchView');" />
+        </div>
+    </div>
+    <div id="headerSectionSize"></div>
+    <div id="mainSection" class="mainSection">
+
+        <div id="listView" class="contentPage">
+            <!-- Fill this with data from Norvegiana in this format: <h3><div> -->
+            <div class="listHeaderBox clearfix padding">
+                <input type="button" value="Lagre som rute" id="saveListAsRoute" class="right" />
+                <input type="button" value="Slett rute" id="deleteRoute" class="right hidden" />
+                <div id="listCount" class="resultListCentered">
+                </div>
+            </div>
+            <div id="listAccordion">
+            </div>
+            <div id="listPager" class="resultListCentered">
+            </div>
+        </div>
+
+        <div id="routeView" class="contentPage">
+            <div id="routeTabs" class="padding">
+                <ul>
+                    <li><a href="#routeListUser" class="translate">$T[User defined]</a></li>
+                    <li><a href="#routeListEditorial" class="translate">$T[Recommended]</a></li>
+                </ul>
+                <div id="routeListUser">
+                    <ul id="userRoutes" class="routes noListStyle"></ul>
+                </div>
+                <div id="routeListEditorial">
+                    <ul id="editorialRoutes" class="routes noListStyle"></ul>
+                </div>
+                
+            </div>
+        </div>
+
+        <div id="mapView" class="contentPage noPadding" style="background-color: lightgrey;">
+            <div id="map" class="map"></div>
+            <div id="mapCacheWriteStatus"></div>
+            <div id="mapCacheReadStatus"></div>
+        </div>
+
+        <div id="settingsView" class="contentPage">
+            <div class="padding">
+                <h2 class="translate">$T[Startup settings]</h2>
+                <div>
+                    <h3 class="translate">$T[Start view]</h3>
+                    <select id="ddlSettingsStartView" data-bind="options: settings().views, value: settings().startView, optionsText: 'name', optionsValue: 'id'"></select>
+                </div>
+                <br />
+                <div>
+                    <h3 class="translate">$T[Default number of hits from each datasource]</h3>
+                    <select id="ddlSettingsStartResultAmount" data-bind="options: settings().resultAmounts, value: settings().startResultAmount, optionsText: 'name', optionsValue: 'id'"></select>
+                </div>
+                <br />
+                <div>
+                    <h3 class="translate">$T[Default search distance]</h3>
+                    <select id="ddlSettingsStartSearchDistance" data-bind="options: settings().searchDistances, value: settings().startSearchDistance, optionsText: 'name', optionsValue: 'id'"></select>
+                </div>
+                <br />
+                <div>
+                    <h3 class="translate">$T[Default category]</h3>
+                    <select id="ddlSettingsStartSearchCategory" data-bind="options: settings().searchCategories, value: settings().startSearchCategory, optionsText: 'text', optionsValue: 'category'"></select>
+                </div>
+                <br />
+                <div>
+                    <h3 class="translate">$T[Default map type]</h3>
+                    <select id="ddlSettingsStartMapType" data-bind="options: settings().mapTypes, value: settings().startMapType, optionsText: 'name', optionsValue: 'id'"></select>
+                </div>
+                <br />
+                <div>
+                    <h3 class="translate">$T[Default zoom level]</h3>
+                    <select id="ddlSettingsStartMapZoomLevel" data-bind="options: settings().mapZoomLevels, value: settings().startMapZoomLevel, optionsText: 'name', optionsValue: 'id'"></select>
+                </div>
+                <br />
+                <div id="adminSettingsDiv" class="hidden">
+                    <div>
+                        <h3 class="translate">$T[Adminpassword]</h3>
+                        <input type="text" id="inputSettingsAdminPassword" data-bind="value: settings().adminPassword, valueUpdate: 'afterkeydown'" />
+                    </div>
+                    <div>
+                        <h3 class="translate">
+                            <input type="checkbox" data-bind="checked: settings().disableCaching" />
+                            $T[Disable caching]
+                        </h3>
+                        <div class="translate">
+                            <input type="button" id="btnClearCache" value="$T[Clear cache]" />
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+                </div>
+                <div class="translate">
+                    <input id="settingsButtonSave" type="button" value="$T[Save]" />
+                </div>
+            </div>
+        </div>
+
+        <div id="searchView" class="contentPage">
+            <div class="padding">
+                <div class="translate">
+                    <h3 class="translate">$T[Search text]</h3>
+                    <input type="text" value="$T[Text]" data-bind="value: searchCriteria().query" />
+                </div>
+                <br />
+                <h3 class="translate">$T[Number of hits from each datasource]</h3>
+                <select id="ddlSearchAmount" data-bind="options: settings().resultAmounts, value: searchCriteria().rows, optionsText: 'name', optionsValue: 'id'"></select>
+                <br />
+                <h3 class="translate">$T[Distance]</h3>
+                <select id="ddlSearchDist" data-bind="value: searchCriteria().radius, options: settings().searchDistances, optionsText: 'name', optionsValue: 'id'"></select>
+                <br />
+                <h3 class="translate">$T[Genre]</h3>
+                <select id="ddlSearchGenre" data-bind="value: searchCriteria().genre"></select>
+                <br />
+                <h3 class="translate">$T[Subjects]</h3>
+                <select id="ddlSearchCategory" data-bind="options: settings().searchCategories, value: searchCriteria().category, optionsText: 'text', optionsValue: 'category'"></select>
+                <br />
+                <h3 class="translate">$T[MediaTypes]</h3>
+                <select id="ddlSearchMediaType" data-bind="value: searchCriteria().mediaType"></select>
+                <br />
+                <div class="translate">
+                    <input type="button" value="$T[SEARCH]" onmousedown="searchController.doNewSearch(); viewController.selectView(settings.startView()); return false;" />
+                </div>
+            </div>
+        </div>
+
+        <div id="feedbackView" class="contentPage">
+            <div class="padding">
+                <select id="feedbackCategory" name="Kategori">
+                    <option value="Funksjonelle feil" selected="selected" class="translate">$T[Functional error]</option>
+                    <option value="Kommentar til innhold" class="translate">$T[Comment on content]</option>
+                </select><br />
+                <span class="translate">$T[Your email address]:</span><br />
+                <input type="text" id="feedbackFromAddress" size="20" />
+                <br />
+                <span class="translate">$T[Message]:</span><br />
+                <textarea id="feedbackText" rows="5" cols="40"></textarea>
+                <br />
+                <div class="translate">
+                    <input type="button" value="$T[Send feedback]" onmousedown="feedbackController.send(); return false;" />
+                </div>
+            </div>
+        </div>
+
+        <div id="aboutView" class="contentPage">
+            <div class="padding">
+                <h2>Om Kultur- og naturreiseappen</h2>
+                <p>Her finner du personlige fortellinger, historier, fakta og innhold fra offentlige databaser om natur, kulturminner og historie knyttet til stedet der du er. Det meste av innholdet i informasjonspunktene er registreringer i databaser, men det finnes også mer bearbeidet innhold som artikler med foto, videoer og lydspor. Hovedinngangen til innholdet er kart, men du kan også søke etter ulike emner som dyr eller kulturminner, få opp en liste over hva som finnes i nærheten eller søke i sjanger og medietype.</p>
+                <p>Lag din egen "rute" med ditt favorittinnhold, se andres anbefalte "ruter" eller følge Kultur- og naturreiserutene i våre satsningsområder på Dovre, Bø- Sauherad og Akerselva i Oslo.</p>
+                <p>Prosjektet Kultur- og naturreise står bak appen. Kartverket, Kulturrådet, Miljødirektoratet, Riksantikvaren og Riksarkivaren eier prosjektet. I tillegg har mange ulike samarbeidsparter bidratt med innhold. Innholdet i appen oppdateres etterhvert som nytt innhold kommer inn i databasene. </p>
+                <p>Du kan lese mer om Kultur- og naturreiseprosjektet, appen og også gi tilbakemeldinger på <a class="external" href="http://kulturognaturreise.no">kulturognaturreise.no</a></p>
+                <p>Appen er utviklet av EVRY - versjon 0.4.4</p>
+            </div>
+        </div>
+
+        <div id="debugView" class="contentPage">
+            <div id="debugLog"></div>
+        </div>
+
+        <div id="poiView" class="contentPage"></div>
+
+        <div id="placeSearch" class="contentPage">
+            <div class="center marginBig translate padding">
+                <input id="mapSearchInputBox" type="text" />
+                <br />
+                <input id="mapSearchCommit" type="button" value="$T[Search]" onmousedown="mapController.searchClick();" />
+                <input id="mapSearchCancel" type="button" value="$T[Cancel]" onmousedown="viewController.goBack();" />
+                <br />
+                <div id="mapSearchResult"></div>
+            </div>
+        </div>
+
+        <div id="addResultToCache" class="contentPage"></div>
+    </div>
+
+    <div id="footerSection" class="footerSection">
+        <div id="poiAudioBar" class="audioBar hidden">
+            <span id="audioStatusDiv"></span>
+            <span id="audioButtonPlay" class='typcn typiconButton'><svg><path fill="white" d="M10.396 18.433c2.641-2.574 6.604-6.433 6.604-6.433s-3.963-3.859-6.604-6.433c-.363-.349-.853-.567-1.396-.567-1.104 0-2 .896-2 2v10c0 1.104.896 2 2 2 .543 0 1.033-.218 1.396-.567z"/></svg></span>
+            <span id="audioButtonPause" class='typcn typiconButton'><svg><path fill="white" d="M8 6c-1.104 0-2 .896-2 2v8c0 1.104.896 2 2 2s2-.896 2-2v-8c0-1.104-.896-2-2-2zM15 6c-1.104 0-2 .896-2 2v8c0 1.104.896 2 2 2s2-.896 2-2v-8c0-1.104-.896-2-2-2z"/></svg></span>
+            <span id="audioButtonStop" class='typcn typiconButton'><svg><path fill="white" d="M16 6h-8c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2v-8c0-1.1-.9-2-2-2z"/></svg></span>
+            <span id="audioTitle"></span>
+        </div>
+    </div>
+
+    <div id="mainMenu" class="popupMenu">
+       <div class="popupMenuButton translate" onmousedown="viewController.selectView('mapView'); return false;">
+            <img src="./../Content/images/MenuImages/mapIcon.png" />$T[Map]
+        </div>
+        <div class="popupMenuButton translate" onmousedown="viewController.selectView('listView'); return false;">
+            <img src="./../Content/images/MenuImages/list.png" />$T[List]
+        </div>
+        <div class="popupMenuButton translate" onmousedown=" viewController.selectView('routeView'); return false;">
+            <img src="./../Content/images/MenuImages/routes.png" />$T[Routes]
+        </div>
+        <div class="popupMenuButton translate" onmousedown="viewController.selectView('searchView'); return false;">
+            <img src="./../Content/images/MenuImages/search.png" />$T[Search]
+        </div>
+        <div class="popupMenuButton translate" onmousedown="viewController.selectView('placeSearch'); return false;">
+            <img src="./../Content/images/MenuImages/sted.png" />$T[PlaceSearch]
+        </div>
+        <div class="popupMenuButton translate" onmousedown="viewController.selectView('settingsView'); return false;">
+            <img src="./../Content/images/MenuImages/settings.png" />$T[Startup settings]
+        </div>
+        <div class="popupMenuButton translate" onmousedown="viewController.selectView('feedbackView'); return false;">
+            <img src="./../Content/images/MenuImages/feedback.png" />$T[Feedback]
+        </div>
+        <div class="popupMenuButton translate" onmousedown="viewController.selectView('aboutView'); return false;">
+            <img src="./../Content/images/MenuImages/about.png" />$T[About]
+        </div>
+        <div id="mainPopupMenuButtonDebug" class="popupMenuButton hidden translate" onmousedown="viewController.selectView('debugView'); return false;">$T[Debug log]</div>
+    </div>
+
+    <div id="loader" class="">
+        <div class="spinner"><strong id="loadTxt">Laster inn...</strong></div>
+    </div>
 </body>
 </html>

@@ -26,6 +26,7 @@ module App.Controllers {
         public PreInit() {
             log.debug("SettingsController", "PreInit()");
             viewController.addSelectEvent(this.onViewChanged);
+            startup.finishedPreInit("SettingsController");
         }
 
         /**
@@ -33,30 +34,27 @@ module App.Controllers {
             @method App.Controllers.SettingsController#Init
             @public
         */
-        public Init() {
+        public postInit() {
             var _this = this;
-            log.debug("SettingsController", "Init()");
+            log.debug("SettingsController", "postInit()");
 
             // Save button
             $("#settingsButtonSave").mousedown(function () {
                 settings.save();
-                mapStorageProvider.setEnabled(!settings.disableCaching);
-                log.userPopup(tr.translate('SETTINGS'), tr.translate('SETTINGS_SAVED'));
+                userPopupController.sendSuccess(tr.translate('SETTINGS'), tr.translate('SETTINGS_SAVED'));
+                viewController.goBack();
                 return false;
             });
 
             // Need to update module every time settings changes
-            mapStorageProvider.setEnabled(!settings.disableCaching);
-            eventProvider.settings.onPostSave.addHandler(function () { mapStorageProvider.setEnabled(!settings.disableCaching); }, "SettingsController");
-            eventProvider.settings.onPostLoad.addHandler(function () { mapStorageProvider.setEnabled(!settings.disableCaching); }, "SettingsController");
-            mapStorageProvider.setEnabled(!settings.disableCaching);
+            mapCacheProvider.setEnabled(!settings.disableCaching());
+            eventProvider.settings.onPostSave.addHandler(function () { mapCacheProvider.setEnabled(!settings.disableCaching()); }, "SettingsController");
+            eventProvider.settings.onPostLoad.addHandler(function () { mapCacheProvider.setEnabled(!settings.disableCaching()); }, "SettingsController");
 
             // Clear cache button
             $("#btnClearCache").mousedown(function () {
-                $.each(config.mapCacheTileLimit, function (k, v) {
-                    mapStorageProvider.clear(k);
-                });
-                log.userPopup(tr.translate('Cache'), tr.translate('Cache cleared'));
+                routeController.clearCache();
+                userPopupController.sendSuccess(tr.translate('Cache'), tr.translate('Cache cleared'));
                 return false;
             });
 
@@ -80,12 +78,17 @@ module App.Controllers {
         }
 
         private onViewChanged(event: JQueryEventObject, oldView: System.GUI.ViewControllerItem, newView: System.GUI.ViewControllerItem) {
-            if (oldView && oldView.name == "settingsView") {
-                log.debug("SettingsController", "Entered settings screen.");
+            if (newView && newView.name == "settingsView") {
+                
             }
         }
+
+        private updateDropDowns() {
+            var _this = this;
+        }
+        
     }
 }
 var settingsController = new App.Controllers.SettingsController();
 startup.addPreInit(function () { settingsController.PreInit(); }, "SettingsController");
-startup.addInit(function () { settingsController.Init(); }, "SettingsController");
+startup.addPostInit(function () { settingsController.postInit(); }, "SettingsController");

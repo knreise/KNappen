@@ -1,4 +1,4 @@
-/// <reference path="../_References.ts" />
+﻿/// <reference path="../_References.ts" />
 
 /**
     Controller modules
@@ -13,11 +13,15 @@ module App.Providers {
         subscribe(callback: (newValue: App.Providers.RouteItem[]) => void , target?: any, topic?: string): KnockoutSubscription;
         notifySubscribers(valueToWrite: App.Providers.RouteItem[], topic?: string);
     }
+
     export class RouteItem {
         public id: KnockoutObservableString = ko.observable('');
         public name: KnockoutObservableString = ko.observable('');
+        public type: KnockoutObservableString = ko.observable('');
         public version: KnockoutObservableNumber = ko.observable(1);
         public pois: App.Models.KnockoutObservablePointOfInterestArray = <App.Models.KnockoutObservablePointOfInterestArray>ko.observableArray();
+        public isCached: KnockoutObservableBool = ko.observable(false);
+        public poisLoaded: KnockoutObservableBool = ko.observable(false);
 
         /**
             RouteItem
@@ -27,171 +31,216 @@ module App.Providers {
         constructor() {
             this.id(stringUtils.mkGUID());
         }
-    }
 
-    export class RouteArray {
-        public routes: App.Providers.KnockoutObservableRouteItemArray = <App.Providers.KnockoutObservableRouteItemArray>ko.observableArray();
+        /**
+         * Increment the version number.
+         */
+        public incrementVersion() {
+            var newVersion = this.version() + 1;
+            this.version(newVersion);
+        }
+        
+        /**
+         * Remove all POIs from memory.
+         */
+        public resetPois() {
+            this.pois.removeAll();
+            this.poisLoaded(false);
+        }
     }
 
     export class RouteProvider {
 
         /**
-            RouteProvider
-            @class App.Providers.RouteProvider
-            @classdesc This contains RouteProviderHelpers for admin and user defined routes
-        */
+         * RouteProvider
+         * @class App.Providers.RouteProvider
+         * @classdesc This class contains routes and functions for loading, saving and deleting routes.
+         */
         constructor() {
         }
 
-        public adminRoutes = new App.Providers.RouteProviderHelper("Admin");
-        public userRoutes = new App.Providers.RouteProviderHelper("User");
-        public searchRoutes = new App.Providers.RouteProviderHelper("Search");
+        public adminRoutes = new App.Providers.RouteProviderHelper(RouteType.Admin);
+        public userRoutes = new App.Providers.RouteProviderHelper(RouteType.User);
+
+        /**
+         * Load all routes to memory, without POIs.
+         */
+        public loadRoutes() {
+            log.debug("RouteProvider", "Loading routes from sqlDatabase.");
+
+            sqlRouteProvider.readRoutes((routeItems: RouteItem[]) => {
+                routeItems.forEach((route: RouteItem) => {
+                    if (route.type() === RouteType[RouteType.Admin])
+                        this.adminRoutes.addRoute(route);
+                    else
+                        this.userRoutes.addRoute(route);
+                });
+            });
+        }
+
+        /**
+         * Load POIs for the specified route.
+         * @param {App.Providers.RouteItem} route The route to load POIs.
+         * @param {function} finished Callback function for when POIs have been loaded.
+         */
+        public loadPois(route: RouteItem, finished: () => void ) {
+            this.removeAllPoisFromMemory();
+
+            sqlRouteProvider.readPois(route, () => {
+                finished();
+            });
+        }
+
+        /**
+         * Save the specified route to disk.
+         * @param {App.Providers.RouteItem} route The route to save.
+         */
+        public saveRoute(route: RouteItem) {
+            sqlRouteProvider.insertRoute(route);
+        }
+
+        /**
+         * Set the route as cached and save the changes to disk.
+         * @param {App.Providers.RouteItem} route The route to update.
+         */
+        public setRouteIsCached(route: RouteItem) {
+            log.info("RouteProvider", "Indicating that the route with id " + route.id() + " has downloaded/cached the map tiles for this route");
+            route.isCached(true);
+            sqlRouteProvider.setRouteCached(route.id(), true);
+        }
+
+        /**
+         * Set the route as not cached and save the changes to disk.
+         * @param {App.Providers.RouteItem} route The route to save.
+         */
+        public resetRouteIsCached(route: RouteItem) {
+            log.info("RouteProvider", "Indicating that the route with id " + route.id() + " no longer has downloaded/cached the map tiles for this route");
+            route.isCached(false);
+            sqlRouteProvider.setRouteCached(route.id(), false);
+        }
+
+        /**
+         * Delete the specified route.
+         * @param {App.Providers.RouteItem} route The route to delete.
+         */
+        public deleteRoute(route: RouteItem) {
+            sqlRouteProvider.deleteRoute(route);
+        }
+
+        /**
+         * Remove all POIs from memory. This will not alter stored POIs.
+         */
+        public removeAllPoisFromMemory() {
+            this.adminRoutes.removeAllPoisFromMemory();
+            this.userRoutes.removeAllPoisFromMemory();
+        }
     }
+
 
     export class RouteProviderHelper {
 
-        private routeArray: App.Providers.RouteArray = new App.Providers.RouteArray();
-        private fileName: string = null;
-
+        private routes: App.Providers.KnockoutObservableRouteItemArray = <App.Providers.KnockoutObservableRouteItemArray>ko.observableArray();
+        
         /**
-            RouteProviderHelper
-            @class App.Providers.RouteProviderHelper
-            @classdesc This class provides methods for loading routes from server or disk, aswell as create, read and update methods for a route
-        */
-        constructor(public prefix: string) {
-            // Read routes from disk
-            this.fileName = "Route." + this.prefix + ".json";
-            //this.loadRoutes();
+         * RouteProviderHelper
+         * @class App.Providers.RouteProviderHelper
+         * @classdesc This class is an in-memory route contianer.
+         * @param {App.Providers.RouteType} type Type of the routes.
+         */
+        constructor(public type: RouteType) {
         }
 
         /**
-            Return routes 
-            @method App.Providers.RouteProviderHelper#getRoutes
-            @public
-        */
-        public getRoutes(): App.Providers.RouteItem[] {
-            log.debug("RouteProvider", "Returning " + this.routeArray.routes().length + " routes");
-            return this.routeArray.routes();
-        }
-
-        /**
-            Returns a RouteItem based on the name of the route
-            @method App.Providers.RouteProviderHelper#findRouteByName
-            @param {string} name
-            @public
-        */
-        public findRouteByName(name: string): App.Providers.RouteItem {
-            var ret: App.Providers.RouteItem = null;
-            this.routeArray.routes().forEach(function (value: App.Providers.RouteItem, index: number, array: App.Providers.RouteItem[]) {
-                if (value.name() == name)
-                    ret = value;
-            });
-            var rn = "Not found";
-            if (!ret)
-                rn = "Found";
-            log.debug("RouteProvider", "FindRoute: name: " + name + ", status: " + rn);
-            return ret;
-        }
-
-        /**
-            Returns a RouteItem based on the id of the route
-            @method App.Providers.RouteProviderHelper#findRouteById
-            @param {string} id
-            @public
-        */
-        public findRouteById(id: string): App.Providers.RouteItem {
-            var ret: App.Providers.RouteItem = null;
-            this.routeArray.routes().forEach(function (value: App.Providers.RouteItem, index: number, array: App.Providers.RouteItem[]) {
-                if (value.id() == id)
-                    ret = value;
-            });
-            var rn = "Not found";
-            if (!ret)
-                rn = "Found";
-            log.debug("RouteProvider", "FindRoute: id: " + id + ", status: " + rn);
-            return ret;
-        }
-
-        /**
-            Adds a route to the RouteArray
-            @method App.Providers.RouteProviderHelper#addRoute
-            @param {App.Providers.RouteItem} route
-            @public
-        */
+         * Adds a route to memory. This will not save it to disk.
+         * @param {App.Providers.RouteItem} route The route to add.
+         */
         public addRoute(route: App.Providers.RouteItem) {
-            this.removeRoute(route);
-            log.debug("RouteProvider", "Adding route: " + route.name());
-            this.routeArray.routes.push(route);
+            this.routes.push(route);
         }
 
         /**
-            Removes a route to the RouteArray
-            @method App.Providers.RouteProviderHelper#removeRoute
-            @param {App.Providers.RouteItem} route
-            @public
-        */
+         * Get all routes.
+         * @return {App.Providers.RouteItem[]} All routes.
+         */
+        public getRoutes(): App.Providers.RouteItem[] {
+            return this.routes();
+        }
+
+        /**
+         * Find a route by the specified name.
+         * @param {string} name Name of the route.
+         * @return {App.Providers.RouteItem} The found route.
+         */
+        public findRouteByName(name: string): App.Providers.RouteItem {
+            return this.findRoute((route: App.Providers.RouteItem): boolean => {
+                return (route.name() === name);
+            });
+        }
+
+        /**
+         * Find a route by the specified id.
+         * @param {string} id Id of the route.
+         * @return {App.Providers.RouteItem} The found route.
+         */
+        public findRouteById(id: string): App.Providers.RouteItem {
+            return this.findRoute((route: App.Providers.RouteItem): boolean => {
+                return (route.id() === id);
+            });
+        }
+
+        /**
+         * Find a route based on the specified callback.
+         * @param {function} predicate A callback that return true for a matching item.
+         * @return {App.Providers.RouteItem} The found route.
+         */
+        private findRoute(predicate: (route) => boolean): App.Providers.RouteItem {
+            var foundRoute: App.Providers.RouteItem;
+
+            this.routes().some((_route: App.Providers.RouteItem): boolean => {
+                if (predicate(_route)) {
+                    foundRoute = _route;
+                    return true;
+                }
+                return false;
+            });
+
+            var statusMessage = "Not found";
+            if (!foundRoute)
+                statusMessage = "Found";
+            log.debug("RouteProvider", "FindRoute: status: " + statusMessage);
+
+            return foundRoute;
+        }
+
+        /**
+         * Remove the specified route from memory.
+         * @param {App.Providers.RouteItem} route The route to be removed.
+         */
         public removeRoute(route: App.Providers.RouteItem) {
             log.debug("RouteProvider", "Removing route: " + route.name());
-            var newRoutes = this.routeArray.routes().filter(function (r: App.Providers.RouteItem, index, array) {
-                return r.name().toString() !== route.name().toString();
+
+            var newRoutes = this.routes().filter((_route: App.Providers.RouteItem) => (_route.name() !== route.name()));
+
+            this.routes(newRoutes);
+            log.debug("RouteProvider", "Removing route: " + route.name());
+        }
+
+        /**
+         * Remove all POIs from memory. This will not alter stored POIs.
+         */
+        public removeAllPoisFromMemory() {
+            return this.routes().forEach((route) => {
+                if (route.poisLoaded())
+                    route.resetPois();
             });
-            this.routeArray.routes(newRoutes);
         }
+    }
 
-        /**
-            Clears the RouteArray
-            @method App.Providers.RouteProviderHelper#clearRoutes
-            @public
-        */
-        public clearRoutes() {
-            log.debug("RouteProvider", "clearRoutes()");
-            this.routeArray.routes = ko.observableArray();
-        }
-
-        /**
-            Load Routes
-            @method App.Providers.RouteProviderHelper#loadRoutes
-            @public
-        */
-        public loadRoutes() {
-            log.debug("RouteProvider", "Loading routes from filename \"" + this.fileName + "\"");
-            this.clearRoutes();
-            try {
-                serializer.deserializeKnockoutObjectFromFile(this.fileName, this.routeArray);
-            } catch (exception) {
-                log.error("RouteProvider", "Exception loading routes from filename \"" + this.fileName + "\": " + exception);
-            }
-            // Create PointOfInterest instance of it
-            //var newRoutes: App.Providers.KnockoutObservableRouteItemArray = <App.Providers.KnockoutObservableRouteItemArray>ko.observableArray();
-            $.each(this.routeArray.routes(), function (k, v: App.Providers.RouteItem) {
-                var newPois: App.Models.KnockoutObservablePointOfInterestArray = <App.Models.KnockoutObservablePointOfInterestArray>ko.observableArray();
-
-                $.each(v.pois(), function (k, v2: App.Models.PointOfInterest) {
-                    var r = new App.Models.PointOfInterest();
-                    //var v3: any = v2;
-                    //var p = new System.Models.Position(<number>v3.pos.lat(), <number>v3.pos.lon());
-                    $.extend(r, v2);
-                    r.pos = <System.Models.KnockoutObservablePosition>ko.observable(r.pos);
-
-                    newPois.push(r);
-                });
-                v.pois = newPois;
-            });
-            //this.routeArray.routes = newRoutes;
-        }
-
-        /**
-            Save Routes
-            @method App.Providers.RouteProviderHelper#saveRoutes
-            @public
-        */
-        public saveRoutes() {
-            log.debug("RouteProvider", "Saving routes to filename \"" + this.fileName + "\"");
-            try {
-                serializer.serializeKnockoutObjectToFile(this.fileName, this.routeArray);
-            } catch (exception) {
-                log.error("RouteProvider", "Exception saving routes to filename \"" + this.fileName + "\": " + exception);
-            }
-        }
+    /**
+     * Describes the type of route.
+     */
+    export enum RouteType {
+        Admin,
+        User
     }
 }

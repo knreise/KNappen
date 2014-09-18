@@ -13,12 +13,14 @@ module System {
      */
     export class Startup {
         // Somewhere to keep events
-        /** @ignore */ private eventHooks: JQuery;
+        /** @ignore */
+        private eventHooks: JQuery;
 
-        public loadCountdownMs = 10; // Plus loadIntervalCheckMs to be exact, but who keeps track
-        private loadIntervalCheckMs = 100;
-        public autoStartup: bool = true;
+        public autoStartup: boolean = true;
 
+        private loadModulesCount: number = 0;
+        private preInitModulesCount: number = 0;
+        
         /**
          * Startup
          * @class System.Startup
@@ -37,6 +39,7 @@ module System {
           */
         public addLoad(eventCallback: { (): void; }, moduleName?: string) {
             this.addEventHandler('Load', eventCallback, moduleName);
+            this.loadModulesCount++;
         }
         /**
           * Add event handler to PreInit event.
@@ -46,6 +49,7 @@ module System {
           */
         public addPreInit(eventCallback: { (): void; }, moduleName?: string) {
             this.addEventHandler('PreInit', eventCallback, moduleName);
+            this.preInitModulesCount++;
         }
         /**
           * Add event handler to Init event.
@@ -64,7 +68,6 @@ module System {
           */
         public addPostInit(eventCallback: { (): void; }, moduleName?: string) {
             this.addEventHandler('PostInit', eventCallback, moduleName);
-
         }
 
         /** @ignore */
@@ -79,18 +82,21 @@ module System {
             });
         }
 
-        /**
-          * Shortcut load timeout. Will force startup to proceed with PreInit, Init and PostInit by reducing remaining wait time.
-          * @method System.Startup#shortcutLoadTimeout
-          */
-        public shortcutLoadTimeout() {
-            // Make sure we don't re-execute startup if called after startup is done
-            if (this.loadCountdownMs > 0) {
-                log.debug("Startup", "Shortcutting load timeout.");
-                // Set remaining time to exactly one tick so it will execute on next tick
-                this.loadCountdownMs = this.loadIntervalCheckMs;
-                // Execute next tick
-                this.waitForLoadContinue();
+        public finishedLoad(moduleName: string): void {
+            this.loadModulesCount--;
+            log.debug("Startup", "Module '" + moduleName + "' finished loading, currently " + this.loadModulesCount + " loading modules");
+
+            if (this.loadModulesCount == 0) {
+                this.continueWithLoad();
+            }
+        }
+
+        public finishedPreInit(moduleName: string): void {
+            this.preInitModulesCount--;
+            log.debug("Startup", "Module '" + moduleName + "' finished pre-init, currently " + this.preInitModulesCount + " pre-init modules");
+
+            if (this.preInitModulesCount == 0) {
+                this.continueWithPreInit();
             }
         }
 
@@ -98,38 +104,23 @@ module System {
           * Timeout waiting for Load to complete so we can continue with PreInit, Init and PostInit.
           * @method System.Startup#waitForLoadContinue
           */
-        private waitForLoadContinue() {
+        private continueWithLoad() {
+            log.debug("Startup", "Load finished, proceeding with startup procedure.");
+            setTimeout(() => this.eventHooks.trigger("PreInit"), 10);
+        }
 
-            var _this = this;
+        private continueWithPreInit() {
+            var self = this;
 
-            if (this.loadCountdownMs < 0) {
-                // Redundant call, nothing to do.
-                return;
-            }
-            // Reduce timer
-            this.loadCountdownMs -= this.loadIntervalCheckMs;
-
-            // If we aren't low enough yet we need another pass, so set up a timeout for it
-            if (this.loadCountdownMs > (this.loadIntervalCheckMs / 2))
-            {
-                setTimeout(function () { _this.waitForLoadContinue(); }, this.loadIntervalCheckMs);
-                return;
-            }
-
-            // We made it this far, it means we should consider ourselves done.
-            this.loadCountdownMs = -1;
+            log.debug("Startup", "PreInit finished, proceeding with startup procedure.");
             
-            log.debug("Startup", "Load timeout, proceeding with startup procedure.");
             setTimeout(function () {
-                _this.eventHooks.trigger('PreInit');
+                self.eventHooks.trigger('Init');
                 setTimeout(function () {
-                    _this.eventHooks.trigger('Init');
-                    setTimeout(function () {
-                        _this.eventHooks.trigger('PostInit');
-                    }, 10);
+                    self.eventHooks.trigger('PostInit');
+                    loadingScreenController.hideLoadingScreen();
                 }, 10);
             }, 10);
-
         }
 
         /**
@@ -139,8 +130,9 @@ module System {
         public executeStartup() {
             var _this = this;
             setTimeout(function () {
+                loadingScreenController.showLoadingScreen("");
+                log.debug("Startup", "Loading modules... " + _this.loadModulesCount + " modules to load.");
                 _this.eventHooks.trigger('Load');
-                _this.waitForLoadContinue();
             });
         }
     }
@@ -151,6 +143,7 @@ var startup = new System.Startup();
 
 // Execute when we are done loading
 $(function () {
-    if (startup.autoStartup)
+    if (startup.autoStartup) {
         startup.executeStartup();
+    }
 });

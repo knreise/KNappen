@@ -2,56 +2,59 @@
 
 module PhoneGap.Providers {
     export class GeoLocationProvider {
-        public onLocationUpdate = new System.Utils.Event("onLocationUpdate");
-        public onLocationUpdateError = new System.Utils.Event("onLocationUpdateError");
         public lastKnownPosition: any = null;
 
         public PostInit() {
             var _this = this;
 
-            navigator.geolocation.watchPosition(
-                function (position) {
-                    log.verboseDebug("", "Received geolocation: "
-                        + 'Latitude: ' + position.coords.latitude + ', '
-                        + 'Longitude: ' + position.coords.longitude + ', '
-                        + 'Altitude: ' + position.coords.altitude + ', '
-                        + 'Accuracy: ' + position.coords.accuracy + ', '
-                        + 'Altitude Accuracy: ' + position.coords.altitudeAccuracy + ', '
-                        + 'Heading: ' + position.coords.heading + ', '
-                        + 'Speed: ' + position.coords.speed + ', '
-                        + 'Timestamp: ' + new Date(position.timestamp) + '');
+            log.debug("GeoLocationProvider", "PostInit: watchPosition: " + compatibilityInfo.isMobile);
 
-                    _this.lastKnownPosition = position;
+            if (compatibilityInfo.isMobile) {
+                navigator.geolocation.watchPosition(
+                    function (position) {
+                        log.verboseDebug("GeoLocationProvider", "Received geolocation: "
+                            + 'Latitude: ' + position.coords.latitude + ', '
+                            + 'Longitude: ' + position.coords.longitude + ', '
+                            + 'Altitude: ' + position.coords.altitude + ', '
+                            + 'Accuracy: ' + position.coords.accuracy + ', '
+                            + 'Altitude Accuracy: ' + position.coords.altitudeAccuracy + ', '
+                            + 'Heading: ' + position.coords.heading + ', '
+                            + 'Speed: ' + position.coords.speed + ', '
+                            + 'Timestamp: ' + new Date(position.timestamp) + '');
 
-                    // Set position in Wikitude
-                    try {
-                        phoneGapInterop.wikitudePluginProvider.setWikitudePosition(position);
-                    } catch (exception) {
-                        log.error("GeoLocationProvider", "Exception setting Wikitude position: " + exception);
-                    }
+                        _this.lastKnownPosition = position;
+                        try {
+                            if (_this.lastKnownPosition)
+                                _this.UpdateGeoLocation(position);
 
-                    try {
-                        if (_this.lastKnownPosition)
-                            phoneGapInterop.wikitudePluginProvider.sendInterop.sendGeoLocationUpdate(position);
-                    } catch (exception) {
-                        log.error("GeoLocationProvider", "Exception sending position to Wikitude (interop): " + exception);
-                    }
-                    
-                    _this.onLocationUpdate.trigger(position);
-
-                
-                },
-                function (error: GeolocationError) {
-                    log.error("GeoLocationProvider", "Error getting geolocation: code: " + error.code + ", message: " + error.message);
-                    _this.onLocationUpdateError.trigger(error);
-                },
-                {
-                    frequency: phoneGapInterop.config.locationUpdateRateMs,
-                    maximumAge: 60000,
-                    timeout: 5000,
-                    enableHighAccuracy: true
-                });
+                        } catch (exception) {
+                            log.error("GeoLocationProvider", "Exception sending position: " + exception);
+                        }
+                    },
+                    function (error: GeolocationError) {
+                        log.error("GeoLocationProvider", "Error getting geolocation: code: " + error.code + ", message: " + error.message);
+                    },
+                    {
+                        frequency: phoneGapInterop.config.locationUpdateRateMs,
+                        maximumAge: 60000,
+                        timeout: 5000,
+                        enableHighAccuracy: true
+                    });
+            }
         }
+
+        private UpdateGeoLocation(position: Position): void {
+            phoneGapProvider.callbackGeoLocationUpdate(
+                position.coords.latitude,
+                position.coords.longitude,
+                position.coords.altitude,
+                position.coords.accuracy,
+                position.coords.altitudeAccuracy,
+                position.coords.heading,
+                position.coords.speed,
+                position.timestamp);
+        }
+
     }
 }
 var geoLocationProvider = new PhoneGap.Providers.GeoLocationProvider();

@@ -9,12 +9,25 @@ module System.Providers {
 
     export class MapCacheProvider {
 
+        public enabledStandardCaching: boolean = false;
+
         /**
           * MapCacheProvider
           * @class System.Providers.MapCacheProvider
           * @classdesc Map caching provider for OpenLayers, implements custom CacheRead and CacheWrite controls
           */
-        constructor() {}
+        constructor() { }
+
+        /**
+          * Enable/disable caching of 'standard' map to database.
+          * @method System.Providers.MapStorageProvider#setEnabled
+          * @param {bool} enable Enable storage provider.
+         */
+        public setEnabled(enabled: boolean) {
+            log.debug("MapStorageProvider", "Setting enabled state to: " + enabled);
+            this.enabledStandardCaching = enabled;
+        }
+
         /**
           * Initialize cache on map.
           * @method System.Providers.MapCacheProvider#addCacheToMap
@@ -22,9 +35,15 @@ module System.Providers {
           * @param {any} map OpenLayers map
         */
         public addCacheToMap(cachingType: string, map: any) {
-            var cacheRead = new OpenLayers.Control.CacheReadCustom();
-            map.addControl(cacheRead)
+
+            var msp = (cachingType == "standard") ? mapStorageProvider : new MapStorageProvider();
+
+            var cacheRead = new OpenLayers.Control.CacheReadCustom(
+                {
+                    currentStorageProvider: msp
+                });
             cacheRead.cachingType = cachingType;
+            map.addControl(cacheRead);
 
             var cacheWrite = new OpenLayers.Control.CacheWriteCustom({
                 autoActivate: true,
@@ -33,12 +52,12 @@ module System.Providers {
                     cachefull: function () {
                         log.error("MapProvider", "Cache full.");
                     }
-                }
+                },
+                currentStorageProvider: msp
             });
             cacheWrite.cachingType = cachingType;
             map.addControl(cacheWrite);
         }
-
     }
 
     /* ======================================================================
@@ -78,6 +97,7 @@ module System.Providers {
          */
         fetchEvent: "tileloadstart",
         cachingType: "standard",
+        currentStorageProvider: null,
 
         /**
          * APIProperty: layers
@@ -157,20 +177,22 @@ module System.Providers {
          * evt - {Object} Event object with a tile property.
          */
         fetch: function (evt) {
-            if (this.active &&
-                evt.tile instanceof OpenLayers.Tile.Image) {
-                var tile = evt.tile,
-                    url = tile.url;
+            if (this.active && evt.tile instanceof OpenLayers.Tile.Image) {
+                var tile = evt.tile, url = tile.url;
+                
                 // deal with modified tile urls when both CacheWrite and CacheRead
                 // are active
+
                 if (!tile.layer.crossOriginKeyword && OpenLayers.ProxyHost &&
                     url.indexOf(OpenLayers.ProxyHost) === 0) {
                     url = OpenLayers.Control.CacheWriteCustom.urlMap[url];
                 }
-                var dataURI = mapStorageProvider.get(this.cachingType, "olCache_" + url);
+
+                var dataURI =  this.currentStorageProvider.fetchTile(url);
                 if (dataURI) {
                     tile.url = dataURI;
                     if (evt.type === "tileerror") {
+                        log.error("MapCacheProvider", "Tile error: " + url);
                         tile.setImgSrc(dataURI);
                     }
                 }
@@ -263,8 +285,10 @@ module System.Providers {
          *     layers.
          */
         layers: null,
-        tileLoadErrorBuffer: new Array(),
+
         cachingType: "standard",
+
+        currentStorageProvider: null,
 
         /**
          * APIProperty: imageFormat
@@ -323,6 +347,7 @@ module System.Providers {
             evt.layer.events.on({
                 tileloadstart: this.makeSameOrigin,
                 tileloaded: this.onTileloaded,
+                loadend: this.onloadend,
                 scope: this
             });
         },
@@ -340,6 +365,7 @@ module System.Providers {
             evt.layer.events.un({
                 tileloadstart: this.makeSameOrigin,
                 tileloaded: this.onTileloaded,
+                loadend: this.onloadend,
                 scope: this
             });
         },
@@ -355,12 +381,8 @@ module System.Providers {
         makeSameOrigin: function (evt) {
             if (this.active) {
                 var tile = evt.tile;
-                if (tile instanceof OpenLayers.Tile.Image &&
-                    !tile.crossOriginKeyword &&
-                    tile.url.substr(0, 5) !== "data:") {
-                    var sameOriginUrl = OpenLayers.Request.makeSameOrigin(
-                        tile.url, OpenLayers.ProxyHost
-                        );
+                if (tile instanceof OpenLayers.Tile.Image && !tile.crossOriginKeyword && tile.url.substr(0, 5) !== "data:") {
+                    var sameOriginUrl = OpenLayers.Request.makeSameOrigin(tile.url, OpenLayers.ProxyHost);
                     OpenLayers.Control.CacheWriteCustom.urlMap[sameOriginUrl] = tile.url;
                     tile.url = sameOriginUrl;
                 }
@@ -376,14 +398,37 @@ module System.Providers {
           * evt - {Event}
         */
         onTileloaded: function (evt) {
-            if (this.active && !evt.aborted &&
-                evt.tile instanceof OpenLayers.Tile.Image &&
-                evt.tile.url.substr(0, 5) !== 'data:') {
-                this.cache({ tile: evt.tile });
-                delete OpenLayers.Control.CacheWrite.urlMap[evt.tile.url];
+            if (this.active && !evt.aborted && evt.tile instanceof OpenLayers.Tile.Image && evt.tile.url.substr(0, 5) !== 'data:') {
 
+                var urlMap = OpenLayers.Control.CacheWriteCustom.urlMap;
+                var url = urlMap[evt.tile.url] || evt.tile.url;
+
+                if (!this.currentStorageProvider.hasTile(url) || (mapCacheProvider.enabledStandardCaching || this.cachingType != "standard")) {
+
+                    if (this.cachingType == "standard") {
+                        if (this.cacheTileworkQueue == null) {
+                            this.cacheTileworkQueue = new Array<System.Utils.WorkQueueItem<any>>();
+                        }
+                        this.cacheTileworkQueue.push(new System.Utils.WorkQueueItem<any>(evt.tile, (t) => this.cache(t)));
+                    }
+                    else {
+                        this.cache(evt.tile);
+                    }
+                }
             }
+        },
 
+        onloadend: function (evt) {
+            if (this.cacheTileworkQueue != null) {
+                log.debug("MapCacheProvider", "Caching tiles: " + this.cacheTileworkQueue.length)
+                var queue = this.cacheTileworkQueue;
+                this.cacheTileworkQueue = null;
+
+                System.Utils.WorkHelper.processWork(queue, new System.Utils.WorkQueueState(), (s) => eventProvider.mapCache.onCacheEnd.trigger(s));
+            }
+            else {
+                eventProvider.mapCache.onCacheEnd.trigger(true);
+            }
         },
 
         /**
@@ -395,38 +440,41 @@ module System.Providers {
          * obj - {Object} Object with a tile property, tile being the
          *     <OpenLayers.Tile.Image> with the data to add to the cache
          */
-        cache: function (obj) {
-            //debugger;
+        cache: function (tile) {
 
-            //if (this.active && !obj.tile.imgDiv.classList.contains("olImageLoadError")) {
-            //  && !OpenLayers.Element.hasClass(obj.tile.imgDiv, 'olImageLoadError')
-
-            //$.each(obj.tile.imgDiv.classList, function (k, v) { log.debug("MapCacheProvider", "ClassList: " + v); });
-
-            //log.debug("MapCacheProvider", "Event type: " + obj.type);
-            var tile = obj.tile;
-            
             try {
+
+                var urlMap = OpenLayers.Control.CacheWriteCustom.urlMap;
+                var url = urlMap[tile.url] || tile.url;
+
                 var canvasContext = tile.getCanvasContext();
                 if (canvasContext) {
-                    var urlMap = OpenLayers.Control.CacheWriteCustom.urlMap;
-                    var url = urlMap[tile.url] || tile.url;
-                    mapStorageProvider.set(this.cachingType,
-                        "olCache_" + url,
-                        canvasContext.canvas.toDataURL(this.imageFormat)
-                        );
-                    delete urlMap[tile.url];
+
+                    var dataUri = canvasContext.canvas.toDataURL(this.imageFormat);
+                        
+                    if (!this.currentStorageProvider.hasTile(url)) {
+                        this.currentStorageProvider.cacheTile(url, dataUri);
+                    }
+
+                    if (mapCacheProvider.enabledStandardCaching || this.cachingType != "standard") {
+                        this.currentStorageProvider.storeTile(url, dataUri);
+                    }
                 }
+
+                delete urlMap[tile.url];
+
             } catch (e) {
-                // local storage full or CORS violation
                 var reason = e.name || e.message;
                 if (reason && this.quotaRegEx.test(reason)) {
                     this.events.triggerEvent("cachefull", { tile: tile });
                 } else {
                     OpenLayers.Console.error(e.toString());
                 }
-            }
 
+                if (tile.layer.cacheFailed) {
+                    tile.layer.cacheFailed();
+                }
+            }
         },
 
         /**
@@ -460,14 +508,7 @@ module System.Providers {
      * Clears all tiles cached with <OpenLayers.Control.CacheWriteCustom> from the cache.
      */
     OpenLayers.Control.CacheWriteCustom.clearCache = function () {
-        //if (!window.localStorage) { return; }
-        mapStorageProvider.clear(this.cachingType);
-        //var i, key;
-        //$.each(mapStorageProvider.getAll(this.cachingType), function (key, v) {
-        //    if (key.substr(0, 8) === "olCache_") {
-        //        mapStorageProvider.remove(key);
-        //    }
-        //});
+        mapStorageProvider.clearCache();
     };
 
     /**
@@ -476,6 +517,5 @@ module System.Providers {
      *     deleted as soon as a tile was cached.
      */
     OpenLayers.Control.CacheWriteCustom.urlMap = {};
-
 }
 var mapCacheProvider = new System.Providers.MapCacheProvider();

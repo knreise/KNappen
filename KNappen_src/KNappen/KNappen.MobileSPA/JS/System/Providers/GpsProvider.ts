@@ -33,7 +33,8 @@ module System.Providers {
 
         public PostInit() {
             var _this = this;
-            if (!compatibilityInfo.hasAR) {
+
+            if (!compatibilityInfo.isMobile) {
                 if (navigator.geolocation) {
                     log.debug("GpsProvider", "Runtime environment supports GPS, will use.");
                     this.readBrowserGpsPos(this);
@@ -42,16 +43,6 @@ module System.Providers {
                     log.debug("GpsProvider", "Runtime environment doesn't support GPS.");
                 }
             }
-
-            setInterval(function () {
-                try {
-                    if (_this.lastPos)
-                        _this.posEvent.trigger('PosChanged', [_this.lastPos]);
-                } catch (exception) {
-                    log.error("GpsProvider", "Exception repeating position: " + exception);
-                }
-
-            }, config.locationUpdateRateMs);
         }
 
         /** 
@@ -66,7 +57,7 @@ module System.Providers {
 
 
         private readBrowserGpsPos(_this: GpsProvider) {
-            //log.debug("GpsSystem", "Reading browser pos...");
+            log.debug("GpsSystem", "Reading browser pos...");
             // We are reading browser GPS coordinates at an interval to feed our update method
             navigator.geolocation.getCurrentPosition(
                 function (position) {
@@ -75,14 +66,13 @@ module System.Providers {
                     var alt: number = position.coords.altitude;
                     var acc: number = position.coords.accuracy;
 
-                    //log.debug("GpsSystem", "New browser based GPS pos found: (" + lat + ", " + lon + ", " + alt + ", " + acc + ")");
+                    log.debug("GpsSystem", "New browser based GPS pos found: (" + lat + ", " + lon + ", " + alt + ", " + acc + ")");
 
                     _this.setPos(lat, lon, alt, acc);
                 }, function () {
                     log.debug("GpsProvider", "Error getting GPS position from browser.");
                 }, { enableHighAccuracy: true, timeout: 60 * 1000, maximumAge: 60 * 1000 });
-
-
+        
         }
         /**
             Send a new GPS position to this module. Will trigger PositionChanged event.

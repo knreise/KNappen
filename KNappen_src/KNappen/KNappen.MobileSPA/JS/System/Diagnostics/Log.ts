@@ -23,11 +23,11 @@ module System.Diagnostics {
         /** @ignore */ private _this: JQuery;
         private logLevel: System.Diagnostics.LogTypeEnum = null;
 
-        private logLevelEnabled_VerboseDebug: bool = true;
-        private logLevelEnabled_Debug: bool = true;
-        private logLevelEnabled_Info: bool = true;
-        private logLevelEnabled_Error: bool = true;
-        private logLevelEnabled_Fatal: bool = true;
+        private logLevelEnabled_VerboseDebug: boolean = true;
+        private logLevelEnabled_Debug: boolean = true;
+        private logLevelEnabled_Info: boolean = true;
+        private logLevelEnabled_Error: boolean = true;
+        private logLevelEnabled_Fatal: boolean = true;
 
         /**
             Log
@@ -39,16 +39,24 @@ module System.Diagnostics {
             var _t = this;
             // Try to hook up a global exception logger
             try {
-                window.onerror = function (msg, url, line) {
+                window.onerror = function (msg: any, url, line) {
                     _t.log('Error', 'GlobalException', '"' + msg.message + '" in ' + url + ' line ' + line);
                 };
             } catch (e) { }
         }
 
         /**
+            @callback {logHandlerCallback}
+            @param {JQueryEventObject} event
+            @param {string} logType
+            @param {string} sender
+            @param {string} msg
+        /*
+
+        /**
             Add handler to receive log entries.
             @method System.Diagnostics.Log#addLogHandler
-            @param logHandlerCallback Callback method logHandlerCallback: { (event: JQueryEventObject, logType: string, sender: string, msg: string): void; }
+            @param {logHandlerCallback} Callback
             @public
         */
         public addLogHandler(logHandlerCallback: { (event: JQueryEventObject, logType: string, sender: string, msg: string): void; }) {
@@ -119,14 +127,6 @@ module System.Diagnostics {
             @public
           */
         public fatal(sender: string, msg: string) { if (this.logLevelEnabled_Fatal) this.log('Fatal', sender, msg); }
-        /**
-            Send to user popup window to display this in the app
-            @method System.Diagnostics.Log#userPopup
-            @param {string} sender Source of log entry.
-            @param {string} msg Message to log.
-            @public
-          */
-        public userPopup(sender: string, msg: string) { this.log('UserPopup', sender, msg); }
 
         /** @ignore */
         private log(logType, sender, msg) {

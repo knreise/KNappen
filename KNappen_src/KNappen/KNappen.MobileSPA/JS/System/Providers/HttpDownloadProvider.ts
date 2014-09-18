@@ -27,10 +27,11 @@ module System.Providers {
         constructor(
             public id?: any,
             public url?: string,
-            public doneCallback?: { (data: string): void; },
+            public doneCallback?: { (data: string, dataContext: string): void; },
             public failCallback?: { (message: string): void; },
             public alwaysCallback?: { (): void; },
-            public dataType: string = "html") {
+            public dataType: string = "html",
+            public dataContext: string = null) {
         }
 
     }
@@ -44,7 +45,7 @@ module System.Providers {
     export class HttpDownloadProvider {
         private httpDownloadQueue = new HttpDownloadQueue();
         private currentDownloadCount: number = 0;
-        public paused: bool = false;
+        public paused: boolean = false;
 
         /**
           * HttpDownloadProvider
@@ -109,7 +110,7 @@ module System.Providers {
                 var jqxhr = $.ajax({ url: item.url, dataType: item.dataType })
                     .done(function (data, textStatus, jqXHR) {
                         if (item.doneCallback)
-                            item.doneCallback(data);
+                            item.doneCallback(data, item.dataContext);
                     })
                     .fail(function (jqXHR, textStatus, errorThrown) {
                         if (item.failCallback)

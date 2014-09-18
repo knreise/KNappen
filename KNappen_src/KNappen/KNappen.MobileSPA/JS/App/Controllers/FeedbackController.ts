@@ -4,8 +4,7 @@
     Controller modules
     @namespace App.Controllers
 */
-module App.Controllers
-{
+module App.Controllers {
     declare var config;
     export class FeedbackControllerRequest {
 
@@ -65,7 +64,12 @@ module App.Controllers
             var req = new App.Controllers.FeedbackControllerRequest();
             req.fromAddress = fieldFromAddress.val();
             req.subject = fieldCategory.val();
-            req.message = fieldText.text();
+            req.message = fieldText.val();
+
+            if (req.message.trim() === "") {
+                userPopupController.sendError("$T[Missing field]", "$T[Missing field feedback message]");
+                return;
+            }
 
             var data = serializer.serializeJSObject(req);
 
@@ -79,7 +83,9 @@ module App.Controllers
                 processdata: true,
                 success: function (msg) {
                     userPopupController.sendSuccess("$T[Feedback]", "$T[Feedback sent]");
-                    fieldText.text('');
+                    fieldText.val('');
+                    fieldFromAddress.val('');
+                    viewController.goBack();
                 },
                 error: function (msg) {
                     userPopupController.sendError("$T[Feedback]", "$T[Error sending feedback]");

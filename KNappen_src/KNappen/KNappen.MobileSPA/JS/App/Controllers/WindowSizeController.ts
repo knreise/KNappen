@@ -40,10 +40,7 @@ module App.Controllers {
 
 
             this.footerSection.css('height', '0px');
-            //this.ShowFooter(false);
-
-            //this.resize(); // Done in post
-
+            startup.finishedLoad("WindowSizeController");
         }
 
         public PreInit() {
@@ -52,7 +49,7 @@ module App.Controllers {
             viewController.addPostSelectEvent(function (event, oldView, newView) {
                 _this.resize();
             });
-
+            startup.finishedPreInit("WindowSizeController");
         }
 
         public PostInit() {
@@ -70,15 +67,12 @@ module App.Controllers {
             var footerHeight = this.footerSection.outerHeight();
             var mainHeight = windowHeight - headerHeight - footerHeight;
 
-            if (!viewController || !viewController.getCurrentView() || viewController.getCurrentView().name != "arView") {
-                this.headerSectionSize.outerHeight(headerHeight);
-                this.mainSection.outerHeight(mainHeight);
-                this.map.outerHeight(mainHeight);
+            this.headerSectionSize.outerHeight(headerHeight);
+            this.mainSection.css('height', '100%');
+            this.map.css('height', '100%');
 
-                this.mainSection.css('top', headerHeight);
-                //this.map.css('top', headerHeight);
-            }
-
+            //this.mainSection.css('top', headerHeight);
+            //this.map.css('top', headerHeight);
         }
 
         /**
@@ -87,7 +81,7 @@ module App.Controllers {
             @param {bool} visible Visibility
             @public
         */
-        public ShowHeader(visible: bool) {
+        public ShowHeader(visible: boolean) {
             log.debug("WindowSizeController", "showHeader: " + visible);
             if (visible) {
                 this.headerSection.show();
@@ -107,7 +101,7 @@ module App.Controllers {
             @param {bool} visible Visibility
             @public
         */
-        public ShowFooter(visible: bool) {
+        public ShowFooter(visible: boolean) {
             log.debug("WindowSizeController", "showFooter: " + visible);
             if (visible) {
                 this.footerSection.show();
@@ -125,7 +119,7 @@ module App.Controllers {
             @param {bool} visible Visibility
             @public
         */
-        public ShowPage(visible: bool) {
+        public ShowPage(visible: boolean) {
             log.debug("WindowSizeController", "showPage: " + visible);
 
             if (visible) {
@@ -163,6 +157,6 @@ module App.Controllers {
     }
 }
 var windowSizeController = new App.Controllers.WindowSizeController();
-startup.addLoad(function () { windowSizeController.Load(); });
-startup.addPreInit(function () { windowSizeController.PreInit(); });
-startup.addPostInit(function () { windowSizeController.PostInit(); });
+startup.addLoad(function () { windowSizeController.Load(); }, "WindowSizeController");
+startup.addPreInit(function () { windowSizeController.PreInit(); }, "WindowSizeController");
+startup.addPostInit(function () { windowSizeController.PostInit(); }, "WindowSizeController");

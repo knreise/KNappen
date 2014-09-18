@@ -12,6 +12,19 @@ namespace KNappen.KNappenService
             return path.Replace("~", System.Web.HttpContext.Current.Request.PhysicalApplicationPath + "/").Replace("/", @"\").Replace(@"\\", @"\");
         }
 
+        public static void EnsureRouteFolderExists()
+        {
+            string path = ResolvePath(ConfigurationManager.AppSettings["RouteDir"]);
+            
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+        }
+        public static string GetRoutePath()
+        {
+            return Path.Combine(ResolvePath(ConfigurationManager.AppSettings["RouteDir"]));
+        }
         public static string GetRoutePath(string file)
         {
             return Path.Combine(ResolvePath(ConfigurationManager.AppSettings["RouteDir"]), file);

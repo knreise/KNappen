@@ -3,22 +3,24 @@
 module PhoneGap.InteropProviders {
     export class ButtonProvider {
 
-        public PreInit() {
+        public load() {
             var _this = this;
-            document.addEventListener("backbutton", function () { _this.onBackButton }, false);
-            document.addEventListener("menubutton", function() { _this.onMenuButton}, false);
-        }
+            document.addEventListener("backbutton", _this.onBackButton, false);
+            document.addEventListener("menubutton", _this.onMenuButton, false);
 
+            startup.finishedLoad("ButtonProvider");
+        }
+        
         private onBackButton() {
-            log.info("PhoneGapButtonProvider", "Back button pressed, forwarding through interop.");
-            phoneGapInterop.wikitudePluginProvider.sendInterop.sendBackButton();
-        }
-        private onMenuButton() {
-            log.info("PhoneGapButtonProvider", "Menu button pressed, forwarding through interop.");
-            phoneGapInterop.wikitudePluginProvider.sendInterop.sendMenuButton();
+            log.info("PhoneGapButtonProvider", "Back button pressed.");
+            phoneGapProvider.callbackBackButton();
         }
 
+        private onMenuButton() {
+            log.info("PhoneGapButtonProvider", "Menu button pressed.");
+            phoneGapProvider.callbackMenuButton();
+        }
     }
 }
 var buttonProvider = new PhoneGap.InteropProviders.ButtonProvider();
-startup.addPreInit(function () { buttonProvider.PreInit(); }, "ButtonProvider");
+startup.addLoad(function () { buttonProvider.load(); }, "ButtonProvider");

@@ -51,22 +51,30 @@ module System.Util {
           * @param {string} text Text to highlight
           * @param {string} words Space separated words to replace
           * @param {string} color Color code to show
+          * @param {boolean} onlyFromBeginning Indicates whether to only highlight from the beginning of a word or from everywhere in a word. 
           */
-        public highlightWord(text: string, words: string, color: string): string {
+        public highlightWord(text: any, words: string, color: string, onlyFromBeginning: boolean): string {
+
+            words = $.trim(words);
+
             if (!text || !words || !color)
                 return text;
 
-            var t: any = text;
-
-            if (typeof (t) == "object" && t.length > 0) {
-                t = t[0];
+            if (typeof (text) == "object" && text.length > 0) {
+                text = text[0];
             }
 
-            $.each(words.split(' '), function (k, v) {
-                v = v.replace("*", "").replace("%", "");
-                t = t.replace(new RegExp("(" + v + ")", "gi"), "<span style='background-color: " + color + ";'>$1</span>");
-            });
-            return t;
+            var keys = words.split(' ').sort((a: string, b: string) => (a.length > b.length) ? -1 : (a.length == b.length) ? 0 : 1);
+            for (var ki in keys) {
+                var key = keys[ki].replace("*", "").replace("%", "");
+                
+                if (onlyFromBeginning)
+                    text = text.replace(new RegExp("(\\b" + key + ")", "gi"), "<span style='background-color: " + color + ";'>" + key + "</span>");
+                else
+                    text = text.replace(new RegExp("(" + key + ")", "gi"), "<span style='background-color: " + color + ";'>$1</span>");
+            }
+
+            return text;
         }
 
         /**
@@ -128,6 +136,128 @@ module System.Util {
             });
 
             return ret;
+        }
+
+        /**
+          * Formats a key value pair into a field with the key bold.
+          * @method System.StringUtils#toFieldBold
+          * @param {string} key The field name
+          * @param {string[]} values The field values (params)
+          * @returns {string} The formated field
+          */
+        public toFieldBold(key: string, ... values: string[]): string {
+            if (values == null) {
+                return "";
+            }
+
+            var value = "";
+            for (var i in values) {
+                if (values[i] != null && values[i] != "") {
+                    if (i > 0) {
+                        value += " ";
+                    }
+
+                    value += values[i];
+                }
+            }
+
+            if (value == "") {
+                return "";
+            }
+
+            if (key == null) {
+                return "<b>" + value + "</b>" + "</br>";
+            }
+
+            return "<b>" + key + ": </b>" + value + "</br>";
+        }
+
+        /**
+          * Formats a key value pair into a field.
+          * @method System.StringUtils#toFieldBold
+          * @param {string} key The field name
+          * @param {string} Value The field vlaue
+          * @returns {string} The formated field
+          */
+        public toField(key: string, value: string): string {
+            if (value == null || value == "") {
+                return "";
+            }
+
+            if (key == null) {
+                return value + "</br>";
+            }
+
+            return key + ": " + value + "</br>";
+        }
+        
+        /**
+          * Formats a key value pair into a field by firstly using a code mapping of the value.
+          * @method System.StringUtils#toFieldBold
+          * @param {string} key The field name
+          * @param {string} code The fields code value
+          * @returns {string} The formated field
+          */
+        public toFieldFromCode(key: string, code: string): string {
+            var value = null;
+
+            if (code == null || code == "") {
+                return "";
+            }
+
+            if (key == "Bostatus") {
+                switch (code) {
+                    case "b": value = "Bosatt p\u00E5 stedet"; break;
+                    case "f": value = "Midlertidig frav\u00E6rende"; break;
+                    case "mt": value = "Midlertidig tilstede"; break;
+                    default: value = code; break;
+                }
+            }
+            else if (key == "Statsborgerskap") {
+                switch (code) {
+                    case "n": value = "Norsk"; break;
+                    case "l": value = "Lappisk"; break;
+                    case "lf": value = "Lappisk, fastboende"; break;
+                    case "ln": value = "Lappisk, nomadiserende"; break;
+                    case "f": value = "Finsk(kvensk)"; break;
+                    case "k": value = "Kvensk(finsk)"; break;
+                    case "b": value = "Blandet"; break;
+                    default: value = code; break;
+                }
+            }
+            else if (key == "Trossamfunn") {
+                switch (code) {
+                    case "s": value = "Statskirken"; break;
+                    default: value = code; break;
+                }
+            }
+            else if (key == "Familiestilling") {
+                switch (code) {
+                    case "hf": value = "Husfar"; break;
+                    case "hm": value = "Husmor"; break;
+                    case "hp": value = "Hovedperson"; break;
+                    case "hu": value = "Hustru"; break;
+                    case "s": value = "S\u00F8nn"; break;
+                    case "d": value = "Datter"; break;
+                    case "tj": value = "Tjenestetyende"; break;
+                    case "fl": value = "Losjerende, h\u00F8rende til familien"; break;
+                    case "b": value = "Bes\u00F8kende"; break;
+                    case "el": value = "Enslig losjerende"; break;
+                    default: value = code; break;
+                }
+            }
+            else if (key == "Sivilstatus") {
+                switch (code) {
+                    case "e": value = "Enke / Enkemann"; break;
+                    case "g": value = "Gift"; break;
+                    case "ug": value = "Ugift"; break;
+                    case "s": value = "Separert"; break;
+                    case "f": value = "Fraskilt"; break;
+                    default: value = code; break;
+                }
+            }
+
+            return this.toField(key, value);
         }
     }
 }

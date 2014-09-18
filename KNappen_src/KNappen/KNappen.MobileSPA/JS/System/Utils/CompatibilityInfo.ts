@@ -4,7 +4,7 @@
     @namespace System.Utils
 */
 module System.Utils {
-    declare var AR;
+
     export class CompatibilityInfo {
 
         /**
@@ -13,23 +13,15 @@ module System.Utils {
           * @classdesc Collects compatibility information about runtime environment.
           */
         constructor() {
-            this.checkAR();
             this.checkMobile();
-            this.checkPhoneGap();
         }
 
-        public hasAR: bool = false;
-        private checkAR() {
-            try {
-                if (AR)
-                    this.hasAR = true;
-            } catch (exception) { }
-            log.debug("CompatibilityInfo", "hasAR: " + this.hasAR);
-        }
+        public isiPhone: boolean = false;
 
-        public isiPhone: bool = false;
-        public isAndroid: bool = false;
-        public isMobile: bool = false;
+        public isAndroid: boolean = false;
+
+        public isMobile: boolean = false;
+
         private checkMobile() {
             if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent))
                 this.isMobile = true;
@@ -42,15 +34,7 @@ module System.Utils {
             log.debug("CompatibilityInfo", "isAndroid: " + this.isAndroid);
             log.debug("CompatibilityInfo", "isiPhone: " + this.isiPhone);
         }
-
-        public isPhoneGap: bool = false;
-        private checkPhoneGap() {
-            // TODO: Should have a better check
-            this.isPhoneGap = this.hasAR;
-            log.debug("CompatibilityInfo", "isPhoneGap: " + this.isPhoneGap);
-        }
-
     }
 }
+
 var compatibilityInfo = new System.Utils.CompatibilityInfo();
-//startup.addPreInit(function () { compatibilityInfo.PreInit(); }, "CompatibilityInfo");

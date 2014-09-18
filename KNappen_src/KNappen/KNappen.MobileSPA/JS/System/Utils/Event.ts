@@ -7,7 +7,7 @@ module System.Utils {
     export class Event {
         /** @ignore */ private eventHooks: JQuery;
         private name: string = null;
-        constructor(public name?: string) {
+        constructor(public n?: string) {
             this.eventHooks = $(this);
             if (!this.name)
                 this.name = "AnonymousEvent:" + Math.random().toString();
@@ -23,6 +23,23 @@ module System.Utils {
             this.eventHooks.on(this.name, function (event: any, ...args: any[]) {
                 try {
                     // TODO: .apply instead?
+                    eventCallback(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9]);
+                } catch (error) {
+                    var exception: Error = <Error>error;
+                    log.error("Event", "[" + this.name + "] Exception in event handler: " + exception);
+                }
+            });
+        }
+
+        /**
+          * Add handler to this event that will detach after first call
+          * @method App.Utils.Event#addOnceHandler
+          * @param eventCallback Callback function with empty signature.
+          * @param {string} [moduleName] Optional name of module (for error logging if exception).
+          */
+        public addOnceHandler(eventCallback: any, moduleName?: string) {
+            this.eventHooks.one(this.name, function (event: any, ...args: any[]) {
+                try {
                     eventCallback(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9]);
                 } catch (error) {
                     var exception: Error = <Error>error;

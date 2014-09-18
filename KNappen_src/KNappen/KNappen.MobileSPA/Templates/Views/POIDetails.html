@@ -1,45 +1,124 @@
 ﻿<div id="poiDetail" class="poiDetail" style="display: block;">
-    <div id="poiDetailContent" class="poiDetailContent">
-        <div id="poiName"></div>
-        <input type="button" id="addPoiToRoute" value="Legg til i rute" />
-        <div id="addPoiToRouteForm" class="hidden translate">
-            <input type="text" id="newRouteName" />
-            <input type="button" value="$T[Create]" id="createNewRouteBtn" />
-            <ul id="listExistingRoutes"></ul>
-        </div>
-    </div>
-    <div id="poiCategory"></div>
     <div id="poiImage" class="$[thumbnailClass]">
         $IF(thumbnail)
         <img src="$[thumbnail]" id="poiThumbnail" class="poiDetailImage middle" />
         $ENDIF
     </div>
     <div id="poiVideo" class="hidden">
-        <video id="videoElement" class="video-js vjs-default-skin">
-        </video>
     </div>
     <div id="poiAudio" class="hidden">
     </div>
-    <div id="poiIngress" class="">$[ingress]</div>
 
-    <div id="detailAccordion" class="ui-accordion">
-        <h3 class="ui-accordion-header translate">$T[Description]</h3>
-        <div id="poiDescription" class="ui-accordion-content">$[description]</div>
-        <h3 class="ui-accordion-header translate">$T[More information]</h3>
-        <div id="poiAboutData" class="ui-accordion-content">
-            $IF(tags)<b>$T[Subjects]:</b> $[tags]<br />$ENDIF
-            $IF(year)<b>$T[Dating]:</b> $[year]<br />$ENDIF
-            $IF(owner)<b>$T[Source]:</b> $[owner]<br />$ENDIF
-            $IF(institution)<b>Institusjon:</b> $[institution]<br />$ENDIF
-            $IF(originalVersion)<b>$T[Original version]:</b> $[originalVersion]<br/>$ENDIF
-            $IF(creator)<b>$T[Creator]:</b> $[creator]<br/>$ENDIF
-            $IF(license)<b>$T[License]:</b>$[license]<br/>$ENDIF
-            <b>$T[External links]:</b>
-            $IF(linkMoreInfo)<a href='$[linkMoreInfo]'>$[linkMoreInfo]</a><br/>$ENDIF
-            $IF(landingPage)<a href='$[landingPage]'>$[landingPage]</a><br/>$ENDIF
-            $IF(link)<a href='$[link]'>$[link]</a><br/>$ENDIF
-                        
+    <div class="hidden">
+        <div id="jp_container_" class="jp-video">
+            <div class="jp-type-single">
+                <div id="jquery_jplayer_" class="jp-jplayer"></div>
+                <div class="jp-gui">
+                    <div class="jp-video-play">
+                        <a href="javascript:;" class="jp-video-play-icon" tabindex="1">play</a>
+                    </div>
+                    <div class="jp-interface">
+                        <div class="jp-progress">
+                            <div class="jp-seek-bar">
+                                <div class="jp-play-bar"></div>
+                            </div>
+                        </div>
+                        <div class="jp-current-time"></div>
+                        <div class="jp-duration"></div>
+                        <div class="jp-controls-holder">
+                            <ul class="jp-controls">
+                                <li><a href="javascript:;" class="jp-play" tabindex="1">play</a></li>
+                                <li><a href="javascript:;" class="jp-pause" tabindex="1">pause</a></li>
+                                <li><a href="javascript:;" class="jp-stop" tabindex="1">stop</a></li>
+                                <!--<li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a></li>
+                                <li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a></li>
+                                <li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume">max volume</a></li>-->
+                            </ul>
+                            <ul class="jp-toggles">
+                                <!--<li><a href="javascript:;" class="jp-full-screen" tabindex="1" title="full screen">full screen</a></li>
+                                <li><a href="javascript:;" class="jp-restore-screen" tabindex="1" title="restore screen">restore screen</a></li>
+                                <li><a href="javascript:;" class="jp-repeat" tabindex="1" title="repeat">repeat</a></li>
+                                <li><a href="javascript:;" class="jp-repeat-off" tabindex="1" title="repeat off">repeat off</a></li>-->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="jp-no-solution">
+                    <span>Update Required</span>
+                    To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+                </div>
+            </div>
+        </div>
+        <div id="jp_audio_container_" class="jp-audio">
+            <div class="jp-type-single">
+                <div id="jquery_audio_jplayer_" class="jp-jplayer"></div>
+                <div class="jp-gui jp-interface">
+                    <ul class="jp-controls">
+                        <li><a href="javascript:;" id="audioStart" class="jp-play" tabindex="1">play</a></li>
+                        <li><a href="javascript:;" class="jp-pause" tabindex="1">pause</a></li>
+                        <li><a href="javascript:;" id="audioStop" class="jp-stop" tabindex="1">stop</a></li>
+                        <!--<li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a></li>
+                        <li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a></li>
+                        <li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume">max volume</a></li>-->
+                    </ul>
+                    <div class="jp-progress">
+                        <div class="jp-seek-bar">
+                            <div class="jp-play-bar"></div>
+                        </div>
+                    </div>
+                    <!--<div class="jp-volume-bar">
+                        <div class="jp-volume-bar-value"></div>
+                    </div>-->
+                    <div class="jp-time-holder">
+                        <div class="jp-current-time"></div>
+                        <div class="jp-duration"></div>
+                        <!--<ul class="jp-toggles">
+                            <li><a href="javascript:;" class="jp-repeat" tabindex="1" title="repeat">repeat</a></li>
+                            <li><a href="javascript:;" class="jp-repeat-off" tabindex="1" title="repeat off">repeat off</a></li>
+                        </ul>-->
+                    </div>
+                </div>
+                <div class="jp-no-solution">
+                    <span>Update Required</span>
+                    To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+                </div>
+            </div>
         </div>
     </div>
-    </>
+
+    <div id="poiIngress" class=""><p><strong id="poiIngressText"></strong></p></div>
+
+    <div id="detailAccordion" class="">
+        <div id="poiDescription" class=""><p id="poiDescriptionText"></p></div>
+        
+        <input type="button" id="addPoiToRoute" value="Legg til i rute" />
+        <div id="addPoiToRouteForm" class="hidden translate">
+            <label>
+                Opprett ny rute
+                <input type="text" id="newRouteName" />
+            </label>
+            <br />
+            <label>
+                Legg til eksisterende rute
+                <select id="listExistingRoutes"></select>
+            </label>
+
+            <input type="button" value="$T[Save]" id="createNewRouteBtn" />
+        </div>
+
+        <h3 class="translate separator">$T[More information]</h3>
+        <div id="poiAboutData" class="">
+            $IF(tags)<b>$T[Subjects]:</b> <span id="poiTagsText"></span><br />$ENDIF
+            $IF(topics)<b>$T[Topic]:</b> <span id="poiTopicsText"></span><br />$ENDIF
+            $IF(year)<b>$T[Dating]:</b> <span id="poiYearText"></span><br />$ENDIF
+            $IF(owner)<b>$T[Source]:</b> <span id="poiOwnerText"></span><br />$ENDIF
+            $IF(institution)<b>Institusjon:</b> <span id="poiInstitusjonText"></span><br />$ENDIF
+            $IF(originalVersion)<b>$T[Original version]:</b> <a class="external" href='$[originalVersion]'>$[originalVersion]</a><br />$ENDIF
+            $IF(creator)<b>$T[Creator]:</b> <span id="poiCreatorText"></span><br />$ENDIF
+            $IF(license)<b>$T[License]:</b> $[license]<br />$ENDIF
+            $IF(licenseLink)<b>$T[License]:</b> <a class="external" href='$[licenseLink]'>$[licenseLink]</a><br />$ENDIF
+            $IF(references)<b>$T[References]:</b> $[references]$ENDIF
+            $IF(landingPage)<b>$T[External links]:</b> <a class="external" href='$[landingPage]'>$[landingPage]</a><br />$ENDIF
+        </div>
+    </div>
 </div>

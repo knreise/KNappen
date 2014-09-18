@@ -5,242 +5,311 @@
     @namespace App.Providers
 */
 module App.Providers {
-    export class SearchProvider implements App.Providers.ISearchProvider {
+
+    export class LazyLoadHandle {
+        
+        private lazyLoadCount: number = 0;
+        private successCallback: () => void;
+
+        constructor(successCallback: () => void ) {
+            this.successCallback = successCallback;
+        }
+
+        public isLoading(): boolean {
+            return this.lazyLoadCount > 0;
+        }
+
+        public lazyLoadStarted(): void {
+            this.lazyLoadCount++;
+        }
+
+        public lazyLoadComplete(): void {
+            this.lazyLoadCount--;
+
+            if (this.lazyLoadCount == 0) {
+                this.successCallback();
+            }
+        }
+    }
+
+    export interface SearchSuccessCallback {
+        (searchContext: SearchHandle): void;
+    }
+
+    export interface SearchErrorCallback {
+        (errorMessage: string, searchContext: SearchHandle): void;
+    }
+
+    export class SearchHandle {
+
+        public haltet: boolean = false;
+        public searchCount: number = 0;
+        public searchStatus: { [sourceName: string]: boolean; } = {};
+    }
+
+    export class PoiChooser {
+        public poi: App.Models.PointOfInterest = null;
+        public choose: () => void;
+    }
+
+    export class SearchProvider {
+
+        public static SourceDigitalArkivet: string = "Digitalarkivet";
+        public static SourceNorvegiana: string = "Norvegiana";
+        public static SourceWikipedia: string = "Wikipedia";
+
+        private pageNumber: number;
+        private pageSize: number;
+
+        private searchNorvegiana: boolean = true;
+        private searchDigitalArkivet: boolean = true;
+        private searchWikipedia: boolean = true;
+
+        private successCallback: { (searchResult: App.Models.SearchResult): void; } = null;
+
+        private searchProviderNorvegiana: App.SearchProviders.DataSourceNorvegiana;
+        private searchProviderDigitalarkivet: App.SearchProviders.DataSourceDigitalarkivetProperty;
+        private searchProviderWikipedia: App.SearchProviders.DataSourceWikiLocation;
+
+        private currentSearch: SearchHandle = null;
+
+        private resultCount: number = -1;
+        private results: Array<App.Models.PointOfInterest> = new Array<App.Models.PointOfInterest>();
+
         /**
             SearchProvider
             @class App.Providers.SearchProvider
             @classdesc
         */
-        constructor() {
-        }
+        constructor(searchCriteria: App.Models.SearchCriteria, successCallback: { (searchResult: App.Models.SearchResult): void; }) {
 
-        public searchHalted = false;
-        public combinedSearchResult: App.Models.SearchResult = null;
-        public numSearchProviders: number = 0;
-        public numSearchSuccess: number = 0;
-        public numSearchError: number = 0;
-        private successCallback: { (searchResult: App.Models.SearchResult): void; } = null;
-        private errorCallback: { (errorMessage: string): void; } = null;
-        public isSearching: bool = false;
-
-        /**
-            Search
-            @method App.Providers.SearchProvider#search
-            @param {App.Models.SearchCriteria} searchCriteria
-            @param {App.Models.SearchResult} searchResult
-            @public
-        */
-        public search(searchCriteria: App.Models.SearchCriteria, successCallback: { (searchResult: App.Models.SearchResult): void; }, errorCallback: { (errorMessage: string): void; }) {
-            log.debug("SearchProvider", "Searching: DataSourceNorvegiana");
-
-            var _this = this;
-
-            this.combinedSearchResult = new App.Models.SearchResult();
+            this.pageNumber = 1;
+            this.pageSize = searchCriteria.rows();
             this.successCallback = successCallback;
-            this.errorCallback = errorCallback;
-            this.isSearching = true;
 
-            var searchNorvegiana = true;
-            var searchDigitalArkivet = true;
-            var searchWikipedia = true;
-
-
-
-            if (searchCriteria.query() && searchCriteria.query() != "" && searchCriteria.query() != "*" && searchCriteria.query() != "%")
-            {
-                searchDigitalArkivet = false;
+            var norvegianaQueryFields: string = null;
+            
+            if (searchCriteria.category() && searchCriteria.category().length > 0 && searchCriteria.category() != "*") {
+                var category = searchCriteria.category();
+                if (category == config.digitalArkivetPropertyCategory) {
+                    this.searchNorvegiana = false;
+                    this.searchWikipedia = false;
+                } else if (category == config.wikiPropertyCategory) {
+                    this.searchNorvegiana = false;
+                    this.searchDigitalArkivet = false;
+                } else {
+                    this.searchWikipedia = false;
+                    this.searchDigitalArkivet = false;
+                }
             }
 
-            if (searchCriteria.category() && searchCriteria.category().length > 0 && searchCriteria.category()[0] != "*")
-            {
-                if (searchCriteria.category()[0] != config.digitakArkivetPropertyCategory)
-                    searchDigitalArkivet = false;
-                searchWikipedia = false;
+            if (searchCriteria.mediaType() && searchCriteria.mediaType().length > 0 && searchCriteria.mediaType() != "*") {
+                var mediaType = searchCriteria.mediaType();
+                if (mediaType != "TEXT") {
+                    this.searchDigitalArkivet = false;
+                    this.searchWikipedia = false;
+                }
             }
-            if (searchCriteria.mediaType() && searchCriteria.mediaType().length > 0 && searchCriteria.mediaType()[0] != "TEXT" && searchCriteria.mediaType()[0] != "*")
-            {
-                searchDigitalArkivet = false;
-                searchWikipedia = false;
-            }
+
             if (searchCriteria.genre() && searchCriteria.genre().length > 0 && searchCriteria.genre() != "*") {
                 var genre = searchCriteria.genre();
-                if (genre != "fagdata") {
-                    searchDigitalArkivet = false;
-                    searchNorvegiana = false;
+                if (genre == "wikipedia") {
+                    this.searchNorvegiana = false;
+                    this.searchDigitalArkivet = false;
+                } else if (genre == "digitaltfortalt") {
+                    this.searchWikipedia = false;
+                    this.searchDigitalArkivet = false;
+
+                    norvegianaQueryFields = 'abm_contentProvider_text:"Digitalt fortalt"'
+                    + ' OR abm_contentProvider_text:Industrimuseum';
+
+                } else if (genre == "fagdata") {
+                    this.searchWikipedia = false;
+
+                    norvegianaQueryFields = 'abm_contentProvider_text:Artsdatabanken'
+                    + ' OR abm_contentProvider_text:DigitaltMuseum'
+                    + ' OR abm_contentProvider_text:Kulturminnesøk'
+                    + ' OR abm_contentProvider_text:MUSIT'
+                    + ' OR abm_contentProvider_text:Naturbase'
+                    + ' OR abm_contentProvider_text:"Sentralt stedsnavnregister"';
                 }
-                if (genre != "wikipedia")
-                    searchWikipedia = false;
-
             }
 
-            //searchDigitalArkivet = false;
-            //searchWikipedia = false;
-
-            this.numSearchProviders = 0;
-            if (searchNorvegiana)
-                this.numSearchProviders++;
-            if (searchDigitalArkivet)
-                this.numSearchProviders++;
-            if (searchWikipedia)
-                this.numSearchProviders++;
-
-            if (this.numSearchProviders == 0) {
-                log.error("SearchProvider", "The given combination of search criterias results in 0 datasources to search.");
-                userPopupController.sendError(tr.translate("No datasources"), tr.translate("Search criteria results in 0 datasources. Try modifying your search."));
-                return;
+            if (this.searchNorvegiana) {
+                this.searchProviderNorvegiana = new App.SearchProviders.DataSourceNorvegiana(searchCriteria, norvegianaQueryFields,
+                    (searchHandle: SearchHandle) => this.searchWithSuccess(SearchProvider.SourceNorvegiana, searchHandle),
+                    (errorMessage: string, searchHandle: SearchHandle) => this.searchWithError(SearchProvider.SourceNorvegiana ,errorMessage, searchHandle));
             }
 
-            setTimeout(function () { _this.checkTimeout(); }, config.searchTimeoutSeconds * 1000);
-
-
-            if (searchNorvegiana) {
-                (new App.SearchProviders.DataSourceNorvegiana()).search(searchCriteria,
-                    function (searchResult: App.Models.SearchResult) {
-                        log.debug("SearchProvider", "DataSourceNorvegiana: successCallback");
-                        _this.successCombine(searchResult);
-                    },
-                    function (errorMessage: string) {
-                        log.debug("SearchProvider", "DataSourceNorvegiana: errorCallback: " + errorMessage);
-                        _this.errorCombine("Norvegiana", errorMessage);
-                    });
+            if (this.searchDigitalArkivet) {
+                this.searchProviderDigitalarkivet = new App.SearchProviders.DataSourceDigitalarkivetProperty(searchCriteria,
+                    (searchHandle: SearchHandle) => this.searchWithSuccess(SearchProvider.SourceDigitalArkivet, searchHandle),
+                    (errorMessage: string, searchHandle: SearchHandle) => this.searchWithError(SearchProvider.SourceDigitalArkivet, errorMessage, searchHandle));
             }
 
-            if (searchDigitalArkivet) {
-                (new App.SearchProviders.DataSourceDigitalarkivetProperty()).search(searchCriteria,
-                    function (searchResult: App.Models.SearchResult) {
-                        log.debug("SearchProvider", "DataSourceDigitalarkivetProperty: successCallback");
-                        _this.successCombine(searchResult);
-                    },
-                    function (errorMessage: string) {
-                        log.debug("SearchProvider", "DataSourceDigitalarkivetProperty: errorCallback: " + errorMessage);
-                        _this.errorCombine("Digitalarkivet", errorMessage);
-                    });
-            }
-
-            if (searchWikipedia) {
-                (new App.SearchProviders.DataSourceWikiLocation()).search(searchCriteria,
-                    function (searchResult: App.Models.SearchResult) {
-                        log.debug("SearchProvider", "DataSourceWikiLocation: successCallback");
-                        _this.successCombine(searchResult);
-                    },
-                    function (errorMessage: string) {
-                        log.debug("SearchProvider", "DataSourceWikiLocation: errorCallback: " + errorMessage);
-                        _this.errorCombine("Wikipedia", errorMessage);
-                    });
+            if (this.searchWikipedia) {
+                this.searchProviderWikipedia = new App.SearchProviders.DataSourceWikiLocation(searchCriteria,
+                    (searchHandle: SearchHandle) => this.searchWithSuccess(SearchProvider.SourceWikipedia, searchHandle),
+                    (errorMessage: string, searchHandle: SearchHandle) => this.searchWithError(SearchProvider.SourceWikipedia, errorMessage, searchHandle));
             }
         }
-
 
         public haltSearch() {
-            this.searchHalted = true;
+            if (this.currentSearch != null) {
+                this.currentSearch.haltet = true;
+            }
         }
 
-        private returnSuccess() {
-            this.sortAndFilterResult(this.combinedSearchResult);
-            this.isSearching = false;
+        public search(pageNumber: number) {
+            
+            var searchHandle = new SearchHandle();
+
+            this.pageNumber = pageNumber;
+            this.currentSearch = searchHandle;
+            
+            log.debug("SearchProvider", "Searching...");
+
+            if (this.searchNorvegiana) {
+                searchHandle.searchStatus[SearchProvider.SourceNorvegiana] = true;
+                if (this.searchProviderNorvegiana.search(searchHandle)) {
+                    searchHandle.searchCount++;
+                }
+            }
+
+            if (this.searchDigitalArkivet) {
+                searchHandle.searchStatus[SearchProvider.SourceDigitalArkivet] = true;
+                if (this.searchProviderDigitalarkivet.search(searchHandle)) {
+                    searchHandle.searchCount++;
+                }
+            }
+
+            if (this.searchWikipedia) {
+                searchHandle.searchStatus[SearchProvider.SourceWikipedia] = true;
+                if (this.searchProviderWikipedia.search(searchHandle)) {
+                    searchHandle.searchCount++;
+                }
+            }
+
+            if (searchHandle.searchCount > 0) {
+                setTimeout(() => this.checkTimeout(searchHandle), config.searchTimeoutSeconds * 1000);
+            }
+            else {
+                this.prepareSearchResult();
+            }
+        }
+
+        private prepareSearchResult() {
+
             this.haltSearch();
-            this.successCallback(this.combinedSearchResult);
+
+            if (this.resultCount == -1) {
+                this.resultCount = 0;
+
+                if (this.searchNorvegiana)
+                    this.resultCount += this.searchProviderNorvegiana.getResultCount();
+                if (this.searchDigitalArkivet)
+                    this.resultCount += this.searchProviderDigitalarkivet.getResultCount();
+                if (this.searchWikipedia)
+                    this.resultCount += this.searchProviderWikipedia.getResultCount();
+            }
+
+            var start = this.pageSize * (this.pageNumber - 1);
+            var end = Math.min(start + this.pageSize, this.resultCount);
+
+            while (this.results.length < end) {
+                var poiChooser = new PoiChooser();
+
+                if (this.searchNorvegiana)
+                    this.searchProviderNorvegiana.getNextPoi(poiChooser);
+                if (this.searchDigitalArkivet)
+                    this.searchProviderDigitalarkivet.getNextPoi(poiChooser);
+                if (this.searchWikipedia)
+                    this.searchProviderWikipedia.getNextPoi(poiChooser);
+
+                poiChooser.choose();
+
+                this.results.push(poiChooser.poi);
+            }
+
+            var pageItems = this.results.slice(start, end);
+
+            var searchResult = new App.Models.SearchResult();
+            searchResult.items(pageItems);
+            searchResult.numFound(this.resultCount);
+            searchResult.numPages(Math.ceil(this.resultCount / this.pageSize));
+
+            this.ensureLoadedResultSetAndSignalSuccess(searchResult);
         }
 
-        private successCombine(searchResult: App.Models.SearchResult) {
-            this.numSearchSuccess++;
-            if (this.searchHalted)
+        private ensureLoadedResultSetAndSignalSuccess(searchResult: App.Models.SearchResult) {
+            var items = searchResult.items();
+            var lazyLoadHandle = new LazyLoadHandle(() => this.successCallback(searchResult));
+
+            for (var index in items) {
+                items[index].ensureLoaded(lazyLoadHandle);
+            }
+
+            if (!lazyLoadHandle.isLoading()) {
+                this.successCallback(searchResult);
+            }
+        }
+
+        private searchWithSuccess(searchProviderName: string, searchHandle: SearchHandle): void {
+            log.debug("SearchProvider", "successCallback - " + searchProviderName);
+
+            if (searchHandle == null || searchHandle.haltet) {
                 return;
-            var _this = this;
-            $.each(searchResult.items(), function (k, v: App.Models.PointOfInterest) {
-                // Set icon to the genre if any, if not use default poi icon
-                var iconGenreStr = v.iconGenreURL();
-                var genre = pointOfInterestTypeProvider.getGenre(v);
-                if (genre)
-                    iconGenreStr = genre.icon || v.iconGenreURL();
-
-                v.iconGenreURL(iconGenreStr);
-
-                // Set icon to the category if any
-                var iconCategoryStr = v.iconCategoryURL();
-                var category = pointOfInterestTypeProvider.getCategory(v);
-                if (category)
-                    iconCategoryStr = category.icon || v.iconCategoryURL();
-
-                v.iconCategoryURL(iconCategoryStr);
-
-                // Set icon(s?) to the mediatypes if any
-                var iconMediaTypeStr = v.iconMediaTypeURL();
-                var mediaType = pointOfInterestTypeProvider.getMediaType(v);
-                if (mediaType)
-                    iconMediaTypeStr = mediaType.icon || v.iconMediaTypeURL();
-
-                v.iconMediaTypeURL(iconMediaTypeStr);
-
-                _this.combinedSearchResult.items.push(v);
-            });
-            if (searchResult.numFound())
-                this.combinedSearchResult.numFound(0 + parseInt(<any>this.combinedSearchResult.numFound()) + parseInt(<any>searchResult.numFound()));
-            if (searchResult.singleMaxNum() < searchResult.numFound()) {
-                searchResult.singleMaxNum(searchResult.numFound())
             }
 
+            searchHandle.searchStatus[searchProviderName] = false;
+            searchHandle.searchCount--;
 
-            if (this.numSearchSuccess + this.numSearchError >= this.numSearchProviders) {
-                this.returnSuccess();
+            if (searchHandle.searchCount == 0) {
+                this.prepareSearchResult();
             }
         }
 
-        private errorCombine(source: string, errorMessage: String) {
-            this.numSearchError++;
-            if (this.searchHalted)
+        private searchWithError(searchProviderName: string, errorMessage: string, searchHandle: SearchHandle): void {
+            log.error("SearchProvider", "errorCallback - " + searchProviderName + " - " + errorMessage);
+
+            if (searchHandle == null || searchHandle.haltet) {
                 return;
-            if (errorMessage != "Not Found")
-                log.userPopup(tr.translate("Error searching"), tr.translate("Error searching") + " (" + source + "): " + errorMessage);
-
-            if (this.numSearchSuccess + this.numSearchError >= this.numSearchProviders) {
-                this.returnSuccess();
             }
-        }
 
-        private checkTimeout() {
-            if (this.searchHalted)
+            searchHandle.searchCount--;
+
+            if (!networkHelper.isConnected()) {
+                networkHelper.displayNetworkError();
                 return;
+            }
 
-            if (this.isSearching) {
-                //if (this.numSearchSuccess + this.numSearchError < this.numSearchProviders) {
-                var totalnum = 0 + this.numSearchError + this.numSearchSuccess;
-                log.error("Timeout", "Timeout while searching all datasources: " + totalnum + " of " + this.numSearchProviders + " sources responded so far. Halting search.");
-                log.userPopup(tr.translate("TIMEOUT"), tr.translate("TIMEOUT_SEARCH_TOTAL", [totalnum, this.numSearchProviders]));
-                //}
+            if (errorMessage != "Not Found") {
+                userPopupController.sendError(tr.translate("Error searching"), tr.translate("Error searching") + " (" + searchProviderName + ")");
+            }
 
-                this.returnSuccess();
+            if (searchHandle.searchCount == 0) {
+                this.prepareSearchResult();
             }
         }
 
-        private sortAndFilterResult(searchResult: App.Models.SearchResult) {
-            var myLocForSort: LatLon = null;
+        private checkTimeout(searchHandle: SearchHandle): void {
 
-            if (gpsProvider.lastPos != null)
-                myLocForSort = new LatLon(gpsProvider.lastPos.lat(), gpsProvider.lastPos.lon());
-
-            // Sort result based on distance
-            if (myLocForSort != null) {
-                $.each(searchResult.items(), function (id, item: App.Models.PointOfInterest) {
-                    if (item && item.pos() && item.pos().lat() && item.pos().lon()) {
-                        var geoLat = new LatLon(item.pos().lat(), item.pos().lon());
-                        item.lastKnownDistanceMeter(myLocForSort.distanceTo(geoLat) * 1000.0);
-                    }
-                });
-                searchResult.items.sort(this.distanceSortFunction);
+            if (searchHandle == null || searchHandle.haltet) {
+                return;
             }
 
-            // Chop result
-            //searchResult.items = searchResult.items.slice(0, maxLen);
+            var errorSourceString = "";
 
-            return searchResult;
+            for (var source in searchHandle.searchStatus) {
+                if (searchHandle.searchStatus[source]) {
+                    errorSourceString += (errorSourceString == "" ? "" : ", ");
+                    errorSourceString += source;
+                }
+            }
+
+            log.error("Timeout", "Timeout while searching all datasources: Halting search.");
+            userPopupController.sendError(tr.translate("Search"), tr.translate("Some sources did not return content in time", [errorSourceString]));
+            this.prepareSearchResult();
         }
-
-        private distanceSortFunction(a: App.Models.PointOfInterest, b: App.Models.PointOfInterest) {
-            return a.lastKnownDistanceMeter() - b.lastKnownDistanceMeter();
-        }
-
-
     }
 }
-

@@ -21,6 +21,10 @@ module App.Providers {
         public onPostSave = new System.Utils.Event("Settings.PostSave");
     }
 
+    export class EventProvider_MapCache {
+        public onCacheEnd = new System.Utils.Event("MapCacheProvider.CacheEnd");
+    }
+
     /**
         EventProvider
         @class App.Providers.EventProvider
@@ -28,6 +32,7 @@ module App.Providers {
     */
     export class EventProvider {
         public settings = new App.Providers.EventProvider_Settings();
+        public mapCache = new App.Providers.EventProvider_MapCache();
     }
 }
 var eventProvider = new App.Providers.EventProvider();

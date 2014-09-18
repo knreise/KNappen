@@ -21,6 +21,7 @@ module System.Utils {
         public PreInit() {
             log.debug("Translator", "PreInit()");
             translater.translateAllClasses();
+            startup.finishedPreInit("Translater");
         }
 
         /**
@@ -115,4 +116,4 @@ module System.Utils {
 
 var translater = new System.Utils.Translater();
 var tr = translater;
-startup.addPreInit(function () { translater.PreInit(); });
+startup.addPreInit(function () { translater.PreInit(); }, "Translater");
